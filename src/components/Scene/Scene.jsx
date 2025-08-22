@@ -3,6 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useEffect } from "react";
 import Background from "./Background/Background";
 import Cubes from "./Cubes/Cubes";
+import Plane from "./Plane/Plane"
 // import { RunGameOfLife } from "../../Actions/RunGameOfLife";
 
 
@@ -22,12 +23,10 @@ function Scene() {
 
       orthographic
       camera={{
-        near: 1,
-        far: 20,//TODO изменить на 1.91 после окончательной установки положения камеры
-        position: [-1, 0, 0],//удаление от центра, подъем (и взгляд сверху), удаление от центра
+        position: [0, 0, 0],
         zoom: 700,
-        // fov: 75,
-
+        near: 0.1,
+        far: 100,
       }}
     >
       <color attach="background" args={["gray"]} />
@@ -35,11 +34,9 @@ function Scene() {
       <pointLight position={[10, 10, 10]} />
       <Background radius={radius} height={height} radialSegments={radialSegments} heightSegments={heightSegments}></Background>
       <Cubes radius={radius} height={height} radialSegments={radialSegments} heightSegments={heightSegments} />
+      <Plane></Plane>
       <OrbitControls
         target={[0, 0, 0]}
-      // enableZoom={false}
-      //     minPolarAngle={Math.PI / 2}  // Фиксирует угол наклона (0 = сверху, PI/2 = горизонтально)
-      // maxPolarAngle={Math.PI / 2}
       />
     </Canvas>
   );
