@@ -1,41 +1,49 @@
 // import "./styles.css";
 
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { TextureLoader, ShaderMaterial, Mesh } from "three";
-import { useMemo, useRef, useEffect, useCallback, useState } from "react";
-import TouchTexture from "./TouchTexture";
+import { Canvas, useFrame, useLoader } from '@react-three/fiber'
+import { TextureLoader, ShaderMaterial, Mesh } from 'three'
+import { useMemo, useRef, useEffect, useCallback, useState } from 'react'
+import TouchTexture from './TouchTexture'
+import { forwardRef } from 'react'
 
+const HEIGHT = 5
+const ASPECT_RATIO = 1
+const WIDTH = HEIGHT * ASPECT_RATIO
 
-const HEIGHT = 4;
-const ASPECT_RATIO = 1;
-const WIDTH = HEIGHT * ASPECT_RATIO;
+const Plane = forwardRef((props, ref) => {
+  const mesh = useRef(null)
+  const shader = useRef(null)
+  const offset = useRef(Math.random() * 10000)
 
-export default function Plane() {
-  const mesh = useRef(null);
-  const shader = useRef(null);
-  const offset = useRef(Math.random() * 10000);
+  /////
+  useEffect(() => {
+    if (ref) {
+      ref.current = mesh.current
+    }
+  }, [ref])
+  /////
 
   const touchTexture = useMemo(
     () =>
       new TouchTexture({
         debugCanvas: false,
-        size: 128,
+        size: 128
       }),
     []
-  );
+  )
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uTouch: { value: touchTexture.texture },
+      uTouch: { value: touchTexture.texture }
       // uTexture: { value: texture },
     }),
     []
-  );
+  )
 
   useFrame((state, delta) => {
     // Add animations or updates here if needed
-    touchTexture.update();
+    touchTexture.update()
 
     // if (mesh.current) {
     //   const t = state.clock.getElapsedTime();
@@ -45,142 +53,138 @@ export default function Plane() {
 
     // sending the time to the uniforms/ shader
     if (shader.current) {
-      shader.current.uniforms.uTime.value += delta;
+      shader.current.uniforms.uTime.value += delta
     }
-  });
+  })
 
-  const handlePointerMove = (e) => {
-    console.log(e, 'e')
+  const handlePointerMove = e => {
+    // console.log(e, 'e')
     // We normalize the mouse coordinates from pixel values
     //to a 0-1 range so they can be used properly in our shader.
-    const normalizedY = e.point.y / HEIGHT + 0.5;
-    const normalizedX = e.point.x / WIDTH + 0.5;
-    touchTexture.addPoint({ x: normalizedX, y: normalizedY });
-  };
+    const normalizedY = e.point.y / HEIGHT + 0.5
+    const normalizedX = e.point.x / WIDTH + 0.5
+    touchTexture.addPoint({ x: normalizedX, y: normalizedY })
+  }
 
   /////
 
+  //   const WIDTH = 6;
+  // const HEIGHT = 6;
+  // const [touchPath, setTouchPath] = useState<{ x: number; y: number }[]>([]);
 
-//   const WIDTH = 6;
-// const HEIGHT = 6;
-// const [touchPath, setTouchPath] = useState<{ x: number; y: number }[]>([]);
+  //   // Реф для хранения текущего пути (без ререндера)
+  //   const pathRef = useRef<{ x: number; y: number }[]>([]);
 
-//   // Реф для хранения текущего пути (без ререндера)
-//   const pathRef = useRef<{ x: number; y: number }[]>([]);
+  //   // Таймер для long press
+  //   const longPressTimer = useRef<number | null>(null);
 
-//   // Таймер для long press
-//   const longPressTimer = useRef<number | null>(null);
+  //   // Флаги
+  //   const isLongPress = useRef(false);
+  //   const isTracking = useRef(false);
 
-//   // Флаги
-//   const isLongPress = useRef(false);
-//   const isTracking = useRef(false);
+  //   // Нормализация точки в UV-координаты (0..1)
+  //   const normalizePoint = useCallback(
+  //     (point: { x: number; y: number }) => {
+  //       return {
+  //         x: point.x / WIDTH + 0.5,
+  //         y: point.y / HEIGHT + 0.5,
+  //       };
+  //     },
+  //     [WIDTH, HEIGHT]
+  //   );
 
-//   // Нормализация точки в UV-координаты (0..1)
-//   const normalizePoint = useCallback(
-//     (point: { x: number; y: number }) => {
-//       return {
-//         x: point.x / WIDTH + 0.5,
-//         y: point.y / HEIGHT + 0.5,
-//       };
-//     },
-//     [WIDTH, HEIGHT]
-//   );
+  //   // Обработчик начала касания
+  //   const beginSliding = useCallback(
+  //     (e: ThreeEvent<PointerEvent>) => {
+  //       e.stopPropagation();
+  //       const event = e.nativeEvent as PointerEvent;
+  //       const target = event.target as Element;
 
-//   // Обработчик начала касания
-//   const beginSliding = useCallback(
-//     (e: ThreeEvent<PointerEvent>) => {
-//       e.stopPropagation();
-//       const event = e.nativeEvent as PointerEvent;
-//       const target = event.target as Element;
+  //       // Сбрасываем путь
+  //       pathRef.current = [];
+  //       isLongPress.current = false;
+  //       isTracking.current = false;
 
-//       // Сбрасываем путь
-//       pathRef.current = [];
-//       isLongPress.current = false;
-//       isTracking.current = false;
+  //       // Устанавливаем таймер для long press (например, 500 мс)
+  //       longPressTimer.current = window.setTimeout(() => {
+  //         isLongPress.current = true;
+  //         isTracking.current = true;
+  //         console.log('Long press detected, started tracking path');
+  //       }, 500);
 
-//       // Устанавливаем таймер для long press (например, 500 мс)
-//       longPressTimer.current = window.setTimeout(() => {
-//         isLongPress.current = true;
-//         isTracking.current = true;
-//         console.log('Long press detected, started tracking path');
-//       }, 500);
+  //       // Обработчик движения
+  //       const handlePointerMove = (moveEvent: PointerEvent) => {
+  //         if (isTracking.current) {
+  //           // e.point — это уже нормализовано в ThreeEvent?
+  //           // В Three.js `e.point` — это 3D-координата, но ты используешь 2D
+  //           // Поэтому, возможно, тебе нужно взять `.offsetX`, `.offsetY`
+  //           // Или использовать `raycaster` — но упростим для примера
+  //           const x = moveEvent.offsetX ?? 0;
+  //           const y = moveEvent.offsetY ?? 0;
 
-//       // Обработчик движения
-//       const handlePointerMove = (moveEvent: PointerEvent) => {
-//         if (isTracking.current) {
-//           // e.point — это уже нормализовано в ThreeEvent?
-//           // В Three.js `e.point` — это 3D-координата, но ты используешь 2D
-//           // Поэтому, возможно, тебе нужно взять `.offsetX`, `.offsetY`
-//           // Или использовать `raycaster` — но упростим для примера
-//           const x = moveEvent.offsetX ?? 0;
-//           const y = moveEvent.offsetY ?? 0;
+  //           const point = { x, y };
+  //           const normalized = normalizePoint(point);
+  //           pathRef.current.push(normalized);
+  //           setTouchPath([...pathRef.current]); // триггерим ререндер
+  //         }
+  //       };
 
-//           const point = { x, y };
-//           const normalized = normalizePoint(point);
-//           pathRef.current.push(normalized);
-//           setTouchPath([...pathRef.current]); // триггерим ререндер
-//         }
-//       };
+  //       // Назначаем обработчик
+  //       target.addEventListener('pointermove', handlePointerMove as EventListener);
 
-//       // Назначаем обработчик
-//       target.addEventListener('pointermove', handlePointerMove as EventListener);
+  //       // Сохраняем ссылку на обработчик, чтобы можно было удалить
+  //       (target as any).__handlePointerMove__ = handlePointerMove;
 
-//       // Сохраняем ссылку на обработчик, чтобы можно было удалить
-//       (target as any).__handlePointerMove__ = handlePointerMove;
+  //       // Захватываем указатель
+  //       target.setPointerCapture(event.pointerId);
+  //     },
+  //     [normalizePoint]
+  //   );
 
-//       // Захватываем указатель
-//       target.setPointerCapture(event.pointerId);
-//     },
-//     [normalizePoint]
-//   );
+  //   // Обработчик окончания касания
+  //   const stopSliding = useCallback((e: ThreeEvent<PointerEvent>) => {
+  //     const event = e.nativeEvent as PointerEvent;
+  //     const target = event.target as Element;
 
-//   // Обработчик окончания касания
-//   const stopSliding = useCallback((e: ThreeEvent<PointerEvent>) => {
-//     const event = e.nativeEvent as PointerEvent;
-//     const target = event.target as Element;
+  //     // Очищаем таймер
+  //     if (longPressTimer.current !== null) {
+  //       window.clearTimeout(longPressTimer.current);
+  //       longPressTimer.current = null;
+  //     }
 
-//     // Очищаем таймер
-//     if (longPressTimer.current !== null) {
-//       window.clearTimeout(longPressTimer.current);
-//       longPressTimer.current = null;
-//     }
+  //     // Проверяем, был ли long press
+  //     if (isTracking.current) {
+  //       isTracking.current = false;
+  //       console.log('Long press ended, full path:', pathRef.current);
+  //       // Можно отправить путь куда-то
+  //     } else {
+  //       console.log('Short tap (ignored)');
+  //     }
 
-//     // Проверяем, был ли long press
-//     if (isTracking.current) {
-//       isTracking.current = false;
-//       console.log('Long press ended, full path:', pathRef.current);
-//       // Можно отправить путь куда-то
-//     } else {
-//       console.log('Short tap (ignored)');
-//     }
+  //     // Удаляем обработчик движения
+  //     const handlePointerMove = (target as any).__handlePointerMove__;
+  //     if (handlePointerMove) {
+  //       target.removeEventListener('pointermove', handlePointerMove);
+  //       delete (target as any).__handlePointerMove__;
+  //     }
 
-//     // Удаляем обработчик движения
-//     const handlePointerMove = (target as any).__handlePointerMove__;
-//     if (handlePointerMove) {
-//       target.removeEventListener('pointermove', handlePointerMove);
-//       delete (target as any).__handlePointerMove__;
-//     }
-
-
-//     if (target.hasPointerCapture && target.hasPointerCapture(event.pointerId)) {
-//       target.releasePointerCapture(event.pointerId);
-//     }
-//   }, []);
+  //     if (target.hasPointerCapture && target.hasPointerCapture(event.pointerId)) {
+  //       target.releasePointerCapture(event.pointerId);
+  //     }
+  //   }, []);
   /////
-
 
   return (
-    <mesh ref={mesh} 
+    <mesh
+      ref={mesh}
       onPointerMove={handlePointerMove}
-      // rotation={[ Math.PI/2, Math.PI/2, Math.PI/2]} 
+      // rotation={[ Math.PI/2, Math.PI/2, Math.PI/2]}
       position={[0, 0, -5]}
-      
+
       // onPointerDown={beginSliding}
       // onPointerUp={stopSliding}
       // onPointerLeave={stopSliding}
-
-
-      >
+    >
       <planeGeometry args={[WIDTH, HEIGHT, 64, 64]} />
       <shaderMaterial
         ref={shader}
@@ -306,10 +310,10 @@ void main() {
 `}
       />
     </mesh>
-  );
-}
+  )
+})
 
-
+export default Plane
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -322,6 +326,6 @@ void main() {
 // 255 83 35 кирпичный оранжевый
 // 248 255 1 лимонный
 // и по кругу с начала списка
- 
+
 // 220 220 220 благородный серый
 // с переливами светлого 235 255 254

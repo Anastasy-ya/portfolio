@@ -1,5 +1,13 @@
-import { useRef, useEffect, useState, useFrame } from 'react'
 import * as THREE from 'three'
+import { useRef, useState, useEffect, useMemo } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { DragControls } from 'three/addons/controls/DragControls.js'
+import Plane from '../Plane/Plane'
+//TODO переименовать компонент
+
+import { extend } from '@react-three/fiber'
+import { shaderMaterial } from '@react-three/drei'
+
 // import { matrix } from "../../Matrices/1";
 import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 
@@ -9,9 +17,7 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
   const instancedRef = useRef()
   const boxGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.1)
   const material = new THREE.MeshStandardMaterial({ color: 'white' })
-  const matrix = null //
-
-
+  const matrix = null
 
   //Создаём начальную матрицу жизни
   useEffect(() => {
@@ -66,6 +72,8 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
             radius * Math.sin(theta)
           )
           dummy.scale.set(1, 1, 1) // Убедимся, что кубик видим
+          dummy.rotation.y = theta //
+          // dummy.rotation.z = theta//
         } else {
           const y = -height / 2 + (j + 0.5) * (height / heightSegments) // TODO повтор логики, оптимизировать
 
@@ -89,11 +97,25 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
   }, [gameState, radialSegments, heightSegments, height, radius])
 
   return (
-    <instancedMesh
-      ref={instancedRef}
-      args={[boxGeometry, material, radialSegments * heightSegments]}
-    />
+    <>
+      <instancedMesh
+        ref={instancedRef}
+        args={[boxGeometry, null, radialSegments * heightSegments]}
+      >
+        <meshPhysicalMaterial
+          color='#ffffff'
+          transmission={0.9} // Прозрачность как у стекла
+          roughness={0.2} // Легкая матовость
+          thickness={0.1} // Толщина для преломления
+          envMapIntensity={1} // Интенсивность отражений
+          clearcoat={0.5} // Защитное покрытие
+        />
+      </instancedMesh>
+      <Plane />
+    </>
   )
 }
 
 export default Cubes
+
+/////////////////////////////////
