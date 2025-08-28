@@ -251,7 +251,7 @@ vec4 getSpreadingTouch(vec2 uv, float timeOffset) {
   // float spreadAmount = spreadTime * 0.1;
   // --- новый код ---
   // Накапливаем искажения, но ограничиваем сверху
-  float spreadAmount = min(spreadTime * 1.05, 3.6); 
+  float spreadAmount = min(spreadTime * 1.05, 1.6); 
   // ↑ чем больше коэффициент (0.05), тем быстрее растёт искажение
   // ↑ чем больше порог (3.6), тем сильнее максимум искажений
 

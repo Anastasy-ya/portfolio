@@ -30,12 +30,12 @@ function Scene() {
       orthographic
       camera={{
         position: [0, 0, 0],
-        zoom: 250, //TODO высчитать в зависимости от экрана
+        zoom: 200, //TODO высчитать в зависимости от экрана
         near: 0.1,
         far: 100
       }}
     >
-      <color attach='background' args={['rgb(139, 142, 173)']} />
+      <color attach='background' args={['rgb(220, 220, 220)']} />
       {/* <ambientLight /> */}
       <>
         <ambientLight intensity={0.5} color='#ffffff' /> // Увеличиваем ambient
@@ -62,14 +62,16 @@ function Scene() {
     color="#ffffff"
   /> */}
       </>
-      {/* <Background radius={radius} height={height} radialSegments={radialSegments} heightSegments={heightSegments}></Background> */}
+
       <Cubes
         radius={radius}
         height={height}
         radialSegments={radialSegments}
         heightSegments={heightSegments}
       />
-      <OrbitControls target={[0, 0, 0]} />
+      <OrbitControls 
+      // enableZoom={false} //TODO раскомментировать
+      target={[0, 0, 0]} />
       <Environment
         preset='dawn'
         background={false}

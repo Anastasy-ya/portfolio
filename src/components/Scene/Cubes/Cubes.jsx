@@ -1,17 +1,18 @@
-import { DragControls } from 'three/addons/controls/DragControls.js'
+import { useDrag } from '@use-gesture/react'
 import * as THREE from 'three'
+import Background  from '../Background/Background'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import {
-  EffectComposer,
-  Bloom,
-  ChromaticAberration,
-  Glitch,
-  ColorAverage,
-  Vignette,
-  BrightnessContrast
-} from '@react-three/postprocessing'
-import { BlendFunction } from 'postprocessing'
+// import {
+//   EffectComposer,
+//   Bloom,
+//   ChromaticAberration,
+//   Glitch,
+//   ColorAverage,
+//   Vignette,
+//   BrightnessContrast
+// } from '@react-three/postprocessing'
+// import { BlendFunction } from 'postprocessing'
 import Plane from '../Plane/Plane'
 import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 
@@ -54,6 +55,7 @@ import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 
 function Cubes({ radius, height, radialSegments, heightSegments }) {
   const [gameState, setGameState] = useState(null)
+  const groupRef = useRef()
   const instancedRef = useRef()
   const planeRef = useRef()
   // const boxGeometry = useMemo(() => {
@@ -62,6 +64,18 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
   const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.1, 0.1, 0.1), [])
   const matrix = null
   const { scene, camera } = useThree()
+
+  const [rotation, setRotation] = useState([0, 0, 0]) //реализация вращения цилиндра
+  const responsiveness = 20//TODO перенести в стор
+  const { size } = useThree()
+  const euler = useMemo(() => new THREE.Euler(), [])
+
+  const bind = useDrag(({ delta: [dx, dy] }) => {
+    euler.y += (dx / size.width) * responsiveness
+    // euler.x += (dy / size.width) * responsiveness
+    // euler.x = THREE.MathUtils.clamp(euler.x, -Math.PI / 2, Math.PI / 2)
+    setRotation(euler.toArray().slice(0, 3))
+  })
 
   // Создаём начальную матрицу жизни
   useEffect(() => {
@@ -74,13 +88,15 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
         }
       }
     }
+    console.log(spareMatrix, 'spareMatrix')
     setGameState(spareMatrix)
   }, [])
 
   // Включение игры в жизнь
   useEffect(() => {
     const interval = setInterval(() => {
-      setGameState(prevMatrix => RunGameOfLife(prevMatrix))
+      console.log()
+      setGameState(prevMatrix => RunGameOfLife(prevMatrix))//раскомментируй меня
     }, 1000)
     return () => clearInterval(interval)
   }, [])
@@ -130,8 +146,8 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
           dummy.scale.set(1, 1, 1)
           // dummy.rotation.y = theta
           // dummy.rotation.z = Math.PI/4
-          dummy.rotation.y = -Math.PI / 8
-          dummy.rotation.x = Math.PI / 8
+          // dummy.rotation.y = -Math.PI / 8
+          // dummy.rotation.x = Math.PI / 8
         } else {
           const y = -height / 2 + (j + 0.5) * (height / heightSegments)
           dummy.position.set(
@@ -153,13 +169,14 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
 
   return (
     <>
-      <instancedMesh
-        ref={instancedRef}
-        args={[boxGeometry, material, radialSegments * heightSegments]}
-      />
-      <Plane
-        ref={planeRef}
-      />
+      <group ref={groupRef} {...bind()} rotation={rotation} >
+        <Background radius={radius} height={height} radialSegments={radialSegments} heightSegments={heightSegments}></Background>
+        <instancedMesh
+          ref={instancedRef}
+          args={[boxGeometry, material, radialSegments * heightSegments]}
+        />
+      </group>
+      <Plane ref={planeRef} />
 
       {/* <EffectComposer></EffectComposer> */}
     </>
