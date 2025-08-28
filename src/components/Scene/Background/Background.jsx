@@ -29,6 +29,5 @@ function Background({ radius, height, radialSegments, heightSegments }) {
     />
   )
 }
-//вращение перенести из cubes, cubes сделать дочерним, отслеживать вращение на цилиндреян
 
 export default Background

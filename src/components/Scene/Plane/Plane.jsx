@@ -1,12 +1,10 @@
-// import "./styles.css";
-
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { TextureLoader, ShaderMaterial, Mesh } from 'three'
 import { useMemo, useRef, useEffect, useCallback, useState } from 'react'
 import TouchTexture from './TouchTexture'
 import { forwardRef } from 'react'
 
-const HEIGHT = 5
+const HEIGHT = 7
 const ASPECT_RATIO = 1
 const WIDTH = HEIGHT * ASPECT_RATIO
 
@@ -15,19 +13,17 @@ const Plane = forwardRef((props, ref) => {
   const shader = useRef(null)
   const offset = useRef(Math.random() * 10000)
 
-  /////
   useEffect(() => {
     if (ref) {
       ref.current = mesh.current
     }
   }, [ref])
-  /////
 
   const touchTexture = useMemo(
     () =>
       new TouchTexture({
         debugCanvas: false,
-        size: 128
+        size: 800
       }),
     []
   )
@@ -42,25 +38,13 @@ const Plane = forwardRef((props, ref) => {
   )
 
   useFrame((state, delta) => {
-    // Add animations or updates here if needed
     touchTexture.update()
-
-    // if (mesh.current) {
-    //   const t = state.clock.getElapsedTime();
-    //   mesh.current.rotation.x = Math.cos(t) * 0.1;
-    //   mesh.current.rotation.y = Math.cos(t) * 0.1;
-    // }
-
-    // sending the time to the uniforms/ shader
     if (shader.current) {
       shader.current.uniforms.uTime.value += delta
     }
   })
 
   const handlePointerMove = e => {
-    // console.log(e, 'e')
-    // We normalize the mouse coordinates from pixel values
-    //to a 0-1 range so they can be used properly in our shader.
     const normalizedY = e.point.y / HEIGHT + 0.5
     const normalizedX = e.point.x / WIDTH + 0.5
     touchTexture.addPoint({ x: normalizedX, y: normalizedY })
@@ -179,7 +163,7 @@ const Plane = forwardRef((props, ref) => {
       ref={mesh}
       onPointerMove={handlePointerMove}
       // rotation={[ Math.PI/2, Math.PI/2, Math.PI/2]}
-      position={[0, 0, -5]}
+      position={[0, 0, -8]}
 
       // onPointerDown={beginSliding}
       // onPointerUp={stopSliding}
@@ -219,12 +203,12 @@ vec3 colors[7] = vec3[](
   vec3(0.047, 0.914, 0.608), // бирюза
   vec3(0.537, 0.941, 0.945), // голубой
   vec3(0.571, 0.488, 0.965), // лавандовый
-  vec3(0.980, 0.251, 0.286), // коралловый (быстрый участок)
-  vec3(1.000, 1.000, 0.000), // жёлтый (быстрый участок)
-  vec3(0.973, 1.000, 0.004)  // лимонный (быстрый участок)
+  vec3(0.980, 0.251, 0.286), // коралловый
+  vec3(1.000, 1.000, 0.000), // жёлтый
+  vec3(0.973, 1.000, 0.004)  // лимонный
 );
 
-// Веса (сумма = 1.0): длинные на холодных, короткие на тёплых
+// Веса (сумма = 1.0)
 float weights[7] = float[](
   0.20, // салат → бирюза
   0.20, // бирюза → голубой
@@ -232,7 +216,7 @@ float weights[7] = float[](
   0.20, // лавандовый → коралловый
   0.07, // коралловый → жёлтый
   0.07, // жёлтый → лимонный
-  0.06  // лимонный → салат (замыкание)
+  0.06  // лимонный → салат
 );
 
 // === Быстрый шум-хеш ===
@@ -253,6 +237,46 @@ float noise(vec2 p) {
          (d - b) * u.x * u.y;
 }
 
+// Функция для создания расползающегося эффекта
+vec4 getSpreadingTouch(vec2 uv, float timeOffset) {
+  vec2 displacedUV = uv;
+
+  // spreadTime теперь не зацикливаем
+  float spreadTime = uTime - timeOffset;
+
+  // Экспоненциальное затухание (оставляем)
+  float fade = exp(-spreadTime * 0.1);
+
+  // --- старый код ---
+  // float spreadAmount = spreadTime * 0.1;
+  // --- новый код ---
+  // Накапливаем искажения, но ограничиваем сверху
+  float spreadAmount = min(spreadTime * 1.05, 3.6); 
+  // ↑ чем больше коэффициент (0.05), тем быстрее растёт искажение
+  // ↑ чем больше порог (3.6), тем сильнее максимум искажений
+
+  // Создаем смещение для расползания
+  vec2 spreadDir = vec2(
+    noise(uv * 10.0 + spreadTime * 0.2) - 0.5,
+    noise(uv * 10.0 + spreadTime * 0.3 + 100.0) - 0.5
+  ) * 0.02;
+
+  displacedUV += spreadDir * spreadAmount;
+
+  // Получаем исходное значение касания с небольшим размытием
+  float touch = 0.0;
+  for (int i = -1; i <= 1; i++) {
+    for (int j = -1; j <= 1; j++) {
+      vec2 offset = vec2(float(i), float(j)) * 0.002 * (1.0 + spreadAmount);
+      touch += texture2D(uTouch, displacedUV + offset).r;
+    }
+  }
+  touch /= 9.0;
+
+  return vec4(touch, spreadTime, fade, 0.0);
+}
+
+
 void main() {
   // === Фон ===
   vec3 grayBase = vec3(0.85, 0.88, 0.92);
@@ -267,15 +291,18 @@ void main() {
   background = mix(background, grayDark, wave2 * 0.1);
   background = mix(background, grayBase, t);
 
-  // === Сила касания ===
-  float touch = texture2D(uTouch, vUv).r;
+  // === Получаем несколько слоев расползающихся штрихов ===
+  vec4 touchCurrent = getSpreadingTouch(vUv, 0.0);
+  vec4 touchOld1 = getSpreadingTouch(vUv, 2.0);
+  vec4 touchOld2 = getSpreadingTouch(vUv, 4.0);
 
-  // === Цветовой цикл (замедлен ×1.5) ===
-  float cycle = mod(uTime * (0.05 / 1.5), 1.0);
+  float totalTouch = max(touchCurrent.x, max(touchOld1.x, touchOld2.x));
 
-  // Находим текущий отрезок по весам
+  // === Цветовой цикл ===
+  float cycle = mod(uTime * 0.05, 1.0);
   float acc = 0.0;
   int idx = 0;
+
   for (int i = 0; i < 7; i++) {
     acc += weights[i];
     if (cycle <= acc) {
@@ -284,24 +311,30 @@ void main() {
     }
   }
 
+  int nextIdx = (idx + 1) % 7;
+
   float prevAcc = acc - weights[idx];
   float localT = (cycle - prevAcc) / weights[idx];
-
-  // === Добавляем мягкий шум к переходу ===
   float n = noise(vUv * 6.0 + uTime * 0.05);
   localT = clamp(localT + (n - 0.5) * 0.1, 0.0, 1.0);
 
-  int idx1 = idx;
-  int idx2 = (idx + 1) % 7;
-  vec3 activeColor = mix(colors[idx1], colors[idx2], localT);
+  vec3 activeColor = mix(colors[idx], colors[nextIdx], localT);
 
-  // === Пятно цвета ===
-  vec3 pulseColor = mix(grayBase, activeColor, smoothstep(0.0, 0.3, touch));
-  pulseColor = mix(pulseColor, activeColor, touch * 0.7);
-  pulseColor *= 1.5;
+  float centerIntensity = smoothstep(0.0, 0.2, touchCurrent.x);
+  float edgeIntensity = smoothstep(0.0, 0.5, touchCurrent.x);
 
-  // === Итог ===
-  vec3 finalColor = mix(background, pulseColor, touch);
+  vec3 centerColor = activeColor * (1.0 + centerIntensity * 0.3);
+
+  vec3 oldColor1 = mix(background, activeColor, touchOld1.x * touchOld1.z * 0.5);
+  vec3 oldColor2 = mix(background, activeColor, touchOld2.x * touchOld2.z * 0.3);
+
+  vec3 finalColor = background;
+  finalColor = mix(finalColor, oldColor2, touchOld2.x);
+  finalColor = mix(finalColor, oldColor1, touchOld1.x);
+  finalColor = mix(finalColor, centerColor, edgeIntensity);
+
+  float glow = smoothstep(0.1, 0.3, touchCurrent.x) * 0.3;
+  finalColor += activeColor * glow;
 
   gl_FragColor = vec4(finalColor, 1.0);
 }

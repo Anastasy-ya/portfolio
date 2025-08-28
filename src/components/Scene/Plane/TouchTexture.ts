@@ -110,7 +110,7 @@ export default class TouchTexture {
       radius
     )
 
-    grd.addColorStop(0, `rgb(217, 223, 233)`)
+    grd.addColorStop(0, `rgb(139, 142, 173)`)
     grd.addColorStop(1, 'rgba(0, 0, 0, 0.0)')
 
     this.ctx.beginPath()
