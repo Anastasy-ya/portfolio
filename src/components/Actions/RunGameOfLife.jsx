@@ -25,7 +25,8 @@ function calculateNeighbors(matrix, i, j) {
 }
 
 export function RunGameOfLife(matrixOld) {
-  const rows = matrixOld.length;//повторное объявление переменных
+  // if (matrixOld) {
+    const rows = matrixOld.length;//повторное объявление переменных
   const cols = matrixOld[0].length;
 
   const matrixNew = Array.from({ length: rows }, () => Array(cols).fill(0));//непонятная магия
@@ -44,4 +45,6 @@ export function RunGameOfLife(matrixOld) {
   }
 
   return matrixNew;
+  // }
+  
 }

@@ -1,6 +1,6 @@
 import { useDrag } from '@use-gesture/react'
 import * as THREE from 'three'
-import Background  from '../Background/Background'
+import Background from '../Background/Background'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 // import {
@@ -15,6 +15,8 @@ import { useFrame, useThree } from '@react-three/fiber'
 // import { BlendFunction } from 'postprocessing'
 import Plane from '../Plane/Plane'
 import { RunGameOfLife } from '../../Actions/RunGameOfLife'
+
+
 
 // export function createRoundedBoxGeometry(
 //   width,
@@ -53,8 +55,11 @@ import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 //   return geometry
 // }
 
-function Cubes({ radius, height, radialSegments, heightSegments }) {
-  const [gameState, setGameState] = useState(null)
+function Cubes({ radius, height, radialSegments, heightSegments, gameState, setGameState }) {
+  
+  // const [gameState, setGameState] = useState(matrix)// подумать стоит ли мутировать первоначальную матрицу или все же пусть будет два дублирующих стейта как реализовано сейчас
+  // const { gameState, setGameState } = useStore((s) => s);
+  // console.log(gameState, 'gameState')
   const groupRef = useRef()
   const instancedRef = useRef()
   const planeRef = useRef()
@@ -62,11 +67,11 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
   //   return createRoundedBoxGeometry(0.1, 0.1, 0.1, 0.02, 6)
   // }, [])
   const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.1, 0.1, 0.1), [])
-  const matrix = null
-  const { scene, camera } = useThree()
+  // const matrix = null
+  // const { scene, camera } = useThree()
 
   const [rotation, setRotation] = useState([0, 0, 0]) //реализация вращения цилиндра
-  const responsiveness = 20//TODO перенести в стор
+  const responsiveness = 20 //TODO перенести в стор
   const { size } = useThree()
   const euler = useMemo(() => new THREE.Euler(), [])
 
@@ -77,29 +82,37 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
     setRotation(euler.toArray().slice(0, 3))
   })
 
-  // Создаём начальную матрицу жизни
+
+
+  
+
   useEffect(() => {
-    const spareMatrix = matrix || []
-    if (!spareMatrix.length) {
-      for (let i = 0; i < radialSegments; i++) {
-        spareMatrix[i] = []
-        for (let j = 0; j < heightSegments; j++) {
-          spareMatrix[i][j] = Math.random() > 0.5 ? 1 : 0
+    if (gameState.length > 0) {
+      // если не загрузится матрица, сгенерируется рандомная
+      const spareMatrix = gameState || []
+      if (!spareMatrix.length) {
+        for (let i = 0; i < radialSegments; i++) {
+          spareMatrix[i] = []
+          for (let j = 0; j < heightSegments; j++) {
+            spareMatrix[i][j] = Math.random() > 0.5 ? 1 : 0
+          }
         }
       }
+      // console.log(spareMatrix, 'spareMatrix')
+      setGameState(spareMatrix)
+
     }
-    console.log(spareMatrix, 'spareMatrix')
-    setGameState(spareMatrix)
   }, [])
 
   // Включение игры в жизнь
   useEffect(() => {
-    const interval = setInterval(() => {
-      console.log()
-      setGameState(prevMatrix => RunGameOfLife(prevMatrix))//раскомментируй меня
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+    // if (gameState.length > 0) {
+      const interval = setInterval(() => {
+        setGameState((prevMatrix) => RunGameOfLife(prevMatrix)) //раскомментируй меня
+      }, 800)
+      return () => clearInterval(interval)
+    // }
+  }, []) //TODO юзэффекты можно объединить
 
   const material = useMemo(() => {
     const mat = new THREE.MeshPhysicalMaterial({
@@ -118,6 +131,14 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
     return mat
   }, [])
 
+  //   const material = new THREE.MeshStandartMaterial({
+  //   color: 0x156289,
+  //   emissive: 0x072534,
+  //   specular: 0xffffff,
+  //   shininess: 100,
+  //   flatShading: true,
+  // });
+
   // Анимация для динамических эффектов
   useFrame(state => {
     if (material.userData.shader) {
@@ -126,8 +147,9 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
   })
 
   useEffect(() => {
-    if (!instancedRef.current || !gameState) return
-
+    // console.log(gameState, 'gameState')
+    // console.log(instancedRef.current, 'instancedRef.current')
+    if (!instancedRef.current || !gameState) return <h1>какая-то хреновня</h1>
     const dummy = new THREE.Object3D()
     let visibleCount = 0
 
@@ -136,6 +158,7 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
         const index = j * radialSegments + i
         const theta = (i / radialSegments) * 2 * Math.PI
 
+        // console.log(gameState, 'gameState перед отрисовкой')
         if (gameState[i][j] === 1) {
           const y = -height / 2 + (j + 0.5) * (height / heightSegments)
           dummy.position.set(
@@ -165,12 +188,18 @@ function Cubes({ radius, height, radialSegments, heightSegments }) {
 
     instancedRef.current.instanceMatrix.needsUpdate = true
     instancedRef.current.count = visibleCount
-  }, [gameState, radialSegments, heightSegments, height, radius])
+  }, [gameState, instancedRef, radialSegments, heightSegments, height, radius])
 
+  
   return (
     <>
-      <group ref={groupRef} {...bind()} rotation={rotation} >
-        <Background radius={radius} height={height} radialSegments={radialSegments} heightSegments={heightSegments}></Background>
+      <group ref={groupRef} {...bind()} rotation={rotation}>
+        <Background
+          radius={radius}
+          height={height}
+          radialSegments={radialSegments}
+          heightSegments={heightSegments}
+        ></Background>
         <instancedMesh
           ref={instancedRef}
           args={[boxGeometry, material, radialSegments * heightSegments]}

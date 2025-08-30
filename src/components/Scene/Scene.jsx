@@ -1,23 +1,18 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-
-// import { useEffect } from "react";
-import Background from './Background/Background'
 import Cubes from './Cubes/Cubes'
-// import Plane from "./Plane/Plane"
-// import { RunGameOfLife } from "../../Actions/RunGameOfLife";
-// import {
-//     BloomEffect,
-//     EffectComposer,
-//     EffectPass,
-//     SSAO
-// } from "postprocessing";
+import { useRef, useState, useEffect, useMemo } from 'react'
+import matrix_1 from '../Matrices/1'
+import matrix_2 from '../Matrices/2'
 import { Environment } from '@react-three/drei'
 
 function Scene() {
-  const aspect = window.innerWidth / window.innerHeight
-  const frustumSize = 4
-  // const { camera } = useThree();
+  const matrixes = [matrix_1, matrix_2]
+  // const [matrix] = useState(
+  //   matrixes[Math.floor(Math.random() * matrixes.length)]
+  // )
+  const matrix = matrix_1
+  const [gameState, setGameState] = useState(matrix)
   const radius = 1.91 // Радиус цилиндра
   const height = 2 // Высота цилиндра
   const radialSegments = 96 // Количество сегментов по окружности
@@ -36,47 +31,20 @@ function Scene() {
       }}
     >
       <color attach='background' args={['rgb(220, 220, 220)']} />
-      {/* <ambientLight /> */}
-      <>
-        <ambientLight intensity={0.5} color='#ffffff' /> // Увеличиваем ambient
-        {/* <directionalLight
-    position={[10, 10, 5]}
-    intensity={1.8}
-    color="#ffffff"
-  /> */}
-        {/* <pointLight 
-    position={[1, 1, 1]} 
-    intensity={1.2}
-    distance={10}
-  />
-  <pointLight
-    position={[-5, -5, -5]}
-    intensity={1.0}
-    color="#ffffff"
-    distance={8}
-  />
-  // Добавляем fill light
-  <directionalLight
-    position={[-5, -5, -3]}
-    intensity={0.6}
-    color="#ffffff"
-  /> */}
-      </>
-
+      <ambientLight intensity={0.5} color='#ffffff' /> // Увеличиваем ambient
       <Cubes
         radius={radius}
         height={height}
         radialSegments={radialSegments}
         heightSegments={heightSegments}
+        gameState={gameState}
+        setGameState={setGameState}
       />
-      <OrbitControls 
-      // enableZoom={false} //TODO раскомментировать
-      target={[0, 0, 0]} />
-      <Environment
-        preset='dawn'
-        background={false}
-        intensity={0.6}
+      <OrbitControls
+        // enableZoom={false} //TODO раскомментировать
+        target={[0, 0, 0]}
       />
+      <Environment preset='dawn' background={false} intensity={0.6} />
     </Canvas>
   )
 }
