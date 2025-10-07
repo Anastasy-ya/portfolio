@@ -2,12 +2,11 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
 import { useRef, useState, useEffect, useMemo } from 'react'
-// import matrix_1 from '../Matrices/1'
-// import matrix_2 from '../Matrices/2'
-// import matrix_0 from '../Matrices/0'
 import { Environment } from '@react-three/drei'
+import { useStore } from '../store/store'
 
-function Scene({ matrix }) {
+function Scene() {
+  const matrix = useStore(s => s.matrix)
   const [gameState, setGameState] = useState(matrix) //дублирую matrix чтобы не мутировать первоначальную матрицу
   const radius = 1.91 // Радиус цилиндра
   const height = 2 // Высота цилиндра
@@ -21,7 +20,11 @@ function Scene({ matrix }) {
     []
   )
 
-  const [windowSize, setWindowSize] = useState(350)
+  const [windowSize, setWindowSize] = useState(350)//проверить на утечки памяти
+
+  useEffect(() => {
+    setGameState(matrix)
+  }, [matrix])
 
   const handleResize = () => {
     setWindowSize(getWindowSize())
@@ -32,7 +35,7 @@ function Scene({ matrix }) {
     if (width < 500) return 200
     if (width < 800 && width >= 501) return 200
     if (width < 1200 && width >= 801) return 300
-    if (width < 1500 && width >= 1201) return 300
+    if (width < 1500 && width >= 1201) return 350
     if (width < 2100 && width >= 1501) return 550
     if (width < 3000 && width >= 2101) return 770
     return 770
@@ -46,13 +49,19 @@ function Scene({ matrix }) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // const baseZoom = useMemo(() => getWindowSize(), [])
+  //TODO
+  const minZoom = windowSize -30
+  const maxZoom = windowSize + 350
+
   return (
+    <section className='canvas-wrapper'>
     <Canvas
-      style={{ width: '100vw', height: '100vh' }}
+      style={{ width: '100vw', height: '100vh', }}
       orthographic
       camera={{
         position: [0, 0, 0],
-        zoom: windowSize, //TODO высчитать в зависимости от экрана
+        zoom: windowSize,
         near: 0.1,
         far: 100
       }}
@@ -68,12 +77,15 @@ function Scene({ matrix }) {
         setGameState={setGameState}
       />
       <OrbitControls
-        enableZoom={false} //TODO раскомментировать
+        // enableZoom={false} //TODO раскомментировать
         enableRotate={false}
         target={[0, 0, 0]}
+        minZoom={minZoom}
+        maxZoom={maxZoom}
       />
       <Environment preset='dawn' background={false} intensity={0.6} />
     </Canvas>
+    </section>
   )
 }
 

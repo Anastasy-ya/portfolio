@@ -1,0 +1,51 @@
+.about {
+  position: absolute;
+  top: 0;
+  right: 60px;
+  width: 220px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--pale-lavender); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(240, 240, 240, 0.3);
+  box-shadow: 0 4px 15px rgba(146, 125, 246, 0.4);
+  color: #fff;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 15;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+  width: 350px;
+}
+
+.about__close-icon {
+  background-image: url('/svg/close.svg');
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 0;
+  right: 12px;
+}
+
+.about__title {
+  font-family: var(--font-antic);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 32px;
+  margin-bottom: 15px;
+}
+
+.about__text {
+  font-family: var(--font-inter);
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

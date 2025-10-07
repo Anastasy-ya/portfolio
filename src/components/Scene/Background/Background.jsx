@@ -1,17 +1,16 @@
 import * as THREE from 'three'
 // import { useFrame } from '@react-three/fiber'
-import { useRef, useMemo} from 'react'
+import { useRef, useMemo } from 'react'
 
-  const cylinderMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00fffe,
-    transparent: true,
-    opacity: 0.0,
-    side: THREE.BackSide,
-    wireframe: true
-  })
+const cylinderMaterial = new THREE.MeshBasicMaterial({
+  color: 0x00fffe,
+  transparent: true,
+  opacity: 0.0,
+  side: THREE.BackSide,
+  wireframe: true
+})
 
 function Background({ radius, height, radialSegments, heightSegments }) {
-
   const cylinderGeometry = useMemo(
     () =>
       new THREE.CylinderGeometry(
@@ -24,7 +23,6 @@ function Background({ radius, height, radialSegments, heightSegments }) {
       ),
     [radius, height, radialSegments, heightSegments]
   )
-  
 
   return (
     <mesh

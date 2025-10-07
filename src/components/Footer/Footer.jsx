@@ -1,100 +1,66 @@
-import { useState } from 'react'
 import './Footer.css'
+import { useStore } from '../store/store'
 
 function Footer() {
-  //TODO перенести в глобальные данные
-  const footerData = [
-    {
-      title: 'Frontend',
-      folder: 'frontend',
-      icons: [
-        'TypeScript',
-        'React',
-        'Next',
-        'StyledComponents',
-        'Less',
-        'SCSSSASS',
-        'MUI',
-        'AntDesign',
-        'Zustand',
-        'Redux',
-        'ReactRouter'
-      ]
-    },
-    {
-      title: '3D & AR/VR',
-      folder: '3darvr',
-      icons: [
-        'Three',
-        'Drei',
-        'ReactThreeFiber',
-        'AFrame',
-        'MindAR',
-        'ReactThreeARNFT',
-        'JsArtoolkitNft',
-        'WebXR',
-        'GLTF',
-        'GLB'
-      ]
-    },
-    {
-      title: 'Backend & DB',
-      folder: 'backend-db',
-      icons: ['Express', 'Node', 'MongoDB', 'PostgreSQL', 'RESTfulAPIs']
-    },
-    {
-      title: 'Tools',
-      folder: 'tools',
-      icons: ['Vite', 'Webpack', 'Git', 'GitHub', 'GitLab']
-    },
-    {
-      title: 'Design',
-      folder: 'design',
-      icons: ['Figma', 'Photoshop', 'Illustrator']
-    },
-    {
-      title: 'Exploring',
-      folder: 'exploring',
-      icons: ['Svelte', 'OpenGL']
-    }
-  ]
+  const footerDataset = useStore(s => s.footerDataset)
 
+  //TODO проверить валидность верстки и доступность для люд со спец в
   return (
-    <div className='footer'>
-      {footerData.map(({ title, folder, icons }) => (
-        <div
-          className={`footer__container footer__container_type_${folder}`}
-          key={title}
-        >
-          <h3>{title}</h3>
-
-          <div
-            className='footer__icons'
-            style={{
-              width: `${
-                Math.round(icons.length / 2) * 25 +
-                (Math.round(icons.length / 2) - 1) * 20
-              }px`
-            }}
-          >
-            {icons.map(icon => (
-              <div
-                key={icon}
-                className='footer__icon'
+    <section className='footer'>
+      {footerDataset.map((block, blockIdx) => (
+        <div className='footer__container' key={blockIdx}>
+          {block.sections.map((section, secIdx) => (
+            <div key={secIdx} className='footer__section'>
+              <h3 className='footer__title'>{section.title}</h3>
+              <ul
+                className={`footer__icons footer__icons_type_${section.folder}`}
                 style={{
-                  backgroundImage: `url('/svg/${folder}/${icon}.svg')`
+                  width: `${
+                    Math.round(section.icons.length / 2) * 25 +
+                    (Math.round(section.icons.length / 2) - 1) * 10
+                  }px`
                 }}
-              />
-            ))}
-          </div>
+              >
+                {section.icons.map(icon => (
+                  <li
+                    key={icon}
+                    className='footer__icon'
+                    style={{
+                      backgroundImage: `url('/svg/${section.folder}/${icon}.svg')`
+                    }}
+                    aria-label={icon}
+                    title={icon}
+                  >
+                    <span className='footer__icon-label'>{icon}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       ))}
-      <div className={`footer__container footer__container_type_optimization`}>
-        <h3>Optimization</h3>
 
-        <div className='footer__icons '></div>
+      <div className='footer__container footer__container_type_optimization'>
+        <h3 className='footer__title'>Optimization</h3>
+        <ul className='footer__optimizations optimizations'>
+          <li>
+            <div></div>
+            <p className='optimizations__info'>Instancing</p>
+          </li>
+          <li>
+            <p className='optimizations__info'>LOD</p>
+          </li>
+          <li>
+            <p className='optimizations__info'>Rustum culling</p>
+          </li>
+          <li>
+            <p className='optimizations__info'>
+              Resource dispose and memory management
+            </p>
+          </li>
+        </ul>
       </div>
-    </div>
+    </section>
   )
 }
 
