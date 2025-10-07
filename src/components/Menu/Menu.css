@@ -1,0 +1,68 @@
+.menu {
+  position: absolute;
+  top: 40px;
+  right: 140px;
+  z-index: 11;
+}
+
+.menu__box {
+  display: flex;
+  gap: 30px;
+}
+
+.menu__button {
+  border: none;
+  font-family: var(--font-inter);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-transform: uppercase;
+  background: transparent;
+  width: fit-content;
+}
+
+.menu__icon-button {
+  width: 25px;
+  height: 25px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: inline-block;
+  background-color: var(--gray);
+}
+
+/* .menu__icon-button::before {
+  content: '';
+  position: absolute;
+  top: -5mm;
+  left: -5mm;
+  right: -5mm;
+  bottom: -5mm;
+  cursor: pointer;
+
+} */
+
+.menu__icon-button_type_about-me {
+  background-image: url('/svg/about-me.svg');
+}
+
+.menu__icon-button_type_mail {
+  background-image: url('/svg/mail.svg');
+}
+
+.menu__icon-button_type_sound {
+  background-image: url('/svg/sound-off.svg');
+}
+
+.menu__item_type_volume {
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  z-index: 11;
+}
+
+.menu__icon-button_type_sound {
+  background-color: transparent;
+}

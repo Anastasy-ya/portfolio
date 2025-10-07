@@ -1,5 +1,6 @@
 import { Texture } from 'three'
 
+//TODO
 interface Point {
   x: number
   y: number
@@ -14,10 +15,8 @@ interface TouchTextureOptions {
   debugCanvas?: boolean
 }
 
-// Pure function
 const outSine = (n: number) => Math.sin((n * Math.PI) / 2)
 
-// Pure function for calculating force between points
 const calculateForce = (
   last: Point | null,
   newPoint: { x: number; y: number }
@@ -29,7 +28,6 @@ const calculateForce = (
   return Math.min(dd * 10000, 1)
 }
 
-// Pure function for calculating intensity
 const calculateIntensity = (age: number, maxAge: number) => {
   if (age < maxAge * 0.3) {
     return outSine(age / (maxAge * 0.3))

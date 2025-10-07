@@ -1,1 +1,243 @@
+/* * {
+    border: 0.5px solid red;
+  } */
 
+@font-face {
+  font-display: swap;
+  font-family: 'Cormorant Upright';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/cormorant-upright-v19-latin-700.woff2') format('woff2'),
+    url('../fonts/cormorant-upright-v19-latin-700.woff') format('woff'),
+    url('../fonts/cormorant-upright-v19-latin-700.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/inter-v20-latin-regular.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-regular.woff') format('woff'),
+    url('/fonts/inter-v20-latin-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/inter-v20-latin-700.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-700.woff') format('woff'),
+    url('/fonts/inter-v20-latin-700.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/inter-v20-latin-800.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-800.woff') format('woff'),
+    url('/fonts/inter-v20-latin-800.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/inter-v20-latin-900.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-900.woff') format('woff'),
+    url('/fonts/inter-v20-latin-900.ttf') format('truetype');
+}
+
+:root {
+  --font-inter: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-antic: 'Cormorant Upright', 'Times New Roman', Times, Georgia, serif;
+  --gray: #696969; /* var(--gray); */
+  --light-gray: #d9e0eb;
+  --light-green: #c3ff00; /* var(--light-green); */
+  --pale-lavender: rgba(146, 125, 246, 0.5); /* var(--pale-lavender); */
+}
+
+body {
+  overflow: hidden;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-inter);
+  /* font-family: var(--font-antic); */
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+article,
+button,
+input,
+label,
+li,
+span,
+pre,
+legend,
+select {
+  margin: 0;
+  padding: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font: inherit;
+  color: var(--gray);
+  overflow: hidden;
+}
+
+ul[class] {
+  list-style: none;
+  margin: 0;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+  display: block;
+  overflow: hidden;
+}
+
+/* Выбрать все дочерние элементы*/
+article > * + * {
+}
+
+/*Книжные параграфы с выключкой по ширине. Отступ добавлен только тем параграфам, которые следуют за другими*/
+p {
+  /* text-align: justify; */
+}
+
+p + p {
+  margin-top: 0;
+  text-indent: 2em;
+}
+
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+input:focus,
+select:focus {
+  outline: none;
+}
+
+input:invalid {
+  color: red;
+}
+
+button {
+  border: none;
+  overflow: hidden;
+}
+
+/*стилизация кнопок при наведении*/
+button:enabled {
+  /*до модификации*/
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+button:enabled:hover {
+  /*по наведению*/
+  transform: scale(1.1);
+  overflow: hidden;
+}
+
+button:disabled {
+  /*не активна*/
+  background-color: gray;
+  color: white;
+  overflow: hidden;
+}
+
+canvas {
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  position: relative;
+}
+
+.canvas-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(66, 53, 100, 0.5) 98%
+  );
+  display: flex;
+  pointer-events: none;
+}
+
+/* .content-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  pointer-events: none;
+} */
+
+@media (hover: none) and (pointer: coarse) {
+  button:active {
+    transform: scale(1.1);
+    overflow: hidden;
+  }
+
+  button {
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+  }
+}
+
+:any-link:hover {
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+:any-link {
+  text-decoration: none;
+}

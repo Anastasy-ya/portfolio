@@ -5,6 +5,8 @@ import Plane from '../Plane/Plane'
 import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 import { useRef, useState, useEffect, useLayoutEffect, useMemo } from 'react'
 import { useThree } from '@react-three/fiber'
+import { gsap } from 'gsap'
+import { useStore } from '../../store/store'
 
 function Cubes({
   radius,
@@ -17,6 +19,8 @@ function Cubes({
   const groupRef = useRef()
   const instancedRef = useRef()
   const planeRef = useRef()
+
+  const gameSpeed = useStore(s => s.gameSpeed)
 
   const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.05, 0.05, 0.05), [])
   const material = useMemo(() => {
@@ -49,6 +53,31 @@ function Cubes({
   }, [instancedRef.current, isInstancedReady])
 
   useEffect(() => {
+    if (!groupRef.current || !isInstancedReady) return
+
+    groupRef.current.scale.set(15, 15, 15)
+    groupRef.current.rotation.y = 0
+    const tl = gsap.timeline()
+    tl.to(groupRef.current.scale, {
+      x: 1,
+      y: 1,
+      z: 1,
+      duration: 1.8,
+      ease: 'expo.out'
+    })
+
+    tl.to(
+      groupRef.current.rotation,
+      {
+        y: Math.PI,
+        duration: 2,
+        ease: 'power4.out' // плавное замедление к концу
+      },
+      '-=0.4'
+    ) // начинаем чуть раньше конца первой анимации
+  }, [isInstancedReady])
+
+  useEffect(() => {
     if (!isInstancedReady || !gameState) return
 
     const dummy = new THREE.Object3D()
@@ -63,7 +92,7 @@ function Cubes({
           const y = -height / 2 + (j + 0.5) * (height / heightSegments)
           dummy.position.set(
             radius * Math.cos(theta),
-            y - 0.05,
+            y - 0.32,
             radius * Math.sin(theta)
           )
           dummy.scale.set(1, 1, 1)
@@ -100,7 +129,7 @@ function Cubes({
 
     const interval = setInterval(() => {
       setGameState(prev => RunGameOfLife(prev))
-    }, 500)
+    }, gameSpeed)
 
     return () => clearInterval(interval)
   }, [gameState, setGameState])
