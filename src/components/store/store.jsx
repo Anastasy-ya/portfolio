@@ -23,6 +23,8 @@ const useStore = create((set, get) => ({
   setMatrix: newMatrix => set({ matrix: newMatrix }),
   gameSpeed: 500,
   setGameSpeed: newSpeed => set({ gameSpeed: newSpeed }),
+  isLiving: true,
+  toggleLiving: () => set((state) => ({ isLiving: !state.isLiving })),
 
   //modale
   activePopup: null, // null, 'about', 'mail'
@@ -34,6 +36,21 @@ const useStore = create((set, get) => ({
     const lang = getBrowserLanguage()
     set({ locale: lang.startsWith('ru') ? 'ru' : 'en' })
   },
+
+  //sound
+  sound: 'false',
+  // toggleSound: () => set({ sound: !get().sound }),
+  // soundDataset: {
+  //   'false': {
+  //     'ru': 'Включить звук',
+  //     'en': 'Unmute'
+  //   },
+  //   'true': {
+  //     'ru': 'Выключить звук',
+  //     'en': 'Mute'
+  //   },
+
+  // }
 
   //datasets
 
@@ -70,7 +87,8 @@ const useStore = create((set, get) => ({
   sidebarDataset: {
     play: {
       type: 'button',
-      icon: '/svg/play.svg',
+      icon1: '/svg/play.svg',
+      icon2: '/svg/stop.svg',
       action: () => console.log('Play clicked'),
       label: {
         ru: 'Начать игру в жизнь',
@@ -148,11 +166,20 @@ const useStore = create((set, get) => ({
       ru: 'Что здесь происходит? Похоже на цифровое искусство, но с секретом',
       en: 'What’s going on here? It’s like digital art, but with a secret'
     },
-    aboutProjectArticle: {/*TODO убрать повторяемость жизнь жить */
+    aboutProjectArticle: {
+      /*TODO убрать повторяемость жизнь жить */
       ru: `«Игра в Жизнь» Джона Конвея — это клеточный автомат, где простые правила заставляют точки жить, умирать и формировать узоры, которые кажутся живыми. Это простая система, превращающая хаос в порядок — метафора творчества, где идеи, как пиксели, возникают и взаимодействуют.
 Я воссоздала эту игру в 3D и сейчас работаю над VR режимом чтобы пользователи могли в полной мере погрузиться в этот опыт.`,
       en: `John Conway’s Game of Life is a cellular automaton where simple rules make dots on a grid live, die, and form patterns that seem alive. A simple system turning chaos into order — a metaphor for creativity, where ideas, like pixels, emerge and interact. I’ve recreated this game in 3D, and I’m now working on a VR mode to let players step inside the evolving world, experiencing patterns as if they were alive around them.`
     }
+  },
+
+  formDataset: {
+    title: { ru: 'ЕСТЬ ИДЕЯ?', en: 'GET IN TOUCH' },
+    nameLabel: { ru: 'ИМЯ', en: 'ТNAME' },
+    mailLabel: { ru: 'E-MAIL', en: 'E-MAIL' },
+    messageLabel: { ru: 'СООБЩЕНИЕ', en: 'MESSAGE' },
+    submitButton: { ru: 'ОТПРАВИТЬ', en: 'send' }
   },
 
   footerDataset: [
@@ -231,19 +258,7 @@ const useStore = create((set, get) => ({
     }
   ],
 
-  sound: 'false'
-  // toggleSound: () => set({ sound: !get().sound }),
-  // soundDataset: {
-  //   'false': {
-  //     'ru': 'Включить звук',
-  //     'en': 'Unmute'
-  //   },
-  //   'true': {
-  //     'ru': 'Выключить звук',
-  //     'en': 'Mute'
-  //   },
-
-  // }
+  
 }))
 
 export { useStore }

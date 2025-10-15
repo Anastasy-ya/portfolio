@@ -9,6 +9,7 @@ import Volume from '../Volume/Volume'
 import { Stats } from '@react-three/drei'
 import Modal from '../Modal/Modal'
 import { useStore } from '../store/store'
+//TODO удалить about game
 
 function App() {
 
@@ -23,12 +24,13 @@ function App() {
   return (
     <div className='app'>
       <Scene />
-      {/* <Stats /> */}
+      <Stats />
       <main>
         <Bio />
         <Menu />
         <Volume />
-        <Sidebar />
+        <Sidebar 
+        />
         <Modal />
       </main>
       <Footer />

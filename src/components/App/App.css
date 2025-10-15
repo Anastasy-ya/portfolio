@@ -168,12 +168,12 @@ button:enabled {
   cursor: pointer;
   overflow: hidden;
 }
-
+/* 
 button:enabled:hover {
-  /*по наведению*/
+
   transform: scale(1.1);
   overflow: hidden;
-}
+} */
 
 button:disabled {
   /*не активна*/
@@ -222,7 +222,7 @@ canvas {
 
 @media (hover: none) and (pointer: coarse) {
   button:active {
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
     overflow: hidden;
   }
 
@@ -232,11 +232,11 @@ canvas {
   }
 }
 
-:any-link:hover {
+/* :any-link:hover {
   font-weight: 500;
   cursor: pointer;
   overflow: hidden;
-}
+} */
 
 :any-link {
   text-decoration: none;

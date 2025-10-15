@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import '../Menu/Menu.css'
 import { useStore } from '../store/store'
 
@@ -18,7 +18,7 @@ function Volume() {
       ></button>
     </nav>
 
-    /*TODO засунуть в общий для всего меню контейнер */
+    /*TODO засунуть в общий для всего меню контейнер? подумать */
   )
 }
 

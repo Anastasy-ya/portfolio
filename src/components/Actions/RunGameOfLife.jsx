@@ -26,7 +26,7 @@ export function RunGameOfLife(matrixOld) {
   const rows = matrixOld.length // TODO повторное объявление переменных
   const cols = matrixOld[0].length
 
-  const matrixNew = Array.from({ length: rows }, () => Array(cols).fill(0)) //непонятная магия
+  const matrixNew = Array.from({ length: rows }, () => Array(cols).fill(0))
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {

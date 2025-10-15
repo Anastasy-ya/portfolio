@@ -6,6 +6,11 @@
   top: 270px;
   left: 40px;
 }
+@media (max-width: 1000px) {
+  .quick-links {
+    top: 202px;
+  }
+}
 
 .quick-links__container {
   height: 40px;
