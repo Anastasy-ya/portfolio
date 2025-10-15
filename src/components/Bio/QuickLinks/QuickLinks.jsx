@@ -18,11 +18,11 @@ function QuickLinks() {
       url: 'https://wa.me/yourphonenumber',
       label: 'Contact via WhatsApp'
     },
-    {
-      name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/yourusername',
-      label: 'LinkedIn profile'
-    },
+    // {
+    //   name: 'LinkedIn',
+    //   url: 'https://www.linkedin.com/in/yourusername',
+    //   label: 'LinkedIn profile'
+    // },
     {
       name: 'Instagram',
       url: 'https://www.instagram.com/yourusername',

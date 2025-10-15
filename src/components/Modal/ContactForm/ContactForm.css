@@ -1,0 +1,115 @@
+.modal__form-container {
+  width: 100%;
+  width: 480px;
+  color: #222;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal__form-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__form-input {
+  font-family: var(--font-inter);
+  /* font-size: 17px;
+  font-weight: 700;
+  line-height: 17px; */
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  padding: 0.5rem 0;
+  width: 100%;
+  caret-color: #a2e800;
+}
+
+.modal__form-input::placeholder {
+  font-family: var(--font-inter);
+  /* font-size: 17px;
+  font-weight: 700;
+  line-height: 17px; */
+  color: var(--gray);
+}
+
+.modal__form-underline {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: var(--gray);
+  overflow: hidden;
+}
+
+.modal__form-underline::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0%;
+  height: 100%;
+  background-color: #a2e800;
+  transform: translateX(-50%);
+  transition: width 0.4s ease;
+}
+
+.modal__form-input:focus + .modal__form-underline::after {
+  width: 100%;
+}
+
+.modal__form-error {
+  font-family: var(--font-inter);
+  /* font-size: 17px;
+  font-weight: 700;
+  line-height: 17px; */
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #ff4444;
+}
+
+.modal__form-input_textarea {
+  font-family: var(--font-inter);
+  /* font-size: 17px;
+  font-weight: 700;
+  line-height: 17px; */
+  resize: none;
+  overflow: hidden;
+  min-height: 40px;
+}
+
+.modal__form-submit {
+  font-family: var(--font-inter);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 17px;
+  align-self: flex-start;
+  padding: 0.6rem 1.5rem;
+  /* border: 2px solid #a2e800; */
+  background: var(--light-green);
+  color: var(--gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal__form-submit:hover,
+.modal__form-submit:focus {
+  /* background-color: var(--light-green); */
+  /* color: #000; */
+}
+
+@media (max-width: 480px) {
+  .modal__form-container {
+    padding: 1rem;
+  }
+}

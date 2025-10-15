@@ -5,14 +5,13 @@
   right: 0;
   height: calc(100% - 270px);
   z-index: 12;
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition: transform 0.5s ease;
   pointer-events: none;
 }
 
 .modal {
   height: 100%;
   transform: scaleY(0);
-  opacity: 0;
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(100px) contrast(120%) saturate(130%);
   border-top-left-radius: 12px;
@@ -26,11 +25,9 @@
 @keyframes modal-bounce-in {
   0% {
     transform: scaleY(0);
-    opacity: 0;
   }
   70% {
     transform: scaleY(1.08);
-    opacity: 1;
   }
   90% {
     transform: scaleY(0.96);
@@ -43,19 +40,17 @@
 @keyframes modal-bounce-out {
   0% {
     transform: scaleY(1);
-    opacity: 1;
   }
   30% {
     transform: scaleY(1.08);
   }
   100% {
     transform: scaleY(0);
-    opacity: 0;
   }
 }
 
 /*close icon*/
-@keyframes bounce-button {
+/* @keyframes bounce-button {
   0% {
     transform: scale(0);
     opacity: 0;
@@ -70,7 +65,7 @@
   100% {
     transform: scale(1);
   }
-}
+} */
 
 .modal__animated-wrapper {
   position: absolute;
@@ -81,15 +76,14 @@
   box-sizing: border-box;
   transform-origin: bottom center;
   transform: scaleY(0);
-  opacity: 0;
-  pointer-events: none;
   transition: transform 0.5s ease, opacity 0.5s ease;
-  padding: 7% 15%;
+  display: flex;
+  justify-content: center;
+  padding-top: 5%;
 }
 
 .modal_active {
-  animation: modal-bounce-in .5s cubic-bezier(0.36, 0.7, 0.5, 1) forwards;
-  opacity: 1;
+  animation: modal-bounce-in 0.5s cubic-bezier(0.36, 0.7, 0.5, 1) forwards;
 }
 
 .modal:not(.modal_active),
@@ -100,7 +94,7 @@
 .modal__close-button {
   position: absolute;
   top: -10px;
-  left: 50%;
+  left: calc(50% - 7px);
   width: 25px;
   height: 25px;
   border: none;
@@ -113,19 +107,37 @@
   background-position: center;
   background-size: cover;
   pointer-events: auto;
-  animation: bounce-button 0.5s ease-out;
+  animation: all 0.5s ease-out;
   transform-origin: center;
+}
+
+@media (max-width: 1000px) {
+  .modal__close-button {
+    background-image: none;
+    position: absolute;
+    top: 10px;
+    left: calc(50% - 25px);
+    width: 50px;
+    height: 3px;
+    background-color: var(--light-gray);
+
+    border-radius: 1.5px;
+  }
+
+  .modal__close-button::after {
+    content: 'Tech Stack';
+  }
 }
 
 .modal__close-button::before {
   content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 40px;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .modal__close-button:hover {
@@ -133,40 +145,30 @@
 }
 
 .modal__title {
-  /* font-family: var(--font-antic); */
-font-family: var(--font-inter);
+  font-family: var(--font-inter);
   font-weight: 700;
   font-size: clamp(30px, 30px, 30px);
   line-height: clamp(45px, 32px, 32px);
   color: white;
-  /* letter-spacing: 2px; */
+
   margin-bottom: 30px;
-  /* text-transform: uppercase; */
-  /* text-shadow: 0 0 5px rgba(217, 224, 235, 1); */
 }
 
 .modal__text-content {
-font-family: var(--font-inter);
+  font-family: var(--font-inter);
   font-weight: 400;
   font-size: clamp(20px, 20px, 25px);
   line-height: clamp(27px, 27px, 27px);
-  /* text-shadow: 0 0 5px rgba(217, 224, 235, 1); */
-  /* max-width: 585px;
-  letter-spacing: 2.8px; */
   color: white;
   margin-bottom: 30px;
-  
 
-
-
-  max-height: 70vh;
+  /* max-height: 70vh;
   overflow-y: auto;
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pale-lavender); */
 }
 
-/* Для Webkit-браузеров (Chrome, Safari, Edge) */
-.modal__text-container::-webkit-scrollbar {
+/* .modal__text-container::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -175,6 +177,41 @@ font-family: var(--font-inter);
 }
 
 .modal__text-container::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--pale-lavender);
   border-radius: 3px;
+} */
+
+.modal__container {
+  max-width: 600px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* border: 2px solid var(--gray); */
+  border-radius: 12px;
+  padding: 40px;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--pale-lavender) transparent;
+}
+
+/* Webkit-браузеры */
+.modal__container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal__container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal__container::-webkit-scrollbar-thumb {
+  background-color: var(--pale-lavender);
+  border-radius: 3px;
+}
+
+.modal__container_clickable {
+  pointer-events: auto;
 }

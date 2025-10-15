@@ -7,6 +7,7 @@ function Footer() {
   //TODO проверить валидность верстки и доступность для люд со спец в
   return (
     <section className='footer'>
+      <div className='footer__content'>
       {footerDataset.map((block, blockIdx) => (
         <div className='footer__container' key={blockIdx}>
           {block.sections.map((section, secIdx) => (
@@ -59,6 +60,7 @@ function Footer() {
             </p>
           </li>
         </ul>
+      </div>
       </div>
     </section>
   )
