@@ -1,28 +1,47 @@
-.modal-root {
+.modal-wrapper-root {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: calc(100% - 270px);
+  height: 100%;
   z-index: 12;
-  transition: transform 0.5s ease;
   pointer-events: none;
 }
 
-.modal {
-  height: 100%;
-  transform: scaleY(0);
+.modal-wrapper_type_footer {
+  background-color: var(--pale-lavender);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-wrapper_type_mobile-menu,
+.modal-wrapper_type_about-me,
+.modal-wrapper_type_mail,
+.modal-wrapper_type_default {
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(100px) contrast(120%) saturate(130%);
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-@keyframes modal-bounce-in {
+.modal-wrapper {
+  height: 100%;
+  /* transform: scaleY(0); */
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modal-wrapper-root_type_active {
+  z-index: 1005;
+}
+
+.modal-wrapper-root:not(.modal-wrapper-root_type_active) {
+  z-index: 12;
+}
+
+@keyframes modal-wrapper-bounce-in {
   0% {
     transform: scaleY(0);
   }
@@ -37,7 +56,7 @@
   }
 }
 
-@keyframes modal-bounce-out {
+@keyframes modal-wrapper-bounce-out {
   0% {
     transform: scaleY(1);
   }
@@ -49,7 +68,7 @@
   }
 }
 
-.modal__animated-wrapper {
+.modal-wrapper__animated-wrapper {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -57,23 +76,24 @@
   height: 100%;
   box-sizing: border-box;
   transform-origin: bottom center;
-  transform: scaleY(0);
+  /* transform: scaleY(0); */
   transition: transform 0.5s ease, opacity 0.5s ease;
   display: flex;
   justify-content: center;
-  padding-top: 5%;
+  padding-top: 50px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.modal_active {
-  animation: modal-bounce-in 0.5s cubic-bezier(0.36, 0.7, 0.5, 1) forwards;
+.modal-wrapper__animated-wrapper.modal-wrapper_active {
+  animation: modal-wrapper-bounce-in 0.5s ease forwards;
 }
 
-.modal:not(.modal_active),
-.modal__animated-wrapper:not(.modal_active) {
-  animation: modal-bounce-out 0.5s ease forwards;
+.modal-wrapper__animated-wrapper:not(.modal-wrapper_active) {
+  animation: modal-wrapper-bounce-out 0.5s ease forwards;
 }
 
-.modal__close-button {
+.modal-wrapper__close-button {
   position: absolute;
   top: -10px;
   left: calc(50% - 7px);
@@ -93,25 +113,24 @@
   transform-origin: center;
 }
 
-@media (max-width: 1000px) {
-  .modal__close-button {
+@media (min-width: 501px) and (max-width: 1000px) {
+  .modal-wrapper__close-button {
     background-image: none;
-    position: absolute;
     top: 10px;
     left: calc(50% - 25px);
     width: 50px;
     height: 3px;
     background-color: var(--light-gray);
-
     border-radius: 1.5px;
   }
 
-  .modal__close-button::after {
+  /*не удалять*/
+  /* .modal-wrapper__close-button::after {
     content: 'Tech Stack';
-  }
+  } */
 }
 
-.modal__close-button::before {
+.modal-wrapper__close-button::before {
   content: '';
   position: fixed;
   top: 0;
@@ -122,78 +141,56 @@
   cursor: pointer;
 }
 
-.modal__close-button:hover {
+.modal-wrapper__close-button:hover {
   background-color: #f0f0f0;
 }
 
-.modal__title {
+.modal-wrapper__container {
+  max-width: 600px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-radius: 12px;
+  padding: 40px;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pale-lavender) transparent;
+}
+
+.modal-wrapper__container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-wrapper__container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-wrapper__container::-webkit-scrollbar-thumb {
+  background-color: var(--pale-lavender);
+  border-radius: 3px;
+}
+
+.modal-wrapper__container_clickable {
+  pointer-events: auto;
+}
+
+/* .modal-wrapper__title {
   font-family: var(--font-inter);
   font-weight: 700;
   font-size: clamp(30px, 30px, 30px);
   line-height: clamp(45px, 32px, 32px);
   color: white;
-
   margin-bottom: 30px;
 }
 
-.modal__text-content {
+.modal-wrapper__text-content {
   font-family: var(--font-inter);
   font-weight: 400;
   font-size: clamp(20px, 20px, 25px);
   line-height: clamp(27px, 27px, 27px);
   color: white;
   margin-bottom: 30px;
-
-  /* max-height: 70vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--pale-lavender); */
-}
-
-/* .modal__text-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal__text-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modal__text-container::-webkit-scrollbar-thumb {
-  background-color: var(--pale-lavender);
-  border-radius: 3px;
 } */
-
-.modal__container {
-  max-width: 600px;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  /* border: 2px solid var(--gray); */
-  border-radius: 12px;
-  padding: 40px;
-  max-height: 50vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: var(--pale-lavender) transparent;
-}
-
-/* Webkit-браузеры */
-.modal__container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal__container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modal__container::-webkit-scrollbar-thumb {
-  background-color: var(--pale-lavender);
-  border-radius: 3px;
-}
-
-.modal__container_clickable {
-  pointer-events: auto;
-}

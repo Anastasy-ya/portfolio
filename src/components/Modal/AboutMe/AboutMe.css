@@ -1,0 +1,53 @@
+.about-me__text-content {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: clamp(20px, 20px, 25px);
+  line-height: clamp(27px, 27px, 27px);
+  color: white;
+  margin-bottom: 30px;
+  /* max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pale-lavender); */
+}
+
+.about-me__title {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: clamp(30px, 30px, 30px);
+  line-height: clamp(45px, 32px, 32px);
+  color: white;
+  margin-bottom: 30px;
+}
+
+.about-me {
+  max-width: 500px;
+  margin: 0 auto;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 40px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--pale-lavender) transparent;
+}
+
+/* Webkit-браузеры */
+.about-me::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-me::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.about-me::-webkit-scrollbar-thumb {
+  background-color: var(--pale-lavender);
+  border-radius: 3px;
+}
+
+.about-me_clickable {
+  pointer-events: auto;
+}

@@ -195,10 +195,6 @@ import { useRef, useState, useEffect, useLayoutEffect, useMemo } from 'react'
 import { useThree } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { useStore } from '../../store/store'
-import { useResize } from '../../Actions/hooks/useResize'
-
-// import gsap from 'gsap';
-// import Draggable from 'gsap/Draggable';
 
 function Cubes({
   radius,

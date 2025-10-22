@@ -9,13 +9,27 @@
   pointer-events: none;
 }
 
-.bio__about {
-  padding-bottom: 20px;
+@media (min-width: 351px) and (max-width: 500px) {
+  .bio {
+    top: 20px;
+    left: 20px;
+  }
 }
 
-@media (max-width: 1000px) {
+.bio__about {
+  padding-bottom: 30px;
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
   .bio__about {
     max-width: 400px;
+    padding-bottom: 15px;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 500px) {
+  .bio__about {
+    padding-bottom: 20px;
   }
 }
 
@@ -29,27 +43,57 @@
   text-shadow: 0 0 5px rgba(217, 224, 235, 1);
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 501px) and (max-width: 1000px) {
   .bio h1 {
     font-size: 56px;
     line-height: 37px;
-    margin-bottom: 20px;
+    margin-bottom: 17px;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 500px) {
+  .bio h1 {
+    font-size: 56px;
+    line-height: 37px;
+    margin-bottom: 16px;
   }
 }
 
 .bio p {
   font-family: var(--font-inter);
   font-weight: 800;
-  font-size: clamp(14px, 24px, 24px);
+  font-size: clamp(14px, 24px, 24px); /*TODO*/
   line-height: clamp(18px, 28px, 28px);
   text-shadow: 0 0 5px rgba(217, 224, 235, 1);
   max-width: 585px;
   letter-spacing: 1px;
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 601px) and (max-width: 1000px) {
   .bio p {
     font-size: 16px;
     line-height: 24px;
   }
+}
+
+@media (min-width: 351px) and (max-width: 600px) {
+  .bio p {
+    font-size: 1rem;
+    line-height: 20px;
+  }
+}
+
+@media (max-width: 350px) {
+  .bio p {
+    font-size: 0.9rem;
+    line-height: 18px;
+  }
+}
+
+.quick-links {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
 }

@@ -1,13 +1,35 @@
 .menu {
   position: absolute;
   top: 40px;
-  right: 140px;
+  right: 80px;
   z-index: 11;
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .menu {
+    right: 40px;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 500px) {
+  .menu {
+    top: 20px;
+    right: 20px;
+  }
 }
 
 .menu__box {
   display: flex;
+  flex-direction: row;
   gap: 30px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .menu__box {
+    gap: 20px;
+  }
 }
 
 .menu__button {
@@ -19,6 +41,12 @@
   text-transform: uppercase;
   background: transparent;
   width: fit-content;
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .menu__button {
+    font-size: 14px;
+  }
 }
 
 .menu__icon-button {
@@ -54,15 +82,12 @@
 
 .menu__icon-button_type_sound {
   background-image: url('/svg/sound-off.svg');
+  background-color: transparent;
 }
 
-.menu__item_type_volume {
+/* .menu__item_type_sound {
   position: absolute;
   top: 40px;
   right: 80px;
   z-index: 11;
-}
-
-.menu__icon-button_type_sound {
-  background-color: transparent;
-}
+} */
