@@ -5,8 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 11;
-  /* transition: right 0.5s ease; */
+  z-index: 1010;/*не уменьшать, перекрывает значения gsap анимированного элемента*/
 }
 
 .sidebar--vertical {
@@ -64,10 +63,9 @@
   }
 }
 
-/* === Слайдер === */
 .sidebar__slider {
   border: var(--gray) solid 2px;
-  padding: 7px; /* сохранили паддинг */
+  padding: 7px;
   border-radius: 20px;
 }
 

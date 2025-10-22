@@ -24,11 +24,18 @@ const useStore = create((set, get) => ({
   gameSpeed: 500,
   setGameSpeed: newSpeed => set({ gameSpeed: newSpeed }),
   isLiving: true,
-  toggleLiving: () => set((state) => ({ isLiving: !state.isLiving })),
+  toggleLiving: () => set(state => ({ isLiving: !state.isLiving })),
+
+  //window width
+  windowWidth: window.innerWidth,
+  setWindowWidth: windowWidth => set({ windowWidth }),
 
   //modale
-  activePopup: null, // null, 'about', 'mail'
-  setActivePopup: newActivePopup => set({ activePopup: newActivePopup }),
+  isOpenModal: false,
+  setIsOpenModal: () => set(state =>({ isOpenModal: !state.isOpenModal })),
+
+  modalType: null, // null, 'about', 'mail'
+  setModalType: newModalType => set({ modalType: newModalType }),
 
   //lang
   locale: 'ru',
@@ -53,21 +60,41 @@ const useStore = create((set, get) => ({
   // }
 
   //datasets
-
+  mobileMenuDataset: [
+  // {
+  //   href: '#blog',
+  //   en: 'BLOG',
+  //   ru: 'БЛОГ'
+  // },
+  // {
+  //   href: '#portfolio',
+  //   en: 'PORTFOLIO',
+  //   ru: 'ПОРТФОЛИО'
+  // },
+  {
+    name: 'about-me',
+    en: 'ABOUT ME',
+    ru: 'ОБО МНЕ'
+  },
+  {
+    name: 'mail',
+    en: 'SEND A MESSAGE',
+    ru: 'НАПИСАТЬ СООБЩЕНИЕ'
+  },
+],
   menuDataset: [
-    {
-      type: 'text-button',
-      action: () => console.log('Blog clicked'),
-      text: {
-        ru: 'Блог',
-        en: 'Blog'
-      }
-    },
+    // {
+    //   type: 'text-button',
+    //   action: () => console.log('Blog clicked'),
+    //   text: {
+    //     ru: 'Блог',
+    //     en: 'Blog'
+    //   }
+    // },
     {
       type: 'icon-button',
       name: 'about-me',
       icon: '/svg/about-me.svg',
-      action: () => get().setActivePopup('about'),
       label: {
         ru: 'Обо мне',
         en: 'About me'
@@ -77,7 +104,6 @@ const useStore = create((set, get) => ({
       type: 'icon-button',
       name: 'mail',
       icon: '/svg/mail.svg',
-      action: () => get().setActivePopup('mail'),
       label: {
         ru: 'Написать сообщение',
         en: 'Send message'
@@ -139,7 +165,7 @@ const useStore = create((set, get) => ({
       en: 'LAZAREVA ANASTASIA'
     },
     role: {
-      ru: 'КРЕАТИВНЫЙ\u00A0ФРОНТЕНД\u2011РАЗРАБОТЧИК, ТЕХНИЧЕСКИЙ ДИЗАЙНЕР',
+      ru: 'КРЕАТИВНЫЙ ФРОНТЕНД\u2011РАЗРАБОТЧИК, ТЕХНИЧЕСКИЙ ДИЗАЙНЕР',
       en: `CREATIVE FRONTEND\u00A0DEVELOPER &\u00A0TECHNICAL DESIGNER`
     }
   },
@@ -256,9 +282,7 @@ const useStore = create((set, get) => ({
         }
       ]
     }
-  ],
-
-  
+  ]
 }))
 
 export { useStore }

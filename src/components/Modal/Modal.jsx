@@ -1,7 +1,6 @@
 import './Modal.css'
 import { useStore } from '../store/store'
 import { useState, useEffect, useRef } from 'react'
-import { useResize } from '../Actions/hooks/useResize'
 import ContactForm from './ContactForm/ContactForm'
 import AboutMe from './AboutMe/AboutMe'
 import { Draggable } from 'gsap/Draggable'
@@ -11,10 +10,11 @@ import gsap from 'gsap'
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function Modal() {
-  const windowSize = useResize()
 
-  const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
-  const locale = useStore(s => s.locale)
+
+  // const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
+  // const locale = useStore(s => s.locale)
+  const windowWidth = useStore(s => s.windowWidth)
   const activePopup = useStore(s => s.activePopup)
   const setActivePopup = useStore(s => s.setActivePopup)
 
@@ -24,22 +24,16 @@ function Modal() {
   const wrapperRef = useRef(null)
   const draggableRef = useRef(null)
 
-  //значения для подвала
-  // useEffect(() => {
-  //   (windowSize > 1001 ) ? setModalPositions({ open: 254, closed: 0}) :
-  //   (windowSize <= 1000 && windowSize > 500) ? setModalPositions({ open: 197, closed: window.innerHeight - window.innerHeight * 0.066}) :
-  //   setModalPositions({ open: 104, closed: window.innerHeight - window.innerHeight * 0.084})
-  // }, [windowSize])
 
   useEffect(() => {
     if (activePopup) {
-      windowSize > 1001
+      windowWidth > 1001
         ? setModalPositions({ open: 254, closed: window.innerHeight })
-        : windowSize <= 1000 && windowSize > 500
+        : windowWidth <= 1000 && windowWidth > 500
         ? setModalPositions({ open: 197, closed: window.innerHeight })
         : setModalPositions({ open: 104, closed: window.innerHeight })
     }
-  }, [windowSize, activePopup])
+  }, [windowWidth, activePopup])
 
   //   useEffect(() => {
   //   const handleClick = (e) => {

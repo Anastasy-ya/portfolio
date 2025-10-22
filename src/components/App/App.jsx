@@ -5,21 +5,27 @@ import Bio from '../Bio/Bio'
 import Footer from '../Footer/Footer'
 import Sidebar from '../Sidebar/Sidebar'
 import Menu from '../Menu/Menu'
-import Volume from '../Volume/Volume'
 import { Stats } from '@react-three/drei'
-import Modal from '../Modal/Modal'
 import { useStore } from '../store/store'
-//TODO удалить about game
+import { useResize } from '../Actions/hooks/useResize'
+import ContactForm from '../Modal/ContactForm/ContactForm' //TODO вытащить вложенные компоненты
+import AboutMe from '../Modal/AboutMe/AboutMe'
+//TODO удалить about game и Modal если не понадобятся
 
 function App() {
-
   const initLocale = useStore(s => s.initLocale)
-  
+  const setWindowWidth = useStore(s => s.setWindowWidth)
+  // const windowWidth = useStore(s => s.windowWidth)
+  const modalType = useStore(s => s.modalType)
+  const width = useResize()
+
+  useEffect(() => {
+    setWindowWidth(width)
+  }, [width, setWindowWidth])
 
   useEffect(() => {
     initLocale()
   }, [])
-
 
   return (
     <div className='app'>
@@ -28,10 +34,9 @@ function App() {
       <main>
         <Bio />
         <Menu />
-        <Volume />
-        <Sidebar 
-        />
-        <Modal />
+        <Sidebar />
+        {modalType === 'mail' && <ContactForm />}
+        {modalType === 'about-me' && <AboutMe />}
       </main>
       <Footer />
     </div>

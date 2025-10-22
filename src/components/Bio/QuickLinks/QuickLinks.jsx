@@ -18,16 +18,16 @@ function QuickLinks() {
       url: 'https://wa.me/yourphonenumber',
       label: 'Contact via WhatsApp'
     },
-    // {
-    //   name: 'LinkedIn',
-    //   url: 'https://www.linkedin.com/in/yourusername',
-    //   label: 'LinkedIn profile'
-    // },
     {
-      name: 'Instagram',
-      url: 'https://www.instagram.com/yourusername',
-      label: 'Instagram profile'
+      name: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/yourusername',
+      label: 'LinkedIn profile'
     },
+    // {
+    //   name: 'Instagram',
+    //   url: 'https://www.instagram.com/yourusername',
+    //   label: 'Instagram profile'
+    // },
 
     {
       name: 'ArtStation',
@@ -38,7 +38,7 @@ function QuickLinks() {
 
   return (
     <>
-      <div className='quick-links'>
+      <div className='quick-links__root'>
         <div className='quick-links__container'>
           {/*переименовать классы по бэм TODO */}
           {socialLinks.map((link, index) => (

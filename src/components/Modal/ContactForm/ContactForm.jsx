@@ -1,12 +1,29 @@
 import './ContactForm.css'
 import React, { useState, useRef, useEffect } from 'react'
 import { useStore } from '../../store/store' // TODO привести в порядок импорты
+import ModalWrapper from '../../ModalWrapper/ModalWrapper'
 
 const ContactForm = () => {
-  const { formDataset, locale } = useStore()
+  const formDataset = useStore(s => s.formDataset)
+  const locale = useStore(s => s.locale)
+  const isOpenModal = useStore(s => s.isOpenModal)
+  const modalType = useStore(s => s.modalType)
+  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const setModalType = useStore(s => s.setModalType)
+  const windowWidth = useStore(s => s.windowWidth)
+
+  const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState({ name: '', email: '' })
   const textareaRef = useRef(null)
+
+  useEffect(() => {
+    windowWidth > 1001
+        ? setModalPositions({ open: 254, closed: window.innerHeight })
+        : windowWidth <= 1000 && windowWidth > 500
+        ? setModalPositions({ open: 197, closed: window.innerHeight })
+        : setModalPositions({ open: 104, closed: window.innerHeight })
+  }, [windowWidth])
 
   // Авто-рост textarea при вводе
   useEffect(() => {
@@ -36,11 +53,17 @@ const ContactForm = () => {
     e.preventDefault()
     if (validate()) {
       console.log('Submit form data:', formData)
-      // Здесь можно добавить обработку отправки
     }
   }
 
-  return (
+    function toggleFormModal() {
+    setIsOpenModal()
+    setTimeout(() => {
+      modalType === 'form' ? setModalType(null) : setModalType('form')
+    },500)
+  }
+
+  const content = (
     <div className="modal__form-container">
       <h2 className="modal__form-title">{formDataset.title[locale]}</h2>
       <form className="modal__form" onSubmit={handleSubmit}>
@@ -93,6 +116,19 @@ const ContactForm = () => {
         </button>
       </form>
     </div>
+  )
+
+  return (
+    <>
+      <ModalWrapper
+        type={modalType}
+        modalPositions={modalPositions}
+        isOpen={isOpenModal}
+        handleClose={toggleFormModal}
+      >
+        {content}
+      </ModalWrapper>
+    </>
   )
 }
 

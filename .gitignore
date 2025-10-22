@@ -16,6 +16,8 @@ delme
 *.zip
 *.rar
 
+.ENV
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

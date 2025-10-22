@@ -1,16 +1,17 @@
-.quick-links {
+.quick-links__root {
   display: flex;
   gap: 20px;
-  z-index: 12;
-  position: absolute;
-  top: 270px;
-  left: 40px;
+  z-index: 10;
 }
-@media (max-width: 1000px) {
-  .quick-links {
-    top: 202px;
+/* @media (min-width: 501px) and (max-width: 1000px) {
+  .quick-links__root {
   }
 }
+
+@media (min-width: 351px) and (max-width: 500px) {
+  .quick-links__root {
+  }
+} */
 
 .quick-links__container {
   height: 40px;
@@ -22,6 +23,18 @@
   align-items: center;
   padding: 7px;
   box-sizing: border-box;
+}
+
+@media (min-width: 601px) and (max-width: 1000px) {
+  .quick-links__container {
+    height: 35px;
+  }
+}
+
+@media (max-width: 600px) {
+  .quick-links__container {
+    gap: 30px;
+  }
 }
 
 .quick-links__about-button {
