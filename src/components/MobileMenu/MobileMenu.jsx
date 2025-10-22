@@ -7,7 +7,7 @@ function MobileMenu() {
   const windowWidth = useStore(s => s.windowWidth)
   const isWide = windowWidth > 1000
   const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
-  const mobileMenuDataset = useStore(s => s.mobileMenuDataset)
+  const menuDataset = useStore(s => s.menuDataset)
   const locale = useStore(s => s.locale)
   const isOpenModal = useStore(s => s.isOpenModal)
   const setIsOpenModal = useStore(s => s.setIsOpenModal)
@@ -41,7 +41,7 @@ function MobileMenu() {
   const content = (
     <div className='mobile-menu'>
       <ul className='mobile-menu__list'>
-        {mobileMenuDataset.map((item, index) => (
+        {menuDataset.map((item, index) => (
           <li key={index}>
             <button
               className='menu__button menu__button_type_light'

@@ -60,28 +60,7 @@ const useStore = create((set, get) => ({
   // }
 
   //datasets
-  mobileMenuDataset: [
-  // {
-  //   href: '#blog',
-  //   en: 'BLOG',
-  //   ru: 'БЛОГ'
-  // },
-  // {
-  //   href: '#portfolio',
-  //   en: 'PORTFOLIO',
-  //   ru: 'ПОРТФОЛИО'
-  // },
-  {
-    name: 'about-me',
-    en: 'ABOUT ME',
-    ru: 'ОБО МНЕ'
-  },
-  {
-    name: 'mail',
-    en: 'SEND A MESSAGE',
-    ru: 'НАПИСАТЬ СООБЩЕНИЕ'
-  },
-],
+
   menuDataset: [
     // {
     //   type: 'text-button',
@@ -100,15 +79,15 @@ const useStore = create((set, get) => ({
         en: 'About me'
       }
     },
-    {
-      type: 'icon-button',
-      name: 'mail',
-      icon: '/svg/mail.svg',
-      label: {
-        ru: 'Написать сообщение',
-        en: 'Send message'
-      }
-    }
+    // {
+    //   type: 'icon-button',
+    //   name: 'mail',
+    //   icon: '/svg/mail.svg',
+    //   label: {
+    //     ru: 'Написать сообщение',
+    //     en: 'Send message'
+    //   }
+    // }
   ],
   sidebarDataset: {
     play: {
