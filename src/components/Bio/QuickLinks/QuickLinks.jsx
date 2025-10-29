@@ -5,22 +5,22 @@ function QuickLinks() {
   const socialLinks = [
     {
       name: 'Email',
-      url: 'mailto:your.email@domain.com',
+      url: 'mailto:hiperiosity@gmail.com',
       label: 'Send email'
     },
     {
       name: 'GitHub',
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/Anastasy-ya',
       label: 'GitHub profile'
     },
     {
       name: 'WhatsApp',
-      url: 'https://wa.me/yourphonenumber',
+      url: 'https://wa.me/+79105465796',
       label: 'Contact via WhatsApp'
     },
     {
       name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/yourusername',
+      url: 'https://www.linkedin.com/in/anastasy-ya',
       label: 'LinkedIn profile'
     },
     // {
@@ -31,7 +31,7 @@ function QuickLinks() {
 
     {
       name: 'ArtStation',
-      url: 'https://www.artstation.com/yourusername',
+      url: 'https://www.artstation.com/anastasy_ya',
       label: 'ArtStation portfolio'
     }
   ]

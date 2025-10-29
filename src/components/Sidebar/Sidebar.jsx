@@ -30,10 +30,6 @@ function Sidebar() {
     setActiveIndex(index)
   }
 
-  // function handlePlayClick() {
-  //   toggleLiving()
-  // }
-
   return (
     <section
       className={`sidebar sidebar--${position}`}
@@ -47,13 +43,14 @@ function Sidebar() {
       <button
         className='sidebar__addition-button'
         style={{
-          backgroundImage: `url('${
-            !isLiving ? sidebarDataset.play.icon1 : sidebarDataset.play.icon2
-          }')`
+          backgroundImage: `url('${!isLiving ? sidebarDataset.play.icon1 : sidebarDataset.play.icon2
+            }')`
         }}
         onClick={toggleLiving}
         aria-label={sidebarDataset.play.label[locale]}
         title={sidebarDataset.play.label[locale]}
+        disabled={matrixName === 'matrix_2'}
+
       />
 
       {/* Slider */}
@@ -64,9 +61,8 @@ function Sidebar() {
           {sidebarDataset.slider.buttons.map((_, index) => (
             <button
               key={index}
-              className={`sidebar__slider-button ${
-                index === activeIndex ? 'active' : ''
-              }`}
+              className={`sidebar__slider-button ${index === activeIndex ? 'active' : ''
+                }`}
               onClick={() => handleButtonClick(index)}
             />
           ))}
@@ -77,11 +73,10 @@ function Sidebar() {
       <button
         className='sidebar__addition-button'
         style={{
-          backgroundImage: `url('${
-            gameSpeed === 500
+          backgroundImage: `url('${gameSpeed === 500
               ? sidebarDataset.speed.icon1
               : sidebarDataset.speed.icon2
-          }')`
+            }')`
         }}
         onClick={sidebarDataset.speed.action}
         aria-label={sidebarDataset.speed.label[locale]}

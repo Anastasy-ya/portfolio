@@ -1,60 +1,56 @@
-/* * {
-    border: 0.5px solid red;
-  } */
-
 @font-face {
   font-display: swap;
-  font-family: 'Cormorant Upright';
+  font-family: "Cormorant Upright";
   font-style: normal;
   font-weight: 700;
-  src: url('../fonts/cormorant-upright-v19-latin-700.woff2') format('woff2'),
-    url('../fonts/cormorant-upright-v19-latin-700.woff') format('woff'),
-    url('../fonts/cormorant-upright-v19-latin-700.ttf') format('truetype');
+  src: url("../fonts/cormorant-upright-v19-latin-700.woff2") format("woff2"),
+    url("../fonts/cormorant-upright-v19-latin-700.woff") format("woff"),
+    url("../fonts/cormorant-upright-v19-latin-700.ttf") format("truetype");
 }
 
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/inter-v20-latin-regular.woff2') format('woff2'),
-    url('/fonts/inter-v20-latin-regular.woff') format('woff'),
-    url('/fonts/inter-v20-latin-regular.ttf') format('truetype');
+  src: url("/fonts/inter-v20-latin-regular.woff2") format("woff2"),
+    url("/fonts/inter-v20-latin-regular.woff") format("woff"),
+    url("/fonts/inter-v20-latin-regular.ttf") format("truetype");
 }
 
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
-  src: url('/fonts/inter-v20-latin-700.woff2') format('woff2'),
-    url('/fonts/inter-v20-latin-700.woff') format('woff'),
-    url('/fonts/inter-v20-latin-700.ttf') format('truetype');
+  src: url("/fonts/inter-v20-latin-700.woff2") format("woff2"),
+    url("/fonts/inter-v20-latin-700.woff") format("woff"),
+    url("/fonts/inter-v20-latin-700.ttf") format("truetype");
 }
 
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 800;
-  src: url('/fonts/inter-v20-latin-800.woff2') format('woff2'),
-    url('/fonts/inter-v20-latin-800.woff') format('woff'),
-    url('/fonts/inter-v20-latin-800.ttf') format('truetype');
+  src: url("/fonts/inter-v20-latin-800.woff2") format("woff2"),
+    url("/fonts/inter-v20-latin-800.woff") format("woff"),
+    url("/fonts/inter-v20-latin-800.ttf") format("truetype");
 }
 
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 900;
-  src: url('/fonts/inter-v20-latin-900.woff2') format('woff2'),
-    url('/fonts/inter-v20-latin-900.woff') format('woff'),
-    url('/fonts/inter-v20-latin-900.ttf') format('truetype');
+  src: url("/fonts/inter-v20-latin-900.woff2") format("woff2"),
+    url("/fonts/inter-v20-latin-900.woff") format("woff"),
+    url("/fonts/inter-v20-latin-900.ttf") format("truetype");
 }
 
 :root {
-  --font-inter: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-antic: 'Cormorant Upright', 'Times New Roman', Times, Georgia, serif;
+  --font-inter: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-antic: "Cormorant Upright", "Times New Roman", Times, Georgia, serif;
   --gray: #696969; /* var(--gray); */
   --light-gray: #d9e0eb;
   --light-green: #c3ff00; /* var(--light-green); */
@@ -70,7 +66,6 @@ body {
   width: 100%;
   height: 100%;
   font-family: var(--font-inter);
-  /* font-family: var(--font-antic); */
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -109,28 +104,13 @@ select {
   font-style: normal;
   font: inherit;
   color: var(--gray);
-  overflow: hidden;
+  outline: none;
 }
 
-ul[class] {
+ul,
+li {
   list-style: none;
   margin: 0;
-  /* padding: 0; */
-}
-
-/* Упрощаем работу с изображениями */
-img {
-  display: block;
-  overflow: hidden;
-}
-
-/* Выбрать все дочерние элементы*/
-article > * + * {
-}
-
-/*Книжные параграфы с выключкой по ширине. Отступ добавлен только тем параграфам, которые следуют за другими*/
-p {
-  /* text-align: justify; */
 }
 
 p + p {
@@ -138,7 +118,6 @@ p + p {
   text-indent: 2em;
 }
 
-/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -157,32 +136,6 @@ input:invalid {
   color: red;
 }
 
-button {
-  border: none;
-  overflow: hidden;
-}
-
-/*стилизация кнопок при наведении*/
-button:enabled {
-  /*до модификации*/
-  transition: all 0.3s ease;
-  cursor: pointer;
-  overflow: hidden;
-}
-/* 
-button:enabled:hover {
-
-  transform: scale(1.1);
-  overflow: hidden;
-} */
-
-button:disabled {
-  /*не активна*/
-  background-color: gray;
-  color: white;
-  overflow: hidden;
-}
-
 canvas {
   overflow: hidden;
 }
@@ -192,7 +145,7 @@ canvas {
 }
 
 .canvas-wrapper::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -208,37 +161,60 @@ canvas {
   pointer-events: none;
 }
 
-/* .content-wrapper {
-  position: absolute;
-  inset: 0;
-  z-index: 12;
-  
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  pointer-events: none;
-} */
+:any-link {
+  text-decoration: none;
+}
 
-@media (hover: none) and (pointer: coarse) {
-  button:active {
-    /* transform: scale(1.1); */
-    overflow: hidden;
+button {
+  border: none;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover,
+  button:hover:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
+    transform: translateY(-3px);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   }
 
-  button {
-    transition: transform 0.3s ease-in-out;
-    overflow: hidden;
+  button.sidebar__slider-button:hover,
+  button.modal-wrapper__close-button:hover {
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  a:focus-visible,
+  .modal-wrapper__container_clickable:focus-visible,
+  button:focus-visible:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
+    outline: 5px solid var(--pale-lavender);
+    outline-offset: 3px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+  }
+
+  button.sidebar__slider-button:focus-visible,
+  button.modal-wrapper__close-button:focus-visible {
+    outline: 5px solid var(--pale-lavender);
+    outline-offset: 3px;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
   }
 }
 
-/* :any-link:hover {
-  font-weight: 500;
-  cursor: pointer;
-  overflow: hidden;
-} */
+@media (hover: none) and (pointer: coarse) {
+  a:active,
+  button:active:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  }
 
-:any-link {
-  text-decoration: none;
+  button.sidebar__slider-button:active,
+  button.modal-wrapper__close-button:active {
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+  }
+}
+
+button:disabled,
+li[aria-disabled="true"],
+a[aria-disabled="true"] {
+  opacity: 0.7;
+  filter: grayscale(0.7) brightness(0.8);
 }

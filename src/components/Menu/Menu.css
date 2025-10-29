@@ -37,10 +37,14 @@
   font-family: var(--font-inter);
   font-size: 20px;
   font-weight: 700;
-  text-decoration: underline;
+
   text-transform: uppercase;
   background: transparent;
-  width: fit-content;
+  overflow: visible;
+}
+
+.menu__button:hover {
+  text-decoration: underline;
 }
 
 @media (min-width: 501px) and (max-width: 1000px) {
@@ -50,6 +54,7 @@
 }
 
 .menu__icon-button {
+  position: relative;
   width: 25px;
   height: 25px;
 
@@ -59,35 +64,34 @@
 
   display: inline-block;
   background-color: var(--gray);
+  transform-origin: center;
+  transition: all 0.3s ease-in-out;
 }
 
-/* .menu__icon-button::before {
-  content: '';
-  position: absolute;
-  top: -5mm;
-  left: -5mm;
-  right: -5mm;
-  bottom: -5mm;
-  cursor: pointer;
+.menu__icon-button:hover {
+  transform: scale(1.1);
+}
 
-} */
+.menu__icon-button::before {
+  content: "";
+  position: absolute;
+  top: -3mm;
+  left: -3mm;
+  right: -3mm;
+  bottom: -3mm;
+  cursor: pointer;
+  pointer-events: all;
+}
 
 .menu__icon-button_type_about-me {
-  background-image: url('/svg/about-me.svg');
+  background-image: url("/svg/about-me.svg");
 }
 
 .menu__icon-button_type_mail {
-  background-image: url('/svg/mail.svg');
+  background-image: url("/svg/mail.svg");
 }
 
 .menu__icon-button_type_sound {
-  background-image: url('/svg/sound-off.svg');
+  background-image: url("/svg/sound-off.svg");
   background-color: transparent;
 }
-
-/* .menu__item_type_sound {
-  position: absolute;
-  top: 40px;
-  right: 80px;
-  z-index: 11;
-} */

@@ -2,16 +2,8 @@
   display: flex;
   gap: 20px;
   z-index: 10;
+  pointer-events: all;
 }
-/* @media (min-width: 501px) and (max-width: 1000px) {
-  .quick-links__root {
-  }
-}
-
-@media (min-width: 351px) and (max-width: 500px) {
-  .quick-links__root {
-  }
-} */
 
 .quick-links__container {
   height: 40px;
@@ -37,6 +29,12 @@
   }
 }
 
+@media (max-width: 350px) {
+  .quick-links__container {
+    gap: 20px;
+  }
+}
+
 .quick-links__about-button {
   width: 40px;
   height: 40px;
@@ -48,55 +46,46 @@
 }
 
 .social-link {
-  display: block;
-  width: 25px;
-  height: 25px;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   text-decoration: none;
   transition: transform 0.3s ease, opacity 0.3s ease;
   background-size: 95%;
   background-position: center;
   background-repeat: no-repeat;
+  background-clip: content-box;
   transform: scale(1);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .social-link:hover {
-    transform: scale(1.8);
-  }
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .social-link:active {
-    transform: scale(1.8);
-  }
-
-  .social-link {
-    transition: transform 0.3s ease-in-out;
-  }
+  transition: all 0.3s ease-in-out;
+  transform-origin: center;
+  padding: 1px;
 }
 
 .social-link--artstation {
-  background-image: url('/svg/social-networks/artstation.svg');
+  background-image: url("/svg/social-networks/artstation.svg");
 }
 
 .social-link--github {
-  background-image: url('/svg/social-networks/github.svg');
+  background-image: url("/svg/social-networks/github.svg");
 }
 
 .social-link--instagram {
-  background-image: url('/svg/social-networks/instagram.svg');
+  background-image: url("/svg/social-networks/instagram.svg");
 }
 
 .social-link--linkedin {
-  background-image: url('/svg/social-networks/linkedin.svg');
+  background-image: url("/svg/social-networks/linkedin.svg");
 }
 
 .social-link--email {
-  background-image: url('/svg/social-networks/mail.svg');
+  background-image: url("/svg/social-networks/mail.svg");
 }
 
 .social-link--whatsapp {
-  background-image: url('/svg/social-networks/whatsapp.svg');
+  background-image: url("/svg/social-networks/whatsapp.svg");
 }
 
 .visually-hidden {

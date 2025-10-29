@@ -19,8 +19,8 @@ const ContactForm = () => {
 
   useEffect(() => {
     windowWidth > 1001
-        ? setModalPositions({ open: 254, closed: window.innerHeight })
-        : windowWidth <= 1000 && windowWidth > 500
+      ? setModalPositions({ open: 254, closed: window.innerHeight })
+      : windowWidth <= 1000 && windowWidth > 500
         ? setModalPositions({ open: 197, closed: window.innerHeight })
         : setModalPositions({ open: 104, closed: window.innerHeight })
   }, [windowWidth])
@@ -56,11 +56,11 @@ const ContactForm = () => {
     }
   }
 
-    function toggleFormModal() {
+  function toggleFormModal() {
     setIsOpenModal()
     setTimeout(() => {
       modalType === 'form' ? setModalType(null) : setModalType('form')
-    },500)
+    }, 500)
   }
 
   const content = (

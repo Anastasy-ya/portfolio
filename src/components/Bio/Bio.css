@@ -1,5 +1,6 @@
 .bio {
-  max-width: 700px;
+  max-width: calc(100vw - 80px);
+  max-width: 600px;
   position: absolute;
   top: 40px;
   left: 40px;
@@ -9,10 +10,11 @@
   pointer-events: none;
 }
 
-@media (min-width: 351px) and (max-width: 500px) {
+@media (max-width: 500px) {
   .bio {
     top: 20px;
     left: 20px;
+    max-width: calc(100vw - 40px);
   }
 }
 
@@ -27,7 +29,7 @@
   }
 }
 
-@media (min-width: 351px) and (max-width: 500px) {
+@media (max-width: 500px) {
   .bio__about {
     padding-bottom: 20px;
   }
@@ -51,7 +53,7 @@
   }
 }
 
-@media (min-width: 351px) and (max-width: 500px) {
+@media (max-width: 500px) {
   .bio h1 {
     font-size: 56px;
     line-height: 37px;
@@ -96,4 +98,10 @@
   justify-content: center;
   align-items: center;
   width: fit-content;
+}
+
+@media (max-width: 350px) {
+  .quick-links {
+    gap: 20px;
+  }
 }

@@ -1,17 +1,22 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
 
 function Scene() {
   const matrix = useStore(s => s.matrix)
+  const isOpenModal = useStore(s => s.isOpenModal)
+  const modalType = useStore(s => s.modalType)
+  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const setIsOpenFooterModal = useStore(s => s.setIsOpenFooterModal)
+  const setModalType = useStore(s => s.setModalType)
+  const isOpenFooterModal = useStore(s => s.isOpenFooterModal)
+
   const [gameState, setGameState] = useState(matrix) //дублирую matrix чтобы не мутировать первоначальную матрицу
   const radius = 1.91 // Радиус цилиндра
   const height = 2 // Высота цилиндра
-  // const radialSegments = 96 // Количество сегментов по окружности
-  // const heightSegments = 16 // Количество сегментов по высоте
   const { radialSegments, heightSegments } = useMemo(
     () => ({
       radialSegments: 96, // Количество сегментов по окружности
@@ -20,7 +25,33 @@ function Scene() {
     []
   )
 
-  const [windowSize, setWindowSize] = useState(350)//проверить на утечки памяти
+  const [windowSize, setWindowSize] = useState(350) //проверить на утечки памяти
+
+  function handleOpenCloseModals() {
+    if (isOpenModal || isOpenFooterModal) {
+      setIsOpenModal(false)
+      setIsOpenFooterModal(false)
+      setTimeout(() => {
+        setModalType(null)
+      }, 300)
+    }
+  }
+
+
+  useEffect(() => {
+    const handleEscape = event => {
+      if (event.key === 'Escape') {
+        handleOpenCloseModals()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [modalType, isOpenModal, isOpenFooterModal])
+
 
   useEffect(() => {
     setGameState(matrix)
@@ -51,40 +82,41 @@ function Scene() {
 
   // const baseZoom = useMemo(() => getWindowSize(), [])
   //TODO
-  const minZoom = windowSize -30
+  const minZoom = windowSize - 30
   const maxZoom = windowSize + 350
 
   return (
     <section className='canvas-wrapper'>
-    <Canvas
-      style={{ width: '100vw', height: '100vh', }}
-      orthographic
-      camera={{
-        position: [0, 0, 0],
-        zoom: windowSize,
-        near: 0.1,
-        far: 100
-      }}
-    >
-      <color attach='background' args={['rgb(220, 220, 220)']} />
-      <ambientLight intensity={0.5} color='#ffffff' />
-      <Cubes
-        radius={radius}
-        height={height}
-        radialSegments={radialSegments}
-        heightSegments={heightSegments}
-        gameState={gameState}
-        setGameState={setGameState}
-      />
-      <OrbitControls
-        // enableZoom={false} //TODO раскомментировать
-        enableRotate={false}
-        target={[0, 0, 0]}
-        minZoom={minZoom}
-        maxZoom={maxZoom}
-      />
-      <Environment preset='dawn' background={false} intensity={0.6} />
-    </Canvas>
+      <Canvas
+        onClick={handleOpenCloseModals}
+        id='canvas'
+        style={{ width: '100vw', height: '100vh' }}
+        orthographic
+        camera={{
+          position: [0, 0, 0],
+          zoom: windowSize,
+          near: 0.1,
+          far: 100
+        }}
+      >
+        <color attach='background' args={['rgb(220, 220, 220)']} />
+        <ambientLight intensity={0.5} color='#ffffff' />
+        <Cubes
+          radius={radius}
+          height={height}
+          radialSegments={radialSegments}
+          heightSegments={heightSegments}
+          gameState={gameState}
+          setGameState={setGameState}
+        />
+        <OrbitControls
+          enableRotate={false}
+          target={[0, 0, 0]}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+        />
+        <Environment preset='dawn' background={false} intensity={0.6} />
+      </Canvas>
     </section>
   )
 }

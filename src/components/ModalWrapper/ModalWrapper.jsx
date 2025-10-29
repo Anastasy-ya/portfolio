@@ -1,66 +1,74 @@
 import './ModalWrapper.css'
-// import { useStore } from '../store/store'
 import { useState, useEffect, useRef } from 'react'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
+
 import gsap from 'gsap'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
-  // const [closing, setClosing] = useState(false)
   const wrapperRef = useRef(null)
   const draggableRef = useRef(null)
 
   useEffect(() => {
     const wrapper = wrapperRef.current
-    if (modalPositions && wrapper) {
-      const draggableEl = wrapper.closest('.modal-wrapper-root') || wrapper
+    if (!modalPositions || !wrapper) return
 
-      draggableRef.current = Draggable.create(draggableEl, {
-        type: 'y',
-        inertia: true,
-        edgeResistance: 0.5,
-        maxDuration: 0.3,
-        bounds: { minY: modalPositions.open, maxY: modalPositions.closed },
-        snap: { y: [modalPositions.open, modalPositions.closed] },
-        onRelease() {
-          if (
-            this.endY - modalPositions.closed <= 5 &&
-            this.endY - modalPositions.closed > -5
-          ) {
-            handleClick()
-          } else {
-            // setIsOpen(true)
-          }
+    const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
+    const closeBtn = wrapper.querySelector('.modal-wrapper__close-button')
+    const scrollable = wrapper.querySelector('.modal-wrapper__container')
+
+    // if (!closeBtn) {
+    //   console.warn('ModalWrapper: close button not found for draggable handle.')
+    //   return
+    // }
+
+    draggableRef.current = Draggable.create(draggableRoot, {
+      trigger: closeBtn,
+      type: 'y',
+      inertia: true,
+      edgeResistance: 1,
+      maxDuration: 0.5,
+      bounds: { minY: modalPositions.open, maxY: modalPositions.closed },
+      snap: { y: [modalPositions.open, modalPositions.closed, 0] },
+      zIndexBoost: false,
+      allowNativeTouchScrolling: true,
+      onRelease() {
+        if (this.endY === modalPositions.closed) {
+          this.wasReleasedAtBottom = true
+        } else {
+          this.wasReleasedAtBottom = false
         }
-      })[0]
+      },
+      onThrowComplete() {
+        if (this.wasReleasedAtBottom) {
+          handleClick()
+        }
+      }
+    })[0]
 
-      gsap.to(draggableEl, {
-        y: isOpen ? modalPositions.open : modalPositions.closed,
-        duration: 0.8,
-        ease: 'back.out(1.4)'
-      })
+    gsap.to(draggableRoot, {
+      y: isOpen ? modalPositions.open : modalPositions.closed,
+      duration: 0.8,
+      ease: 'back.out(1.4)'
+    })
+
+    return () => {
+      draggableRef.current?.kill()
     }
-
-    return () => draggableRef.current?.kill()
   }, [modalPositions, isOpen])
 
   const handleClick = () => {
-    // setClosing(true)
-    setTimeout(() => {
-      handleClose?.()
-      // setClosing(false)
-    }, 300)
+    handleClose?.()
   }
 
   if (!type) return null
 
   return (
     <section
-      className={`modal-wrapper-root ${
-        isOpen && 'modal-wrapper-root_type_active'
-      }`}
+      className={`modal-wrapper-root ${isOpen && 'modal-wrapper-root_type_active'
+        }`}
       style={{
         position: 'fixed',
         top: 0,
@@ -71,12 +79,8 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       }}
     >
       <div
-        className={`modal-wrapper ${isOpen ? 'modal-wrapper_active' : ''}`}
+        className={`modal-wrapper  ${isOpen ? 'modal-wrapper_active' : ''}`}
       />
-
-      {/* <div
-      className={'modal-wrapper'}
-    /> */}
 
       <div
         ref={wrapperRef}
@@ -86,10 +90,11 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
           className='modal-wrapper__close-button'
           onClick={handleClick}
           aria-label='Закрыть модальное окно'
+          tabIndex='0'
         />
-        {/* <div className='modal-wrapper__container modal-wrapper__container_clickable'> */}
-        {children}
-        {/* </div> */}
+        <div className='modal-wrapper__container modal-wrapper__container_clickable'>
+          {children}
+        </div>
       </div>
     </section>
   )

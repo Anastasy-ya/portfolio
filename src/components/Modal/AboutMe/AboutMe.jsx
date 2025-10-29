@@ -16,18 +16,17 @@ function AboutMe() {
 
   useEffect(() => {
     windowWidth > 1001
-      ? setModalPositions({ open: 254, closed: window.innerHeight })
+      ? setModalPositions({ open: 240, closed: window.innerHeight })
       : windowWidth <= 1000 && windowWidth > 500
-      ? setModalPositions({ open: 197, closed: window.innerHeight - 40 })
-      : setModalPositions({ open: 104, closed: window.innerHeight })
+        ? setModalPositions({ open: 230, closed: window.innerHeight })
+        : setModalPositions({ open: 100, closed: window.innerHeight })
   }, [windowWidth])
 
   function toggleAboutMeModal() {
     setIsOpenModal()
-    setTimeout(() => {
-      modalType === 'about-me' ? setModalType(null) : setModalType('about-me')
-    }, 500)
+    modalType === 'about-me' ? setTimeout(() => { setModalType(null) }, 500) : setModalType('about-me')
   }
+
 
   const content = (
     <div className='about-me'>
@@ -45,8 +44,6 @@ function AboutMe() {
       </article>
     </div>
   )
-
-  // if (!children || !type) return null
 
   return (
     <>

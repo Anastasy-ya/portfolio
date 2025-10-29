@@ -8,29 +8,29 @@ function Footer() {
   const windowWidth = useStore(s => s.windowWidth)
   const isWide = windowWidth > 1000
   const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
-  const [isOpen, setIsOpen] = useState(false) //не использует общий для других модалок стейт тк постоянно находится на странице
-  // const modalType = useStore(s => s.modalType)
-  // const setModalType = useStore(s => s.setModalType)
+  const isOpenFooterModal = useStore(s => s.isOpenFooterModal)
+  const setIsOpenFooterModal = useStore(s => s.setIsOpenFooterModal)
 
   useEffect(() => {
     windowWidth > 1001
       ? setModalPositions({ open: 254, closed: 0 })
       : windowWidth <= 1000 && windowWidth > 800
-      ? setModalPositions({
+        ? setModalPositions({
           open: window.innerHeight - 300,
           closed: window.innerHeight - 80
         })
-      : windowWidth <= 800 && windowWidth > 600
-      ? setModalPositions({
-          open: window.innerHeight - 400,
-          closed: window.innerHeight - 80
-        })
-      : setModalPositions({ open: 125, closed: window.innerHeight - 80 })
+        : windowWidth <= 800 && windowWidth > 600
+          ? setModalPositions({
+            open: window.innerHeight - 400,
+            closed: window.innerHeight - 80
+          })
+          : setModalPositions({ open: 110, closed: window.innerHeight - 80 })
   }, [windowWidth])
 
+
+
   function toggleFooter() {
-    setIsOpen(!isOpen)
-    // modalType === 'footer' ? setModalType('null') : setModalType('footer')
+    setIsOpenFooterModal(isOpenFooterModal ? false : true);
   }
 
   const content = (
@@ -44,10 +44,9 @@ function Footer() {
                 <ul
                   className={`footer__icons footer__icons_type_${section.folder}`}
                   style={{
-                    width: `${
-                      Math.round(section.icons.length / 2) * 25 +
+                    width: `${Math.round(section.icons.length / 2) * 25 +
                       (Math.round(section.icons.length / 2) - 1) * 10
-                    }px`
+                      }px`
                   }}
                 >
                   {section.icons.map(icon => (
@@ -100,7 +99,7 @@ function Footer() {
         <ModalWrapper
           type={'footer'}
           modalPositions={modalPositions}
-          isOpen={isOpen}
+          isOpen={isOpenFooterModal}
           handleClose={toggleFooter}
         >
           {content}

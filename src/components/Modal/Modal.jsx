@@ -11,14 +11,10 @@ gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function Modal() {
 
-
-  // const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
-  // const locale = useStore(s => s.locale)
   const windowWidth = useStore(s => s.windowWidth)
   const activePopup = useStore(s => s.activePopup)
   const setActivePopup = useStore(s => s.setActivePopup)
 
-  const [closing, setClosing] = useState(false)
   const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
 
   const wrapperRef = useRef(null)
@@ -35,18 +31,18 @@ function Modal() {
     }
   }, [windowWidth, activePopup])
 
-  //   useEffect(() => {
-  //   const handleClick = (e) => {
-  //     console.log('Клик по элементу:', e.target);
-  //     console.log('Полный путь (parents):', e.composedPath());
-  //   };
+    useEffect(() => {
+    const handleClick = (e) => {
+      console.log('Клик по элементу:', e.target);
+      console.log('Полный путь (parents):', e.composedPath());
+    };
 
-  //   document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClick);
 
-  //   return () => {
-  //     document.removeEventListener('click', handleClick);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -62,7 +58,6 @@ function Modal() {
       bounds: { minY: modalPositions.open, maxY: modalPositions.closed },
       snap: { y: [modalPositions.open, modalPositions.closed] },
       onRelease() {
-        // 5 - допустимая разница на случай если библиотека позволяет неточное положение
         if (
           this.endY - modalPositions.closed <= 5 &&
           this.endY - modalPositions.closed > -5
@@ -76,11 +71,9 @@ function Modal() {
   }, [activePopup, modalPositions.open, modalPositions.closed])
 
   const handleClose = () => {
-    setClosing(true)
     setTimeout(() => {
       setActivePopup(null)
-      setClosing(false)
-    }, 300)
+    }, 500)
   }
 
   if (!activePopup && !closing) return null

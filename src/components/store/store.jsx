@@ -32,7 +32,9 @@ const useStore = create((set, get) => ({
 
   //modale
   isOpenModal: false,
-  setIsOpenModal: () => set(state =>({ isOpenModal: !state.isOpenModal })),
+  setIsOpenModal: value => set({ isOpenModal: value }),
+  isOpenFooterModal: false,
+  setIsOpenFooterModal: value => set({ isOpenFooterModal: value }),
 
   modalType: null, // null, 'about', 'mail'
   setModalType: newModalType => set({ modalType: newModalType }),
@@ -60,7 +62,6 @@ const useStore = create((set, get) => ({
   // }
 
   //datasets
-
   menuDataset: [
     // {
     //   type: 'text-button',
@@ -70,6 +71,19 @@ const useStore = create((set, get) => ({
     //     en: 'Blog'
     //   }
     // },
+    // временный компонент copy-email
+    {
+      type: 'text-button',
+      mame: 'copy-email',
+      text: {
+        ru: 'hiperiosity@gmail.com',
+        en: 'hiperiosity@gmail.com'
+      },
+      success: {
+        ru: 'Адрес скопирован',
+        en: 'Copied to clipboard'
+      }
+    },
     {
       type: 'icon-button',
       name: 'about-me',
@@ -78,7 +92,7 @@ const useStore = create((set, get) => ({
         ru: 'Обо мне',
         en: 'About me'
       }
-    },
+    }
     // {
     //   type: 'icon-button',
     //   name: 'mail',
@@ -94,7 +108,7 @@ const useStore = create((set, get) => ({
       type: 'button',
       icon1: '/svg/play.svg',
       icon2: '/svg/stop.svg',
-      action: () => console.log('Play clicked'),
+      // action: () => console.log('Play clicked'),
       label: {
         ru: 'Начать игру в жизнь',
         en: 'Play game of life'
@@ -144,8 +158,8 @@ const useStore = create((set, get) => ({
       en: 'LAZAREVA ANASTASIA'
     },
     role: {
-      ru: 'КРЕАТИВНЫЙ ФРОНТЕНД\u2011РАЗРАБОТЧИК, ТЕХНИЧЕСКИЙ ДИЗАЙНЕР',
-      en: `CREATIVE FRONTEND\u00A0DEVELOPER &\u00A0TECHNICAL DESIGNER`
+      ru: 'КРЕАТИВНЫЙ ФРОНТЕНД\u2011РАЗРАБОТЧИК',
+      en: `CREATIVE FRONTEND\u00A0DEVELOPER`
     }
   },
   modalAboutMeDataset: {
@@ -154,9 +168,7 @@ const useStore = create((set, get) => ({
       en: 'Glad to see you here. Take a look around'
     },
     mainArticle: {
-      ru: `Я создаю веб-приложения, которые живут! Они не просто красивы, они продуманы до мелочей.
-
-          Сочетая логику разработчика и взгляд дизайнера, я формирую цифровой опыт на базе 3D, дополненной, виртуальной реальности и уникальных эффектов. Использую эти технологии не ради зрелищности, я ищу и доношу смыслы и нужные ассоциации. Предпочитаю вести проект самостоятельно от первого наброска до финальной строчки кода и лично отвечаю за каждый этап. Благодаря этому идеи не только выглядят потрясающе, они работают безукоризненно, будь то полное погружение в VR или та самая анимация, что заставляет Вас остановиться. Я знаю пределы кода, и готова выходить за них!`,
+      ru: `Сочетая логику разработчика и взгляд дизайнера, я формирую цифровой опыт на базе 3D, дополненной, виртуальной реальности и уникальных эффектов. Использую эти технологии не ради зрелищности, я ищу и доношу смыслы и нужные ассоциации. Предпочитаю вести проект самостоятельно от первого наброска до финальной строчки кода и лично отвечаю за каждый этап. Благодаря этому идеи не только выглядят потрясающе, они работают безукоризненно, будь то полное погружение в VR или та самая анимация, что заставляет Вас остановиться. Я знаю пределы кода, и готова выходить за них!`,
       en: `Crafting web applications that feel alive — not just beautiful, but thoughtful.
       
           With a developer’s logic and a designer’s eye, I craft experiences
@@ -168,13 +180,12 @@ const useStore = create((set, get) => ({
           push them further.`
     },
     aboutProjectTitle: {
-      ru: 'Что здесь происходит? Похоже на цифровое искусство, но с секретом',
-      en: 'What’s going on here? It’s like digital art, but with a secret'
+      ru: 'Кубики? Что здесь происходит?',
+      en: 'What’s going on here?'
     },
     aboutProjectArticle: {
-      /*TODO убрать повторяемость жизнь жить */
-      ru: `«Игра в Жизнь» Джона Конвея — это клеточный автомат, где простые правила заставляют точки жить, умирать и формировать узоры, которые кажутся живыми. Это простая система, превращающая хаос в порядок — метафора творчества, где идеи, как пиксели, возникают и взаимодействуют.
-Я воссоздала эту игру в 3D и сейчас работаю над VR режимом чтобы пользователи могли в полной мере погрузиться в этот опыт.`,
+      ru: `«Игра в Жизнь» Джона Конвея — это клеточный автомат, где простые правила заставляют точки рождаться, умирать и формировать узоры, которые кажутся живыми. Это простая система, превращающая хаос в порядок — метафора творчества, где идеи, как пиксели, возникают и взаимодействуют.
+Я воссоздала эту игру в 3D и сейчас работаю над VR режимом чтобы пользователи могли в полной мере погрузиться в 3d опыт.`,
       en: `John Conway’s Game of Life is a cellular automaton where simple rules make dots on a grid live, die, and form patterns that seem alive. A simple system turning chaos into order — a metaphor for creativity, where ideas, like pixels, emerge and interact. I’ve recreated this game in 3D, and I’m now working on a VR mode to let players step inside the evolving world, experiencing patterns as if they were alive around them.`
     }
   },

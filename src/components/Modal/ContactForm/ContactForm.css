@@ -19,9 +19,6 @@
 
 .modal__form-input {
   font-family: var(--font-inter);
-  /* font-size: 17px;
-  font-weight: 700;
-  line-height: 17px; */
   background: transparent;
   border: none;
   outline: none;
@@ -34,9 +31,6 @@
 
 .modal__form-input::placeholder {
   font-family: var(--font-inter);
-  /* font-size: 17px;
-  font-weight: 700;
-  line-height: 17px; */
   color: var(--gray);
 }
 
@@ -52,7 +46,7 @@
 }
 
 .modal__form-underline::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 50%;
@@ -69,9 +63,6 @@
 
 .modal__form-error {
   font-family: var(--font-inter);
-  /* font-size: 17px;
-  font-weight: 700;
-  line-height: 17px; */
   margin-top: 0.25rem;
   font-size: 0.85rem;
   color: #ff4444;
@@ -79,9 +70,6 @@
 
 .modal__form-input_textarea {
   font-family: var(--font-inter);
-  /* font-size: 17px;
-  font-weight: 700;
-  line-height: 17px; */
   resize: none;
   overflow: hidden;
   min-height: 40px;
@@ -94,7 +82,6 @@
   line-height: 17px;
   align-self: flex-start;
   padding: 0.6rem 1.5rem;
-  /* border: 2px solid #a2e800; */
   background: var(--light-green);
   color: var(--gray);
   font-weight: 600;
@@ -103,13 +90,6 @@
   transition: all 0.3s ease;
 }
 
-.modal__form-submit:hover,
-.modal__form-submit:focus {
-  /* background-color: var(--light-green); */
-  /* color: #000; */
-}
-
-/*600?*/
 @media (max-width: 480px) {
   .modal__form-container {
     padding: 1rem;

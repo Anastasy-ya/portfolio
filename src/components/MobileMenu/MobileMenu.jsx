@@ -16,24 +16,22 @@ function MobileMenu() {
 
   useEffect(() => {
     windowWidth <= 600 &&
-      setModalPositions({ open: 245, closed: window.innerHeight })
-  }, [windowWidth])
+      setModalPositions({ open: 230, closed: window.innerHeight })
+  }, [windowWidth, modalType])
 
   function toggleMenu() {
-    setIsOpenModal(!isOpenModal)
-    setTimeout(() => {
-      modalType === 'mobile-menu'
-        ? setModalType('null')
-        : setModalType('mobile-menu')
-    }, 500)
+    isOpenModal ? setIsOpenModal(false) : setIsOpenModal(true)
+    modalType === 'mobile-menu'
+      ? setTimeout(() => {
+        setModalType(null)
+      }, 500)
+      : setModalType('mobile-menu')
   }
 
   function handleClick(name) {
     if (name === 'about-me') {
-      // setIsOpenModal()
       setModalType('about-me')
     } else if (name === 'mail') {
-      // setIsOpenModal()
       setModalType('mail')
     } else console.error('error')
   }
@@ -41,35 +39,24 @@ function MobileMenu() {
   const content = (
     <div className='mobile-menu'>
       <ul className='mobile-menu__list'>
-        {menuDataset.map((item, index) => (
-          <li key={index}>
-            <button
-              className='menu__button menu__button_type_light'
-              onClick={() => handleClick(item.name)}
-            >
-              {item[locale]}
-            </button>
-          </li>
-        ))}
+        {menuDataset.map((item, index) =>
+          item.label ? (
+            <li key={index}>
+              <button
+                className='menu__button menu__button_type_light'
+                onClick={() => handleClick(item.name)}
+              >
+                {item.label[locale]}
+              </button>
+            </li>
+          ) : null
+        )}
       </ul>
     </div>
   )
 
   return (
     <>
-      <nav>
-        <button
-          onClick={toggleMenu}
-          className={`mobile-menu__burger ${
-            isOpenModal
-              ? 'mobile-menu__burger_type_open'
-              : 'mobile-menu__burger_type_closed'
-          }`}
-          // aria-label={soundDataset[String(sound)][locale]}
-          // title={soundDataset[String(sound)][locale]}
-        ></button>
-      </nav>
-
       {!isWide && (
         <ModalWrapper
           type={modalType}

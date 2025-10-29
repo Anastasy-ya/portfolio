@@ -1,0 +1,22 @@
+.mobile-menu__burger {
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  pointer-events: all;
+}
+
+.mobile-menu__burger_type_open {
+  background-image: url("/svg/close-menu-icon.svg");
+}
+
+.mobile-menu__burger_type_closed {
+  background-image: url("/svg/menu-icon.svg");
+}
+
+.mobile-menu__navigation {
+  height: 25px;
+}

@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-// import { useFrame } from '@react-three/fiber'
 import { useRef, useMemo } from 'react'
 
 const cylinderMaterial = new THREE.MeshBasicMaterial({
@@ -26,7 +25,6 @@ function Background({ radius, height, radialSegments, heightSegments }) {
 
   return (
     <mesh
-      // ref={cylinderRef}//
       geometry={cylinderGeometry}
       material={cylinderMaterial}
       position={[0, 0, 0]}
