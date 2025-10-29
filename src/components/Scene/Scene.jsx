@@ -37,7 +37,6 @@ function Scene() {
     }
   }
 
-
   useEffect(() => {
     const handleEscape = event => {
       if (event.key === 'Escape') {
@@ -51,7 +50,6 @@ function Scene() {
       document.removeEventListener('keydown', handleEscape)
     }
   }, [modalType, isOpenModal, isOpenFooterModal])
-
 
   useEffect(() => {
     setGameState(matrix)
@@ -100,7 +98,13 @@ function Scene() {
         }}
       >
         <color attach='background' args={['rgb(220, 220, 220)']} />
-        <ambientLight intensity={0.5} color='#ffffff' />
+
+        <Environment
+          files='/environment/industrial_sunset_puresky_4k.exr'
+          intensity={1.0}
+          background={false}
+        />
+
         <Cubes
           radius={radius}
           height={height}
@@ -115,7 +119,6 @@ function Scene() {
           minZoom={minZoom}
           maxZoom={maxZoom}
         />
-        <Environment preset='dawn' background={false} intensity={0.6} />
       </Canvas>
     </section>
   )

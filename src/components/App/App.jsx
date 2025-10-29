@@ -5,7 +5,7 @@ import Bio from '../Bio/Bio'
 import Footer from '../Footer/Footer'
 import Sidebar from '../Sidebar/Sidebar'
 import Menu from '../Menu/Menu'
-// import { Stats } from '@react-three/drei'
+import { Stats } from '@react-three/drei'
 import { useStore } from '../store/store'
 import { useResize } from '../Actions/hooks/useResize'
 import ContactForm from '../Modal/ContactForm/ContactForm' //TODO вытащить вложенные компоненты
@@ -30,7 +30,7 @@ function App() {
   return (
     <div className='app'>
       <Scene />
-      {/* <Stats /> */}
+      <Stats />
       <main>
         <Bio />
         <Menu />

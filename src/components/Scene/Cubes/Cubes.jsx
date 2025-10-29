@@ -222,19 +222,18 @@ function Cubes({
   const gameSpeed = useStore(s => s.gameSpeed)
   const isLiving = useStore(s => s.isLiving)
 
-  const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.05, 0.05, 0.05), [])
+  const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.07, 0.07, 0.07), [])
+
   const material = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      metalness: 0.05,
-      roughness: 0.05,
+      color: '#e0e0e0',
+      metalness: 1.0,
+      roughness: 0.1,
       clearcoat: 1.0,
       clearcoatRoughness: 0.01,
       reflectivity: 1.0,
+      envMapIntensity: 1.8,
       side: THREE.FrontSide,
-      envMapIntensity: 3.0,
-      transmission: 0.1,
-      thickness: 0.1
     })
   }, [])
 
@@ -300,8 +299,9 @@ function Cubes({
             y - 0.32,
             radius * Math.sin(theta)
           )
-          dummy.scale.set(1, 1, 1)
-          dummy.rotation.set(Math.PI / 4, Math.PI / 4, 0)
+          dummy.scale.set(1.5, 1.5, 1.5)
+          // dummy.rotation.set(Math.PI / 4, Math.PI / 4, 0)
+          dummy.lookAt(0, 0, 0)
         } else {
           const y = -height / 2 + (j + 0.5) * (height / heightSegments)
           dummy.position.set(
