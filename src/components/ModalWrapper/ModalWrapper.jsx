@@ -28,7 +28,7 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       trigger: closeBtn,
       type: 'y',
       inertia: true,
-      edgeResistance: 1,
+      edgeResistance: 0.1,
       maxDuration: 0.5,
       bounds: { minY: modalPositions.open, maxY: modalPositions.closed },
       snap: { y: [modalPositions.open, modalPositions.closed, 0] },

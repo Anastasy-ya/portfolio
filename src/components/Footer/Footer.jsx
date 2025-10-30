@@ -24,6 +24,11 @@ function Footer() {
             open: window.innerHeight - 400,
             closed: window.innerHeight - 80
           })
+           : windowWidth <= 600 && windowWidth > 500
+          ? setModalPositions({
+            open: window.innerHeight - 510,
+            closed: window.innerHeight - 80
+          })
           : setModalPositions({ open: 110, closed: window.innerHeight - 80 })
   }, [windowWidth])
 

@@ -234,6 +234,7 @@ function Cubes({
       reflectivity: 1.0,
       envMapIntensity: 1.8,
       side: THREE.FrontSide,
+      opacity: 0.5,
     })
   }, [])
 
