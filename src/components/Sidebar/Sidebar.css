@@ -4,7 +4,8 @@
   background-color: var(--light-green);
   display: flex;
   gap: 10px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   align-items: center;
   z-index: 1013; /*не уменьшать, перекрывает значения gsap анимированного элемента*/
 }

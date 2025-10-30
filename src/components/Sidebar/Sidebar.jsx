@@ -40,7 +40,7 @@ function Sidebar() {
       }}
     >
       {/* Play */}
-      <button
+      {/* <button
         className='sidebar__addition-button'
         style={{
           backgroundImage: `url('${!isLiving ? sidebarDataset.play.icon1 : sidebarDataset.play.icon2
@@ -51,7 +51,7 @@ function Sidebar() {
         title={sidebarDataset.play.label[locale]}
         disabled={matrixName === 'matrix_2'}
 
-      />
+      /> */}
 
       {/* Slider */}
       <div className='sidebar__slider' aria-label='Slider' title='Slider'>
@@ -70,7 +70,7 @@ function Sidebar() {
       </div>
 
       {/* Speed */}
-      <button
+      {/* <button
         className='sidebar__addition-button'
         style={{
           backgroundImage: `url('${gameSpeed === 500
@@ -82,7 +82,7 @@ function Sidebar() {
         aria-label={sidebarDataset.speed.label[locale]}
         title={sidebarDataset.speed.label[locale]}
         disabled={matrixName === 'matrix_2'}
-      />
+      /> */}
     </section>
   )
 }

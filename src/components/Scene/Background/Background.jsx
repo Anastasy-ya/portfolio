@@ -6,7 +6,7 @@ const cylinderMaterial = new THREE.MeshBasicMaterial({
   transparent: true,
   opacity: 0.0,
   side: THREE.BackSide,
-  wireframe: true
+  // wireframe: true
 })
 
 function Background({ radius, height, radialSegments, heightSegments }) {

@@ -59,7 +59,7 @@ function Footer() {
                       aria-label={icon}
                       title={icon}
                     >
-                      <span className='footer__icon-label'>{icon}</span>
+                      {/* <span className='footer__icon-label'>{icon}</span> */}
                     </li>
                   ))}
                 </ul>

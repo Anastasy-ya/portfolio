@@ -299,7 +299,7 @@ function Cubes({
             y - 0.32,
             radius * Math.sin(theta)
           )
-          dummy.scale.set(1.5, 1.5, 1.5)
+          dummy.scale.set(1, 1, 1)
           // dummy.rotation.set(Math.PI / 4, Math.PI / 4, 0)
           dummy.lookAt(0, 0, 0)
         } else {

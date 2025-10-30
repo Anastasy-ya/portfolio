@@ -5,6 +5,11 @@ import { useState, useEffect, useMemo } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
 
+import {
+  EffectComposer,
+  ChromaticAberration
+} from '@react-three/postprocessing'
+
 function Scene() {
   const matrix = useStore(s => s.matrix)
   const isOpenModal = useStore(s => s.isOpenModal)
@@ -13,6 +18,7 @@ function Scene() {
   const setIsOpenFooterModal = useStore(s => s.setIsOpenFooterModal)
   const setModalType = useStore(s => s.setModalType)
   const isOpenFooterModal = useStore(s => s.isOpenFooterModal)
+  const windowWidth = useStore(s => s.windowWidth)
 
   const [gameState, setGameState] = useState(matrix) //дублирую matrix чтобы не мутировать первоначальную матрицу
   const radius = 1.91 // Радиус цилиндра
@@ -25,7 +31,7 @@ function Scene() {
     []
   )
 
-  const [windowSize, setWindowSize] = useState(350) //проверить на утечки памяти
+  const [windowSize, setWindowSize] = useState(350) //TODO проверить на утечки памяти это не дублирование windowWidth из стора!
 
   function handleOpenCloseModals() {
     if (isOpenModal || isOpenFooterModal) {
@@ -60,13 +66,12 @@ function Scene() {
   }
 
   const getWindowSize = () => {
-    const width = window.innerWidth
-    if (width < 500) return 200
-    if (width < 800 && width >= 501) return 200
-    if (width < 1200 && width >= 801) return 300
-    if (width < 1500 && width >= 1201) return 350
-    if (width < 2100 && width >= 1501) return 550
-    if (width < 3000 && width >= 2101) return 770
+    if (windowWidth < 500) return 200
+    if (windowWidth < 800 && windowWidth >= 500) return 200
+    if (windowWidth < 1200 && windowWidth >= 800) return 300
+    if (windowWidth < 1500 && windowWidth >= 1200) return 300
+    if (windowWidth < 2100 && windowWidth >= 1500) return 500
+    if (windowWidth < 3000 && windowWidth >= 2100) return 550
     return 770
   }
 
@@ -119,6 +124,16 @@ function Scene() {
           minZoom={minZoom}
           maxZoom={maxZoom}
         />
+
+        {windowWidth > 600 ? (
+          <EffectComposer>
+            <ChromaticAberration
+              offset={[0, 0.0065]}
+              radialModulation={true}
+              modulationOffset={0.3}
+            />
+          </EffectComposer>
+        ) : ''}
       </Canvas>
     </section>
   )
