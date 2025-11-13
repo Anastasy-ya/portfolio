@@ -126,10 +126,10 @@
   transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
 }
 
-.sidebar__slider-container .sidebar__slider-button:last-child {
+/* .sidebar__slider-container .sidebar__slider-button:last-child {
   background-color: transparent;
   border: 2px solid var(--gray);
-}
+} */
 
 @media (min-width: 1500px) {
   .sidebar__slider-button {

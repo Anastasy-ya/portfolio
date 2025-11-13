@@ -1,14 +1,10 @@
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { Canvas, useThree, useFrame,   } from '@react-three/fiber'
+import { OrbitControls,  } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
-
-import {
-  EffectComposer,
-  ChromaticAberration
-} from '@react-three/postprocessing'
+import * as THREE from 'three'
 
 function Scene() {
   const matrix = useStore(s => s.matrix)
@@ -85,7 +81,7 @@ function Scene() {
 
   // const baseZoom = useMemo(() => getWindowSize(), [])
   //TODO
-  const minZoom = windowSize - 30
+  const minZoom = windowSize - 130
   const maxZoom = windowSize + 350
 
   return (
@@ -98,10 +94,12 @@ function Scene() {
         camera={{
           position: [0, 0, 0],
           zoom: windowSize,
-          near: 0.1,
-          far: 100
+          near: -2,
+          far: 15
         }}
       >
+        <fog attach='fog' args={['rgba(184, 192, 217, 1)', 0, 3]} />
+
         <color attach='background' args={['rgb(220, 220, 220)']} />
 
         <Environment
@@ -125,15 +123,6 @@ function Scene() {
           maxZoom={maxZoom}
         />
 
-        {windowWidth > 600 ? (
-          <EffectComposer>
-            <ChromaticAberration
-              offset={[0, 0.0065]}
-              radialModulation={true}
-              modulationOffset={0.3}
-            />
-          </EffectComposer>
-        ) : ''}
       </Canvas>
     </section>
   )

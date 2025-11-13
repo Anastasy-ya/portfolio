@@ -192,7 +192,7 @@ import Background from '../Background/Background'
 import Plane from '../Plane/Plane'
 import { RunGameOfLife } from '../../Actions/RunGameOfLife'
 import { useRef, useState, useEffect, useLayoutEffect, useMemo } from 'react'
-import { useThree } from '@react-three/fiber'
+import { useThree, useFrame } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { useStore } from '../../store/store'
 
@@ -222,11 +222,19 @@ function Cubes({
   const gameSpeed = useStore(s => s.gameSpeed)
   const isLiving = useStore(s => s.isLiving)
 
-  const boxGeometry = useMemo(() => new THREE.BoxGeometry(0.07, 0.07, 0.07), [])
+  // const boxGeometry = useMemo(
+  //   () => new THREE.BoxGeometry(0.08, 0.08, 0.08),
+  //   []
+  // )
+
+  const boxGeometry = useMemo(
+    () => new THREE.DodecahedronGeometry(0.05),
+    []
+  )
 
   const material = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
-      color: '#e0e0e0',
+      color: 'rgba(255, 255, 255, 1)',
       metalness: 1.0,
       roughness: 0.1,
       clearcoat: 1.0,
@@ -234,7 +242,7 @@ function Cubes({
       reflectivity: 1.0,
       envMapIntensity: 1.8,
       side: THREE.FrontSide,
-      opacity: 0.5,
+      opacity: 0.5
     })
   }, [])
 
@@ -248,7 +256,6 @@ function Cubes({
     if (
       !groupRef.current ||
       !isInstancedReady ||
-      !isLiving ||
       hasAnimationStarted.current
     )
       return
@@ -274,7 +281,7 @@ function Cubes({
     tl.to(
       groupRef.current.rotation,
       {
-        y: Math.PI * 2,
+        y: -Math.PI * 2,
         duration: 3,
         ease: 'power2.out'
       },
@@ -283,33 +290,66 @@ function Cubes({
   }, [isInstancedReady, isLiving])
 
   useEffect(() => {
-    if (!isInstancedReady || !gameState || !isLiving) return
+    if (!isInstancedReady || !gameState) return /* || !isLiving */
 
     const dummy = new THREE.Object3D()
     let visibleCount = 0
 
+    //
+    const startAngle = Math.PI * 0.12 // 45 градусов от полюса
+  const endAngle = Math.PI * 0.88   // 135 градусов от полюса
+  const angleRange = endAngle - startAngle
+    //
+
     for (let j = 0; j < heightSegments; j++) {
       for (let i = 0; i < radialSegments; i++) {
+        // const index = j * radialSegments + i
+        // const theta = (i / radialSegments) * 2 * Math.PI
+
+        // /* */
+        // const sphereRadius = Math.cos((j / heightSegments + 5.5) * Math.PI) * radius / 0.9
+
+        // /* */
+
+        // const y = -height / 2 + (j + 0.5) * (height / heightSegments)
+        //   dummy.position.set(
+        //     sphereRadius * Math.cos(theta),
+        //     y - 0.32,
+        //     sphereRadius * Math.sin(theta)
+        //   )
+
         const index = j * radialSegments + i
         const theta = (i / radialSegments) * 2 * Math.PI
 
+        const v = j / (heightSegments - 1)
+        // const phi = v * Math.PI
+        const phi = startAngle + v * angleRange
+        
+
+        const sphereRadius = (Math.sin(phi) * radius) / 1.5
+        // const sphereRadius = Math.sin(phi) * radius * 0.8
+        const y = Math.cos(phi) * height * 0.5
+
+        dummy.position.set(
+          sphereRadius * Math.cos(theta),
+          y,//всегда 1 TODO
+          sphereRadius * Math.sin(theta)
+        )
+        /* */
+        const equatorAngle = Math.PI / 2 // 90 градусов - экватор
+      const angleFromEquator = Math.abs(phi - equatorAngle)
+      const maxAngleFromEquator = Math.PI / 4 // 45 градусов - максимальное отклонение
+      
+      // Scale уменьшается от 1 на экваторе до 0.5 у границ
+      const scaleFactor = 1 - (angleFromEquator / maxAngleFromEquator) * 0.5
+      const scale = Math.max(0.25, scaleFactor)
+        /* */
+
         if (gameState[i][j] === 1) {
-          const y = -height / 2 + (j + 0.5) * (height / heightSegments)
-          dummy.position.set(
-            radius * Math.cos(theta),
-            y - 0.32,
-            radius * Math.sin(theta)
-          )
-          dummy.scale.set(1, 1, 1)
+          dummy.scale.set(scale, scale, scale)
           // dummy.rotation.set(Math.PI / 4, Math.PI / 4, 0)
           dummy.lookAt(0, 0, 0)
         } else {
-          const y = -height / 2 + (j + 0.5) * (height / heightSegments)
-          dummy.position.set(
-            radius * Math.cos(theta),
-            y + height / 2,
-            radius * Math.sin(theta)
-          )
           dummy.scale.set(0.01, 0.01, 0.01)
         }
 
@@ -355,9 +395,20 @@ function Cubes({
     }
   }, [rotation])
 
+  useFrame((state, delta) => {
+  if (!groupRef.current) return
+  
+  const time = state.clock.elapsedTime
+  const speed = 0.5
+  
+  groupRef.current.rotation.x = Math.sin(time * 0.7) * 0.1
+  groupRef.current.rotation.y -= delta * 0.1 // Постоянное вращение по Y
+  groupRef.current.rotation.z = Math.sin(time * 0.3) * 0.05
+})
+
   return (
     <>
-      <group ref={groupRef} {...bind()} rotation={rotation}>
+      <group ref={groupRef} {...bind()} rotation={rotation} position={[0, -0.15, 0]}>
         <Background
           radius={radius}
           height={height}

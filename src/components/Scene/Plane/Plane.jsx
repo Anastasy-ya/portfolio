@@ -4,7 +4,7 @@ import { useMemo, useRef, useEffect, useCallback, useState } from 'react'
 import TouchTexture from './TouchTexture'
 import { forwardRef } from 'react'
 
-const HEIGHT = 7
+const HEIGHT = 14
 const ASPECT_RATIO = 1
 const WIDTH = HEIGHT * ASPECT_RATIO
 

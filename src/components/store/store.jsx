@@ -21,10 +21,10 @@ const useStore = create((set, get) => ({
   setMatrixName: name => set({ matrixName: name }),
   matrix: matrix_1,
   setMatrix: newMatrix => set({ matrix: newMatrix }),
-  gameSpeed: 500,
+  gameSpeed: 80, /*80 */
   setGameSpeed: newSpeed => set({ gameSpeed: newSpeed }),
-  isLiving: true,
-  toggleLiving: () => set(state => ({ isLiving: !state.isLiving })),
+  isLiving: false,
+  toggleLiving: newState => set(({ isLiving: newState })),
 
   //window width
   windowWidth: window.innerWidth,
@@ -139,7 +139,7 @@ const useStore = create((set, get) => ({
     },
     slider: {
       type: 'slider',
-      buttons: [1, 2, 0]
+      buttons: [1, 2] //, 0
     }
     // vr: {
     //   type: 'button',
