@@ -4,7 +4,6 @@
   background-color: var(--light-green);
   display: flex;
   gap: 10px;
-  /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
   z-index: 1013; /*не уменьшать, перекрывает значения gsap анимированного элемента*/
@@ -143,7 +142,6 @@
   display: inline-block;
 }
 
-/**/
 @media (max-width: 360px) {
   .sidebar__slider-container--horizontal {
     gap: 7vw;

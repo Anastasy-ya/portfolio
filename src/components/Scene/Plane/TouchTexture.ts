@@ -1,6 +1,6 @@
 import { Texture } from 'three'
 
-//TODO
+//TODO убрать ts и перенести в actions
 interface Point {
   x: number
   y: number

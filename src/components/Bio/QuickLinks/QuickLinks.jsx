@@ -6,22 +6,22 @@ function QuickLinks() {
     {
       name: 'Email',
       url: 'mailto:hiperiosity@gmail.com',
-      label: 'Send email'
+      label: 'E-mail'
     },
     {
       name: 'GitHub',
       url: 'https://github.com/Anastasy-ya',
-      label: 'GitHub profile'
+      label: 'GitHub'
     },
     {
       name: 'WhatsApp',
       url: 'https://wa.me/+79105465796',
-      label: 'Contact via WhatsApp'
+      label: 'WhatsApp'
     },
     {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/in/anastasy-ya',
-      label: 'LinkedIn profile'
+      label: 'LinkedIn'
     },
     // {
     //   name: 'Instagram',
@@ -32,7 +32,7 @@ function QuickLinks() {
     {
       name: 'ArtStation',
       url: 'https://www.artstation.com/anastasy_ya',
-      label: 'ArtStation portfolio'
+      label: 'ArtStation'
     }
   ]
 
@@ -49,15 +49,8 @@ function QuickLinks() {
               aria-label={link.label}
               target='_blank'
               rel='noopener noreferrer'
-            >
-              {/* Метатеги для SEO */}
-              <meta itemProp='name' content={link.name} />
-              <meta itemProp='url' content={link.url} />
-              <link itemProp='url' href={link.url} />
-
-              {/* Скрытый текст для доступности */}
-              <span className='visually-hidden'>{link.label}</span>
-            </a>
+              title={link.label}
+            ></a>
           ))}
         </div>
         {/* <button
@@ -68,12 +61,7 @@ function QuickLinks() {
             backgroundImage: `url('/svg/arrow.svg')`
           }}
         > */}
-        {/* Метатеги для SEO */}
-        {/* <meta itemProp='name' content={link.name} /> */}
-        {/* <meta itemProp='url' content={link.url} /> */}
-        {/* <link itemProp='url' href={link.url} /> */}
-        {/* <span className='visually-hidden'>About me</span>
-        </button> */}
+        {/* </button> */}
       </div>
     </>
   )

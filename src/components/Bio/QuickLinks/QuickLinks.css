@@ -64,7 +64,15 @@
   padding: 1px;
 }
 
-.social-link--artstation {
+.social-link:hover {
+  transform: scale(1.2);
+}
+
+.social-linkfocus-visible {
+  transform: scale(.99);
+}
+
+.social-link--artstation { 
   background-image: url("/svg/social-networks/artstation.svg");
 }
 

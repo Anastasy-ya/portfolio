@@ -1,8 +1,7 @@
 import './ModalWrapper.css'
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
-
 import gsap from 'gsap'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
@@ -17,12 +16,6 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
 
     const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
     const closeBtn = wrapper.querySelector('.modal-wrapper__close-button')
-    const scrollable = wrapper.querySelector('.modal-wrapper__container')
-
-    // if (!closeBtn) {
-    //   console.warn('ModalWrapper: close button not found for draggable handle.')
-    //   return
-    // }
 
     draggableRef.current = Draggable.create(draggableRoot, {
       trigger: closeBtn,
@@ -67,8 +60,9 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
 
   return (
     <section
-      className={`modal-wrapper-root ${isOpen && 'modal-wrapper-root_type_active'
-        }`}
+      className={`modal-wrapper-root ${
+        isOpen ? 'modal-wrapper-root_type_active' : ''
+      }`}
       style={{
         position: 'fixed',
         top: 0,

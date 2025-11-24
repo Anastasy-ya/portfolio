@@ -1,17 +1,15 @@
 import * as THREE from 'three'
-import { useRef, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useStore } from '../../store/store'
 
 const cylinderMaterial = new THREE.MeshBasicMaterial({
   color: 0x00fffe,
   transparent: true,
   opacity: 0.0,
-  side: THREE.BackSide,
+  side: THREE.BackSide
 })
 
-function Background({ radius, height, radialSegments, heightSegments }) {
-
-  // const isLiving = useStore(s => s.isLiving)
+function Background({ radius, height, radialSegments, heightSegments, shift }) {
   const toggleLiving = useStore(s => s.toggleLiving)
 
   const cylinderGeometry = useMemo(
@@ -31,7 +29,7 @@ function Background({ radius, height, radialSegments, heightSegments }) {
     <mesh
       geometry={cylinderGeometry}
       material={cylinderMaterial}
-      position={[0, 0, 0]}
+      position={[0, shift, 0]}
       onPointerOver={() => {
         toggleLiving(true)
       }}

@@ -68,6 +68,7 @@ function Menu() {
                     onClick={() => handleCopy(item.text)}
                     className='menu__button'
                     aria-label={item.text[locale]}
+                    title={item.text[locale]}
                   >
                     {isCopied ? item.success[locale] : item.text[locale]}
                   </button>
@@ -81,7 +82,7 @@ function Menu() {
                   className='menu__item'
                   key={item.name}
                   id={item.name}
-                  role='button'
+                  // role='button'
                 >
                   <button
                     onClick={() => handleClick(item.name)}

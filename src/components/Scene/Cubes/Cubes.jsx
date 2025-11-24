@@ -196,13 +196,17 @@ import { useThree, useFrame } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { useStore } from '../../store/store'
 
+/*TODO rename me! */
+
 function Cubes({
+  //TODO слишком много пропсов
   radius,
   height,
   radialSegments,
   heightSegments,
   gameState,
-  setGameState
+  setGameState,
+  shift
 }) {
   //variables
   const responsiveness = 5
@@ -214,23 +218,18 @@ function Cubes({
   const hasAnimationStarted = useRef(false)
   //state
   const [rotation, setRotation] = useState([0, 0, 0])
-  const [isInstancedReady, setIsInstancedReady] = useState(false)
+  // const [isInstancedReady, setIsInstancedReady] = useState(false)
   //other
   const { size } = useThree()
   const euler = useMemo(() => new THREE.Euler(), [])
   //store
   const gameSpeed = useStore(s => s.gameSpeed)
   const isLiving = useStore(s => s.isLiving)
+  const isInstancedReady = useStore(s => s.isInstancedReady)
+  const setIsInstancedReady = useStore(s => s.setIsInstancedReady)
+  const isPreloaderHides = useStore(s => s.isPreloaderHides)
 
-  // const boxGeometry = useMemo(
-  //   () => new THREE.BoxGeometry(0.08, 0.08, 0.08),
-  //   []
-  // )
-
-  const boxGeometry = useMemo(
-    () => new THREE.DodecahedronGeometry(0.05),
-    []
-  )
+  const boxGeometry = useMemo(() => new THREE.DodecahedronGeometry(0.05), [])
 
   const material = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
@@ -256,11 +255,12 @@ function Cubes({
     if (
       !groupRef.current ||
       !isInstancedReady ||
-      hasAnimationStarted.current
+      hasAnimationStarted.current ||
+      !isPreloaderHides
     )
       return
 
-    hasAnimationStarted.current = true
+    hasAnimationStarted.current = true /*TODO подумать на фиг мне тут current */
     groupRef.current.scale.set(15, 15, 15)
     groupRef.current.rotation.y = 0
 
@@ -287,44 +287,27 @@ function Cubes({
       },
       0
     )
-  }, [isInstancedReady, isLiving])
+  }, [isInstancedReady, isLiving, isPreloaderHides])
 
   useEffect(() => {
-    if (!isInstancedReady || !gameState) return /* || !isLiving */
+    if (!isInstancedReady || !gameState || !isPreloaderHides)
+      return /* || !isLiving */
 
     const dummy = new THREE.Object3D()
     let visibleCount = 0
 
-    //
     const startAngle = Math.PI * 0.12 // 45 градусов от полюса
-  const endAngle = Math.PI * 0.88   // 135 градусов от полюса
-  const angleRange = endAngle - startAngle
-    //
+    const endAngle = Math.PI * 0.88 // 135 градусов от полюса
+    const angleRange = endAngle - startAngle
 
     for (let j = 0; j < heightSegments; j++) {
       for (let i = 0; i < radialSegments; i++) {
-        // const index = j * radialSegments + i
-        // const theta = (i / radialSegments) * 2 * Math.PI
-
-        // /* */
-        // const sphereRadius = Math.cos((j / heightSegments + 5.5) * Math.PI) * radius / 0.9
-
-        // /* */
-
-        // const y = -height / 2 + (j + 0.5) * (height / heightSegments)
-        //   dummy.position.set(
-        //     sphereRadius * Math.cos(theta),
-        //     y - 0.32,
-        //     sphereRadius * Math.sin(theta)
-        //   )
-
         const index = j * radialSegments + i
         const theta = (i / radialSegments) * 2 * Math.PI
 
         const v = j / (heightSegments - 1)
         // const phi = v * Math.PI
         const phi = startAngle + v * angleRange
-        
 
         const sphereRadius = (Math.sin(phi) * radius) / 1.5
         // const sphereRadius = Math.sin(phi) * radius * 0.8
@@ -332,17 +315,17 @@ function Cubes({
 
         dummy.position.set(
           sphereRadius * Math.cos(theta),
-          y,//всегда 1 TODO
+          y + shift, //регулировка положения сферы по y (высота)
           sphereRadius * Math.sin(theta)
         )
         /* */
         const equatorAngle = Math.PI / 2 // 90 градусов - экватор
-      const angleFromEquator = Math.abs(phi - equatorAngle)
-      const maxAngleFromEquator = Math.PI / 4 // 45 градусов - максимальное отклонение
-      
-      // Scale уменьшается от 1 на экваторе до 0.5 у границ
-      const scaleFactor = 1 - (angleFromEquator / maxAngleFromEquator) * 0.5
-      const scale = Math.max(0.25, scaleFactor)
+        const angleFromEquator = Math.abs(phi - equatorAngle)
+        const maxAngleFromEquator = Math.PI / 4 // 45 градусов - максимальное отклонение
+
+        // Scale уменьшается от 1 на экваторе до 0.5 у границ
+        const scaleFactor = 1 - (angleFromEquator / maxAngleFromEquator) * 0.5
+        const scale = Math.max(0.25, scaleFactor)
         /* */
 
         if (gameState[i][j] === 1) {
@@ -368,7 +351,8 @@ function Cubes({
     heightSegments,
     height,
     radius,
-    isLiving
+    isLiving,
+    isPreloaderHides
   ])
 
   useEffect(() => {
@@ -395,30 +379,37 @@ function Cubes({
     }
   }, [rotation])
 
+  /*постоянное покачивание */
   useFrame((state, delta) => {
-  if (!groupRef.current) return
-  
-  const time = state.clock.elapsedTime
-  const speed = 0.5
-  
-  groupRef.current.rotation.x = Math.sin(time * 0.7) * 0.1
-  groupRef.current.rotation.y -= delta * 0.1 // Постоянное вращение по Y
-  groupRef.current.rotation.z = Math.sin(time * 0.3) * 0.05
-})
+    if (!groupRef.current) return
+
+    const time = state.clock.elapsedTime
+
+    groupRef.current.rotation.x = Math.sin(time * 0.7) * 0.1
+    groupRef.current.rotation.y -= delta * 0.1 // Постоянное вращение по Y
+    groupRef.current.rotation.z = Math.sin(time * 0.3) * 0.05
+  })
 
   return (
     <>
-      <group ref={groupRef} {...bind()} rotation={rotation} position={[0, -0.15, 0]}>
+      <group
+        ref={groupRef}
+        {...bind()}
+        rotation={rotation}
+        position={[0, -0.15, 0]}
+      >
         <Background
           radius={radius}
           height={height}
           radialSegments={radialSegments}
           heightSegments={heightSegments}
+          shift={shift}
         />
 
         <instancedMesh
           ref={instancedRef}
           args={[boxGeometry, material, radialSegments * heightSegments]}
+          visible={isInstancedReady && isPreloaderHides}
         />
       </group>
       <Plane ref={planeRef} />

@@ -1,7 +1,7 @@
 import './AboutMe.css'
-import { useStore } from '../../store/store'
+import { useStore } from '../store/store'
 import { useState, useEffect, useRef } from 'react'
-import ModalWrapper from '../../ModalWrapper/ModalWrapper'
+import ModalWrapper from '../ModalWrapper/ModalWrapper'
 
 function AboutMe() {
   const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
@@ -18,15 +18,18 @@ function AboutMe() {
     windowWidth > 1001
       ? setModalPositions({ open: 240, closed: window.innerHeight })
       : windowWidth <= 1000 && windowWidth > 500
-        ? setModalPositions({ open: 165, closed: window.innerHeight })
-        : setModalPositions({ open: 100, closed: window.innerHeight })
+      ? setModalPositions({ open: 165, closed: window.innerHeight })
+      : setModalPositions({ open: 100, closed: window.innerHeight })
   }, [windowWidth])
 
   function toggleAboutMeModal() {
     setIsOpenModal()
-    modalType === 'about-me' ? setTimeout(() => { setModalType(null) }, 500) : setModalType('about-me')
+    modalType === 'about-me'
+      ? setTimeout(() => {
+          setModalType(null)
+        }, 500)
+      : setModalType('about-me')
   }
-
 
   const content = (
     <div className='about-me'>

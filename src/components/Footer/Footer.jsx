@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './Footer.css'
 import { useStore } from '../store/store'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
@@ -14,28 +14,21 @@ function Footer() {
   useEffect(() => {
     windowWidth > 1001
       ? setModalPositions({ open: 254, closed: 0 })
-      : windowWidth <= 1000 && windowWidth > 800
-        ? setModalPositions({
-          open: window.innerHeight - 300,
+      : windowWidth <= 1000 && windowWidth > 600
+      ? setModalPositions({
+          open: window.innerHeight - 400,
           closed: window.innerHeight - 80
         })
-        : windowWidth <= 800 && windowWidth > 600
-          ? setModalPositions({
-            open: window.innerHeight - 400,
-            closed: window.innerHeight - 80
-          })
-           : windowWidth <= 600 && windowWidth > 500
-          ? setModalPositions({
-            open: window.innerHeight - 510,
-            closed: window.innerHeight - 80
-          })
-          : setModalPositions({ open: 110, closed: window.innerHeight - 80 })
+      : windowWidth <= 600 && windowWidth > 500
+      ? setModalPositions({
+          open: window.innerHeight - 590,
+          closed: window.innerHeight - 80
+        })
+      : setModalPositions({ open: 110, closed: window.innerHeight - 80 })
   }, [windowWidth])
 
-
-
   function toggleFooter() {
-    setIsOpenFooterModal(isOpenFooterModal ? false : true);
+    setIsOpenFooterModal(isOpenFooterModal ? false : true)
   }
 
   const content = (
@@ -45,26 +38,23 @@ function Footer() {
           <div className='footer__container' key={blockIdx}>
             {block.sections.map((section, secIdx) => (
               <div key={secIdx} className='footer__section'>
-                <h3 className='footer__title'>{section.title}</h3>
+                <p className='footer__title'>{section.title}</p>
                 <ul
                   className={`footer__icons footer__icons_type_${section.folder}`}
                   style={{
-                    width: `${Math.round(section.icons.length / 2) * 25 +
+                    width: `${
+                      Math.round(section.icons.length / 2) * 25 +
                       (Math.round(section.icons.length / 2) - 1) * 10
-                      }px`
+                    }px`
                   }}
                 >
-                  {section.icons.map(icon => (
-                    <li
-                      key={icon}
-                      className='footer__icon'
-                      style={{
-                        backgroundImage: `url('/svg/${section.folder}/${icon}.svg')`
-                      }}
-                      aria-label={icon}
-                      title={icon}
-                    >
-                      {/* <span className='footer__icon-label'>{icon}</span> */}
+                  {section.icons.map((icon, index) => (
+                    <li key={index} className='footer__icon'>
+                      <img
+                        src={`/svg/${section.folder}/${icon}.svg`}
+                        alt={icon}
+                        title={icon}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -74,7 +64,7 @@ function Footer() {
         ))}
 
         <div className='footer__container footer__container_type_optimization'>
-          <h3 className='footer__title'>Optimizations</h3>
+          <p className='footer__title'>Optimizations</p>
           <ul className='footer__optimizations optimizations'>
             <li>
               <p className='optimizations__info'>Instancing</p>

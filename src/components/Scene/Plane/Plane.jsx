@@ -1,6 +1,5 @@
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { TextureLoader, ShaderMaterial, Mesh } from 'three'
-import { useMemo, useRef, useEffect, useCallback, useState } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef, useEffect } from 'react'
 import TouchTexture from './TouchTexture'
 import { forwardRef } from 'react'
 
@@ -11,7 +10,7 @@ const WIDTH = HEIGHT * ASPECT_RATIO
 const Plane = forwardRef((props, ref) => {
   const mesh = useRef(null)
   const shader = useRef(null)
-  const offset = useRef(Math.random() * 10000)
+  // const offset = useRef(Math.random() * 10000)
 
   useEffect(() => {
     if (ref) {

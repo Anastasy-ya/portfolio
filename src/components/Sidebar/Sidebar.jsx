@@ -31,7 +31,7 @@ function Sidebar() {
   }
 
   return (
-    <section
+    <div
       className={`sidebar sidebar--${position}`}
       style={{
         right: position === 'vertical' ? (activePopup ? '-40px' : '0') : 'auto',
@@ -54,16 +54,22 @@ function Sidebar() {
       /> */}
 
       {/* Slider */}
-      <div className='sidebar__slider' aria-label='Slider' title='Slider'>
+      <div className='sidebar__slider'>
         <div
+          role='tablist'
           className={`sidebar__slider-container sidebar__slider-container--${position}`}
         >
           {sidebarDataset.slider.buttons.map((_, index) => (
             <button
               key={index}
-              className={`sidebar__slider-button ${index === activeIndex ? 'active' : ''
-                }`}
+              className={`sidebar__slider-button ${
+                index === activeIndex ? 'active' : ''
+              }`}
               onClick={() => handleButtonClick(index)}
+              role='tab'
+              aria-label={sidebarDataset.slider.label[locale]}
+              title={sidebarDataset.slider.label[locale]}
+              aria-selected={index === activeIndex}
             />
           ))}
         </div>
@@ -83,7 +89,7 @@ function Sidebar() {
         title={sidebarDataset.speed.label[locale]}
         disabled={matrixName === 'matrix_2'}
       /> */}
-    </section>
+    </div>
   )
 }
 

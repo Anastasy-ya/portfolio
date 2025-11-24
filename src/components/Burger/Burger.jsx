@@ -25,8 +25,8 @@ function Burger() {
             ? 'mobile-menu__burger_type_open'
             : 'mobile-menu__burger_type_closed'
         }`}
-        // aria-label={soundDataset[String(sound)][locale]}
-        // title={soundDataset[String(sound)][locale]}
+        // aria-label=''
+        // title=''
       ></button>
     </nav>
   )

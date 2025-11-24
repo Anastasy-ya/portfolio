@@ -1,63 +1,68 @@
 @font-face {
   font-display: swap;
-  font-family: "Cormorant Upright";
+  font-family: 'Cormorant Upright';
   font-style: normal;
   font-weight: 700;
-  src: url("../fonts/cormorant-upright-v19-latin-700.woff2") format("woff2"),
-    url("../fonts/cormorant-upright-v19-latin-700.woff") format("woff"),
-    url("../fonts/cormorant-upright-v19-latin-700.ttf") format("truetype");
+  src: url('../fonts/cormorant-upright-v19-latin-700.woff2') format('woff2'),
+    url('../fonts/cormorant-upright-v19-latin-700.woff') format('woff'),
+    url('../fonts/cormorant-upright-v19-latin-700.ttf') format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/inter-v20-latin-regular.woff2") format("woff2"),
-    url("/fonts/inter-v20-latin-regular.woff") format("woff"),
-    url("/fonts/inter-v20-latin-regular.ttf") format("truetype");
+  src: url('/fonts/inter-v20-latin-regular.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-regular.woff') format('woff'),
+    url('/fonts/inter-v20-latin-regular.ttf') format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/inter-v20-latin-700.woff2") format("woff2"),
-    url("/fonts/inter-v20-latin-700.woff") format("woff"),
-    url("/fonts/inter-v20-latin-700.ttf") format("truetype");
+  src: url('/fonts/inter-v20-latin-700.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-700.woff') format('woff'),
+    url('/fonts/inter-v20-latin-700.ttf') format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 800;
-  src: url("/fonts/inter-v20-latin-800.woff2") format("woff2"),
-    url("/fonts/inter-v20-latin-800.woff") format("woff"),
-    url("/fonts/inter-v20-latin-800.ttf") format("truetype");
+  src: url('/fonts/inter-v20-latin-800.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-800.woff') format('woff'),
+    url('/fonts/inter-v20-latin-800.ttf') format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 900;
-  src: url("/fonts/inter-v20-latin-900.woff2") format("woff2"),
-    url("/fonts/inter-v20-latin-900.woff") format("woff"),
-    url("/fonts/inter-v20-latin-900.ttf") format("truetype");
+  src: url('/fonts/inter-v20-latin-900.woff2') format('woff2'),
+    url('/fonts/inter-v20-latin-900.woff') format('woff'),
+    url('/fonts/inter-v20-latin-900.ttf') format('truetype');
 }
 
 :root {
-  --font-inter: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-antic: "Cormorant Upright", "Times New Roman", Times, Georgia, serif;
-  --gray: #696969; /* var(--gray); */
+  --font-inter: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-antic: 'Cormorant Upright', 'Times New Roman', Times, Georgia, serif;
+  --gray: #525252; /* var(--gray); */
   --light-gray: #d9e0eb;
   --light-green: #c3ff00; /* var(--light-green); */
   --pale-lavender: rgba(146, 125, 246, 0.5); /* var(--pale-lavender); */
 }
 
-body {
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -145,7 +150,7 @@ canvas {
 }
 
 .canvas-wrapper::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -173,19 +178,23 @@ button {
 
 @media (hover: hover) and (pointer: fine) {
   a:hover,
-  button:hover:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
-    transform: translateY(-3px);
+  button:hover:not(.sidebar__slider-button):not(
+      .modal-wrapper__close-button,
+      .menu__button
+    ) {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   }
 
   button.sidebar__slider-button:hover,
   button.modal-wrapper__close-button:hover {
-    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.7);
   }
 
   a:focus-visible,
   .modal-wrapper__container_clickable:focus-visible,
-  button:focus-visible:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
+  button:focus-visible:not(.sidebar__slider-button):not(
+      .modal-wrapper__close-button
+    ) {
     outline: 5px solid var(--pale-lavender);
     outline-offset: 3px;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
@@ -204,17 +213,18 @@ button {
   button:active:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
     transform: translateY(-3px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    /* transform:scale(0.99); */
   }
 
   button.sidebar__slider-button:active,
   button.modal-wrapper__close-button:active {
-    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.7);
   }
 }
 
 button:disabled,
-li[aria-disabled="true"],
-a[aria-disabled="true"] {
+li[aria-disabled='true'],
+a[aria-disabled='true'] {
   opacity: 0.7;
   filter: grayscale(0.7) brightness(0.8);
 }

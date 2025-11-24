@@ -1,10 +1,9 @@
-import { Canvas, useThree, useFrame,   } from '@react-three/fiber'
-import { OrbitControls,  } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
-import * as THREE from 'three'
 
 function Scene() {
   const matrix = useStore(s => s.matrix)
@@ -27,7 +26,10 @@ function Scene() {
     []
   )
 
-  const [windowSize, setWindowSize] = useState(350) //TODO проверить на утечки памяти это не дублирование windowWidth из стора!
+  const [windowParameters, setWindowParameters] = useState({
+    windowSize: 350,
+    shift: 0
+  }) //TODO проверить на утечки памяти это не дублирование windowWidth из стора!
 
   function handleOpenCloseModals() {
     if (isOpenModal || isOpenFooterModal) {
@@ -58,17 +60,22 @@ function Scene() {
   }, [matrix])
 
   const handleResize = () => {
-    setWindowSize(getWindowSize())
+    setWindowParameters(getWindowParameters())
   }
-
-  const getWindowSize = () => {
-    if (windowWidth < 500) return 200
-    if (windowWidth < 800 && windowWidth >= 500) return 200
-    if (windowWidth < 1200 && windowWidth >= 800) return 300
-    if (windowWidth < 1500 && windowWidth >= 1200) return 300
-    if (windowWidth < 2100 && windowWidth >= 1500) return 500
-    if (windowWidth < 3000 && windowWidth >= 2100) return 550
-    return 770
+  //масштаб сцены и сдвиг по y
+  const getWindowParameters = () => {
+    if (windowWidth < 500) return { windowSize: 150, shift: -0.2 }
+    if (windowWidth < 800 && windowWidth >= 500)
+      return { windowSize: 200, shift: -0.1 }
+    if (windowWidth < 1200 && windowWidth >= 800)
+      return { windowSize: 220, shift: 0.15 }
+    if (windowWidth < 1500 && windowWidth >= 1200)
+      return { windowSize: 280, shift: 0.2 }
+    if (windowWidth < 2100 && windowWidth >= 1500)
+      return { windowSize: 380, shift: 0.3 }
+    if (windowWidth < 3000 && windowWidth >= 2100)
+      return { windowSize: 480, shift: 0.2 }
+    return { windowSize: 700, shift: 0.2 }
   }
 
   useEffect(() => {
@@ -81,11 +88,11 @@ function Scene() {
 
   // const baseZoom = useMemo(() => getWindowSize(), [])
   //TODO
-  const minZoom = windowSize - 130
-  const maxZoom = windowSize + 350
+  const minZoom = windowParameters.windowSize - 100
+  const maxZoom = windowParameters.windowSize + 450
 
   return (
-    <section className='canvas-wrapper'>
+    <div className='canvas-wrapper'>
       <Canvas
         onClick={handleOpenCloseModals}
         id='canvas'
@@ -93,7 +100,7 @@ function Scene() {
         orthographic
         camera={{
           position: [0, 0, 0],
-          zoom: windowSize,
+          zoom: windowParameters.windowSize,
           near: -2,
           far: 15
         }}
@@ -115,6 +122,7 @@ function Scene() {
           heightSegments={heightSegments}
           gameState={gameState}
           setGameState={setGameState}
+          shift={windowParameters.shift}
         />
         <OrbitControls
           enableRotate={false}
@@ -122,9 +130,8 @@ function Scene() {
           minZoom={minZoom}
           maxZoom={maxZoom}
         />
-
       </Canvas>
-    </section>
+    </div>
   )
 }
 

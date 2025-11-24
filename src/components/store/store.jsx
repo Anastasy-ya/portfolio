@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import matrix_1 from '../Matrices/1'
 import matrix_2 from '../Matrices/2'
+// import matrix_3 from '../Matrices/3'
+import matrix_4 from '../Matrices/4'
 import matrix_0 from '../Matrices/0'
 
 //перенести в utils TODO
@@ -16,15 +18,20 @@ function getBrowserLanguage() {
 
 const useStore = create((set, get) => ({
   //game
-  matrices: [matrix_1, matrix_2, matrix_0],
+  matrices: [matrix_1, matrix_2, matrix_4, matrix_0],
   matrixName: 'matrix_1',
   setMatrixName: name => set({ matrixName: name }),
   matrix: matrix_1,
   setMatrix: newMatrix => set({ matrix: newMatrix }),
-  gameSpeed: 80, /*80 */
+  gameSpeed: 150 /*80 */,
   setGameSpeed: newSpeed => set({ gameSpeed: newSpeed }),
   isLiving: false,
-  toggleLiving: newState => set(({ isLiving: newState })),
+  toggleLiving: newState => set({ isLiving: newState }),
+  isInstancedReady: false,
+  setIsInstancedReady: newState => set({ isInstancedReady: newState }),
+
+  isPreloaderHides: false,
+  setIsPreloaderHides: state => set({ isPreloaderHides: state }),
 
   //window width
   windowWidth: window.innerWidth,
@@ -62,6 +69,76 @@ const useStore = create((set, get) => ({
   // }
 
   //datasets
+
+  // preloaderDataset: [
+  //   {
+  //     node: <>«Из множества маленьких пикселей складывается картина...</>,
+  //     pauseBefore: 1200,
+  //     display: 2300
+  //   },
+  //   {
+  //     node: (
+  //       <>
+  //         из множества небольших решений продукт, меняющий всё.»<br />
+  //         <span>Фраза, которую мог бы сказать Стив Джобс...</span>
+  //       </>
+  //     ),
+  //     pauseBefore: 800,
+  //     display: 5300
+  //   },
+  //   {
+  //     node: <><span>но вместо этого он решил 22попить чайку</span></>,
+  //     pauseBefore: 800,
+  //     display: 2300
+  //   }
+  // ],
+  preloaderDataset: [
+    {
+      node: {
+        ru: <>«Из множества маленьких пикселей складывается картина...</>,
+        en: <>«A picture emerges from countless tiny pixels...</>
+      },
+      pauseBefore: 1200,
+      display: 2300
+    },
+    {
+      node: {
+        ru: (
+          <>
+            из множества небольших решений продукт, меняющий всё.»
+            <br />
+            <span>Фраза, которую мог бы сказать Стив Джобс...</span>
+          </>
+        ),
+        en: (
+          <>
+            A world-changing product emerges from countless small choices.»
+            <br />
+            <span>A phrase Steve Jobs might have said...</span>
+          </>
+        )
+      },
+      pauseBefore: 800,
+      display: 5300
+    },
+    {
+      node: {
+        ru: (
+          <>
+            <span>но вместо этого он решил выпить чашечку кофе</span>
+          </>
+        ),
+        en: (
+          <>
+            <span>but instead he decided to sip some cofe</span>
+          </>
+        )
+      },
+      pauseBefore: 800,
+      display: 2300
+    }
+  ],
+
   menuDataset: [
     // {
     //   type: 'text-button',
@@ -139,7 +216,8 @@ const useStore = create((set, get) => ({
     },
     slider: {
       type: 'slider',
-      buttons: [1, 2] //, 0
+      buttons: [1, 2, 4], //, 0
+      label: { ru: 'Выбрать паттерн', en: 'Select a pattern' }
     }
     // vr: {
     //   type: 'button',
@@ -226,6 +304,7 @@ const useStore = create((set, get) => ({
           title: '3D & AR/VR',
           folder: '3darvr',
           icons: [
+            'WebGL',
             'Three',
             'Drei',
             'ReactThreeFiber',
