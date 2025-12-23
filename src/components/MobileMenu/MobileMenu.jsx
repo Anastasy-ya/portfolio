@@ -36,9 +36,9 @@ function MobileMenu() {
 
   function handleClick(name) {
     if (name === 'about-me') {
-      setModalType('about-me')(false)
+      setModalType('about-me')
+      setIsOpenMobileMenuModal(false)
       setIsOpenAboutMeModal(true)
-
       // } else if (name === 'mail') {
       //   //заготовка для формы обратной связи
       //   setModalType('mail')
