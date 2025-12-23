@@ -1,15 +1,10 @@
 {
-  "singleQuote": true,
   "semi": false,
-  "jsxSingleQuote": true,
-  "trailingComma": "none",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "bracketSpacing": true,
   "arrowParens": "avoid",
-  "overrides": [
-    {
-      "files": "*.{js,jsx}",
-      "options": {
-        "parser": "babel"
-      }
-    }
-  ]
+  "endOfLine": "lf"
 }

@@ -1,34 +1,37 @@
 import './AboutMe.css'
 import { useStore } from '../store/store'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
 
 function AboutMe() {
   const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
   const locale = useStore(s => s.locale)
   const windowWidth = useStore(s => s.windowWidth)
-  const isOpenModal = useStore(s => s.isOpenModal)
+  const isOpenAboutMeModal = useStore(s => s.isOpenAboutMeModal)
   const modalType = useStore(s => s.modalType)
-  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const setIsOpenAboutMeModal = useStore(s => s.setIsOpenAboutMeModal)
   const setModalType = useStore(s => s.setModalType)
 
-  const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
+  const [modalPositions, setModalPositions] = useState({
+    open: 0,
+    closed: window.innerHeight
+  })
 
   useEffect(() => {
     windowWidth > 1001
-      ? setModalPositions({ open: 240, closed: window.innerHeight })
+      ? setModalPositions({ open: 240, closed: window.innerHeight })//TODO window.innerHeight в переменную и юзэффект
       : windowWidth <= 1000 && windowWidth > 500
       ? setModalPositions({ open: 165, closed: window.innerHeight })
       : setModalPositions({ open: 100, closed: window.innerHeight })
   }, [windowWidth])
 
-  function toggleAboutMeModal() {
-    setIsOpenModal()
+  function closeAboutMeModal() {
+    setIsOpenAboutMeModal(false)
     modalType === 'about-me'
       ? setTimeout(() => {
           setModalType(null)
         }, 500)
-      : setModalType('about-me')
+      : ''
   }
 
   const content = (
@@ -48,13 +51,15 @@ function AboutMe() {
     </div>
   )
 
+  // console.count('render AboutMe')
+
   return (
     <>
       <ModalWrapper
         type={modalType}
         modalPositions={modalPositions}
-        isOpen={isOpenModal}
-        handleClose={toggleAboutMeModal}
+        isOpen={isOpenAboutMeModal}
+        handleClose={closeAboutMeModal}
       >
         {content}
       </ModalWrapper>

@@ -7,20 +7,16 @@ function Menu() {
   const menuDataset = useStore(s => s.menuDataset)
   const locale = useStore(s => s.locale)
   const windowWidth = useStore(s => s.windowWidth)
-  const isOpenModal = useStore(s => s.isOpenModal)
-  const modalType = useStore(s => s.modalType)
-  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const isOpenAboutMeModal = useStore(s => s.isOpenAboutMeModal)
+  const setIsOpenAboutMeModal = useStore(s => s.setIsOpenAboutMeModal)
   const setModalType = useStore(s => s.setModalType)
 
   const [isCopied, setIsCopied] = useState(false)
 
   useEffect(() => {
-
-
     if (!isCopied) return;
 
-    let timer
-    timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsCopied(false)
     }, 1500)
 
@@ -31,21 +27,23 @@ function Menu() {
   }, [isCopied])
 
   function handleClick(name) {
-    if (!isOpenModal) {
+    if (!isOpenAboutMeModal) {
       if (name === 'about-me') {
-        setIsOpenModal(true)
+        setIsOpenAboutMeModal(true)
         setModalType('about-me')
       } else if (name === 'mail') {
-        setIsOpenModal(true)
+        setIsOpenAboutMeModal(true)
         setModalType('mail')
       }
     } else {
-      setIsOpenModal(false)
-      setModalType(null)
+      setIsOpenAboutMeModal(false)
+      setTimeout(() => {
+          setModalType(null)
+        }, 500)
     }
   }
 
-  const handleCopy = (text) => {
+  const handleCopy = () => {
     navigator.clipboard.writeText('hiperiosity@gmail.com')
       .then(() => {
         setIsCopied(true);
@@ -54,6 +52,8 @@ function Menu() {
         console.error("Ошибка копирования:", err);
       });
   };
+
+  console.count('render menu')
 
   return (
     <nav className='menu'>

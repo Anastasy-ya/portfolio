@@ -6,11 +6,15 @@ import ModalWrapper from '../ModalWrapper/ModalWrapper'
 function MobileMenu() {
   const windowWidth = useStore(s => s.windowWidth)
   const isWide = windowWidth > 1000
-  const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
+  const [modalPositions, setModalPositions] = useState({
+    open: 0,
+    closed: window.innerHeight
+  })
   const menuDataset = useStore(s => s.menuDataset)
   const locale = useStore(s => s.locale)
-  const isOpenModal = useStore(s => s.isOpenModal)
-  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const isOpenMobileMenuModal = useStore(s => s.isOpenMobileMenuModal)
+  const setIsOpenMobileMenuModal = useStore(s => s.setIsOpenMobileMenuModal)
+  const setIsOpenAboutMeModal = useStore(s => s.setIsOpenAboutMeModal)
   const modalType = useStore(s => s.modalType)
   const setModalType = useStore(s => s.setModalType)
 
@@ -19,20 +23,26 @@ function MobileMenu() {
       setModalPositions({ open: 230, closed: window.innerHeight })
   }, [windowWidth, modalType])
 
-  function toggleMenu() {
-    isOpenModal ? setIsOpenModal(false) : setIsOpenModal(true)
+  function closeMenu() {
+    // setIsOpenMobileMenuModal(isOpenMobileMenuModal ? false : true)
+    setIsOpenMobileMenuModal(false)
     modalType === 'mobile-menu'
       ? setTimeout(() => {
-        setModalType(null)
-      }, 500)
-      : setModalType('mobile-menu')
+          setModalType(null)
+        }, 500)
+      : ''
+    // setModalType('mobile-menu')
   }
 
   function handleClick(name) {
     if (name === 'about-me') {
-      setModalType('about-me')
-    } else if (name === 'mail') {
-      setModalType('mail')
+      setModalType('about-me')(false)
+      setIsOpenAboutMeModal(true)
+
+      // } else if (name === 'mail') {
+      //   //заготовка для формы обратной связи
+      //   setModalType('mail')
+      // setIsOpenAboutMeModal(true)
     } else console.error('error')
   }
 
@@ -55,14 +65,16 @@ function MobileMenu() {
     </div>
   )
 
+  // console.count('render mobileMenu')
+
   return (
     <>
       {!isWide && (
         <ModalWrapper
           type={modalType}
           modalPositions={modalPositions}
-          isOpen={isOpenModal}
-          handleClose={toggleMenu}
+          isOpen={isOpenMobileMenuModal}
+          handleClose={closeMenu}
         >
           {content}
         </ModalWrapper>

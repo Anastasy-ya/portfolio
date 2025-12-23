@@ -38,8 +38,12 @@ const useStore = create((set, get) => ({
   setWindowWidth: windowWidth => set({ windowWidth }),
 
   //modale
-  isOpenModal: false,
-  setIsOpenModal: value => set({ isOpenModal: value }),
+  // isOpenModal: false,
+  // setIsOpenModal: value => set({ isOpenModal: value }),
+  isOpenMobileMenuModal: false,
+  setIsOpenMobileMenuModal: value => set({ isOpenMobileMenuModal: value }),
+  isOpenAboutMeModal: false,
+  setIsOpenAboutMeModal: value => set({ isOpenAboutMeModal: value }),
   isOpenFooterModal: false,
   setIsOpenFooterModal: value => set({ isOpenFooterModal: value }),
 
@@ -70,72 +74,75 @@ const useStore = create((set, get) => ({
 
   //datasets
 
-  // preloaderDataset: [
-  //   {
-  //     node: <>«Из множества маленьких пикселей складывается картина...</>,
-  //     pauseBefore: 1200,
-  //     display: 2300
-  //   },
-  //   {
-  //     node: (
-  //       <>
-  //         из множества небольших решений продукт, меняющий всё.»<br />
-  //         <span>Фраза, которую мог бы сказать Стив Джобс...</span>
-  //       </>
-  //     ),
-  //     pauseBefore: 800,
-  //     display: 5300
-  //   },
-  //   {
-  //     node: <><span>но вместо этого он решил 22попить чайку</span></>,
-  //     pauseBefore: 800,
-  //     display: 2300
-  //   }
-  // ],
   preloaderDataset: [
     {
       node: {
-        ru: <>«Из множества маленьких пикселей складывается картина...</>,
-        en: <>«A picture emerges from countless tiny pixels...</>
+        ru: (
+          <>
+            Добро пожаловать,
+            <br />
+            меня зовут Анастасия
+          </>
+        ),
+        en: (
+          <>
+            Welcome,
+            <br />
+            I'm Anastasia
+          </>
+        )
       },
-      pauseBefore: 1200,
-      display: 2300
+      pauseBefore: 1200, //1200
+      display: 2300 //2300
     },
     {
       node: {
         ru: (
           <>
-            из множества небольших решений продукт, меняющий всё.»
+            Создаю интерактивные миры
+            на стыке кода{'\u00A0'}и{'\u00A0'}дизайна.
             <br />
-            <span>Фраза, которую мог бы сказать Стив Джобс...</span>
+            <br />
+            Перед вами — моя интерпретация «Игры{'\u00A0'}в{'\u00A0'}жизнь»
+            {'\u00A0'}Конвея,
+            где из нескольких правил рождаются сложные живые паттерны
           </>
         ),
         en: (
           <>
-            A world-changing product emerges from countless small choices.»
+            I create interactive worlds
             <br />
-            <span>A phrase Steve Jobs might have said...</span>
+            at the intersection of code{'\u00A0'}and{'\u00A0'}design
+            <br />
+            <br />
+            Here you'll find my interpretation of Conway's{'\u00A0'}Game
+            {'\u00A0'}of{'\u00A0'}Life,
+            <br />
+            where complex patterns emerge from simple rules.
           </>
         )
       },
-      pauseBefore: 800,
-      display: 5300
+      pauseBefore: 800, //800
+      display: 6000 //5300
     },
     {
       node: {
         ru: (
           <>
-            <span>но вместо этого он решил выпить чашечку кофе</span>
+            Коснитесь сферы, чтобы запустить игру и наблюдать за эволюцией
+            клеточных структур
           </>
         ),
         en: (
           <>
-            <span>but instead he decided to sip some cofe</span>
+            <span>
+              Touch the sphere to begin and observe cellular evolution.
+            </span>
           </>
         )
       },
-      pauseBefore: 800,
-      display: 2300
+      pauseBefore: 800, //800
+      display: 2700 //2300
     }
   ],
 
@@ -258,7 +265,7 @@ const useStore = create((set, get) => ({
           push them further.`
     },
     aboutProjectTitle: {
-      ru: 'Кубики? Что здесь происходит?',
+      ru: 'Об игре в жизнь Д. Конвея',
       en: 'What’s going on here?'
     },
     aboutProjectArticle: {

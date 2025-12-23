@@ -2,13 +2,13 @@ import './Burger.css'
 import { useStore } from '../store/store'
 
 function Burger() {
-  const isOpenModal = useStore(s => s.isOpenModal)
-  const setIsOpenModal = useStore(s => s.setIsOpenModal)
+  const isOpenMobileMenuModal = useStore(s => s.isOpenMobileMenuModal)
+  const setIsOpenMobileMenuModal = useStore(s => s.setIsOpenMobileMenuModal)
   const modalType = useStore(s => s.modalType)
   const setModalType = useStore(s => s.setModalType)
 
   function toggleMenu() {
-    isOpenModal ? setIsOpenModal(false) : setIsOpenModal(true)
+    setIsOpenMobileMenuModal(isOpenMobileMenuModal ? false : true)
     modalType === 'mobile-menu'
       ? setTimeout(() => {
           setModalType(null)
@@ -16,12 +16,14 @@ function Burger() {
       : setModalType('mobile-menu')
   }
 
+  console.count('render Burger')
+
   return (
     <nav className='mobile-menu__navigation'>
       <button
         onClick={toggleMenu}
         className={`mobile-menu__burger ${
-          isOpenModal
+          isOpenMobileMenuModal
             ? 'mobile-menu__burger_type_open'
             : 'mobile-menu__burger_type_closed'
         }`}

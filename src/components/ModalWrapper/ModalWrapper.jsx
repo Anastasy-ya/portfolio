@@ -12,7 +12,8 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
 
   useEffect(() => {
     const wrapper = wrapperRef.current
-    if (!modalPositions || !wrapper) return
+    if (!wrapper || !modalPositions) return
+    if (draggableRef.current) return
 
     const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
     const closeBtn = wrapper.querySelector('.modal-wrapper__close-button')
@@ -23,40 +24,69 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       inertia: true,
       edgeResistance: 0.1,
       maxDuration: 0.5,
-      bounds: { minY: modalPositions.open, maxY: modalPositions.closed },
-      snap: { y: [modalPositions.open, modalPositions.closed, 0] },
       zIndexBoost: false,
       allowNativeTouchScrolling: true,
+      bounds: {
+        minY: modalPositions.open,
+        maxY: modalPositions.closed
+      },
+      snap: {
+        y: [modalPositions.open, modalPositions.closed, 0]
+      },
       onRelease() {
-        if (this.endY === modalPositions.closed) {
-          this.wasReleasedAtBottom = true
-        } else {
-          this.wasReleasedAtBottom = false
-        }
+        this.wasReleasedAtBottom = this.endY === modalPositions.closed
       },
       onThrowComplete() {
         if (this.wasReleasedAtBottom) {
-          handleClick()
+          handleClose?.()
         }
       }
     })[0]
+
+    return () => {
+      draggableRef.current?.kill()
+      draggableRef.current = null
+    }
+  }, [])
+
+  /*обновление bounds */
+  useEffect(() => {
+    if (!draggableRef.current || !modalPositions) return
+
+    draggableRef.current.applyBounds({
+      minY: modalPositions.open,
+      maxY: modalPositions.closed
+    })
+
+    draggableRef.current.vars.snap = {
+      y: [modalPositions.open, modalPositions.closed, 0]
+    }
+
+    // 🔥 ВАЖНО: Нужно обновить snap функцию
+    if (draggableRef.current.snap) {
+      draggableRef.current.snap = {
+        y: [modalPositions.open, modalPositions.closed, 0]
+      }
+    }
+  }, [modalPositions])
+
+  /*открытие и закрытие */
+  useEffect(() => {
+    const wrapper = wrapperRef.current // 🔥 Определяем внутри эффекта
+    if (!wrapper || !modalPositions || !draggableRef.current) return
+
+    const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
 
     gsap.to(draggableRoot, {
       y: isOpen ? modalPositions.open : modalPositions.closed,
       duration: 0.8,
       ease: 'back.out(1.4)'
     })
+  }, [isOpen, modalPositions])
 
-    return () => {
-      draggableRef.current?.kill()
-    }
-  }, [modalPositions, isOpen])
+  console.count('render modalWrapper')
 
-  const handleClick = () => {
-    handleClose?.()
-  }
-
-  if (!type) return null
+  // if (!type) return null
 
   return (
     <section
@@ -82,7 +112,7 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       >
         <button
           className='modal-wrapper__close-button'
-          onClick={handleClick}
+          onClick={handleClose}
           aria-label='Закрыть модальное окно'
           tabIndex='0'
         />

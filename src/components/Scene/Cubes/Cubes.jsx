@@ -231,6 +231,7 @@ function Cubes({
 
   const boxGeometry = useMemo(() => new THREE.DodecahedronGeometry(0.05), [])
 
+  //TODO базового материала хватит
   const material = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
       color: 'rgba(255, 255, 255, 1)',

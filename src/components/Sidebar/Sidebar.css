@@ -44,7 +44,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   flex-shrink: 0;
 }
 
@@ -61,7 +61,7 @@
 
 @media (hover: none) and (pointer: coarse) {
   .sidebar__addition-button {
-    transition: transform 0.3s ease-in-out;
+    /* transition: transform 0.3s ease-in-out; */
   }
 }
 
@@ -115,14 +115,14 @@
   width: 12px;
   border-radius: 65px;
   overflow: hidden;
-  transition: height 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+  /* transition: height 0.5s ease-in-out, border-radius 0.5s ease-in-out; */
 }
 
 .sidebar__slider-container--horizontal .sidebar__slider-button.active {
   width: 130px;
   height: 12px;
   border-radius: 65px;
-  transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+  /* transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out; */
 }
 
 /* .sidebar__slider-container .sidebar__slider-button:last-child {

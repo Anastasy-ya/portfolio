@@ -36,6 +36,8 @@ function QuickLinks() {
     }
   ]
 
+  // console.count('render QuickLinks')
+
   return (
     <>
       <div className='quick-links__root'>

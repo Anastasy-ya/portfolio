@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react'
 import './Sidebar.css'
 import { useStore } from '../store/store'
 
-//TODO вернуть плавное появление и исчезновение и убрать задержку при перерисовке при изменении положения
 function Sidebar() {
   const setMatrix = useStore(s => s.setMatrix) //вытащить сразу все переменные TODO
   const setMatrixName = useStore(s => s.setMatrixName)
-  const matrixName = useStore(s => s.matrixName)
   const matrices = useStore(s => s.matrices)
   const locale = useStore(s => s.locale)
   const sidebarDataset = useStore(s => s.sidebarDataset)
-  const activePopup = useStore(s => s.activePopup)
-  const gameSpeed = useStore(s => s.gameSpeed)
-  const toggleLiving = useStore(s => s.toggleLiving)
-  const isLiving = useStore(s => s.isLiving)
-  const windowWidth = useStore(s => s.windowWidth)
+  // const activePopup = useStore(s => s.activePopup)
+  const windowWidth = useStore(s => s.windowWidth)//дублирование функций и множественные перерисовки
+  // const gameSpeed = useStore(s => s.gameSpeed)
+  // const toggleLiving = useStore(s => s.toggleLiving)
+  // const isLiving = useStore(s => s.isLiving)
+    // const matrixName = useStore(s => s.matrixName)
+  
+
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [position, setPosition] = useState('vertical')
@@ -30,13 +31,15 @@ function Sidebar() {
     setActiveIndex(index)
   }
 
+  console.count('render Sidebar')
+
   return (
     <div
       className={`sidebar sidebar--${position}`}
       style={{
-        right: position === 'vertical' ? (activePopup ? '-40px' : '0') : 'auto',
+        right: position === 'vertical' ? 0 : 'auto',
         bottom:
-          position === 'horizontal' ? (activePopup ? '-40px' : '0') : 'auto'
+          position === 'horizontal' ? 0 : 'auto'
       }}
     >
       {/* Play */}

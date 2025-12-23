@@ -8,6 +8,8 @@ function Bio() {
   const bioDataset = useStore(s => s.bioDataset)
   const windowWidth = useStore(s => s.windowWidth)
 
+  console.count('render Bio')
+
   return (
     <>
       <section className='bio'>
@@ -15,7 +17,7 @@ function Bio() {
           <h1>{bioDataset.name[locale]}</h1>
           <p>{bioDataset.role[locale]}</p>
         </div>
-        <div className='quick-links'>{/*TODO переименовать или перенести */}
+        <div className='quick-links'>
           {windowWidth <= 600 && <Burger />}
           <QuickLinks />
         </div>

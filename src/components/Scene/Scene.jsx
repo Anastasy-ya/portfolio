@@ -1,9 +1,12 @@
 import { Canvas } from '@react-three/fiber'
+// import { Loader } from '@react-three/drei'
 import { OrbitControls } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef, Suspense } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
+
+import { Perf } from 'r3f-perf' //delme
 
 function Scene() {
   const matrix = useStore(s => s.matrix)
@@ -99,31 +102,33 @@ function Scene() {
         style={{ width: '100vw', height: '100vh' }}
         orthographic
         camera={{
-          position: [0, 0, 0],
+          position: [0, 0, 5],
           zoom: windowParameters.windowSize,
           near: -2,
           far: 15
         }}
       >
-        <fog attach='fog' args={['rgba(184, 192, 217, 1)', 0, 3]} />
+        {/* <Perf position='bottom-left' /> */}
+        <fog attach='fog' args={['rgba(184, 192, 217, 1)', 5, 6.5]} />
 
         <color attach='background' args={['rgb(220, 220, 220)']} />
+        {/* <Suspense fallback={null}> */}
+          <Environment
+            files='/environment/industrial_sunset_puresky_4k.exr'
+            intensity={1.0}
+            background={false}
+          />
 
-        <Environment
-          files='/environment/industrial_sunset_puresky_4k.exr'
-          intensity={1.0}
-          background={false}
-        />
-
-        <Cubes
-          radius={radius}
-          height={height}
-          radialSegments={radialSegments}
-          heightSegments={heightSegments}
-          gameState={gameState}
-          setGameState={setGameState}
-          shift={windowParameters.shift}
-        />
+          <Cubes
+            radius={radius}
+            height={height}
+            radialSegments={radialSegments}
+            heightSegments={heightSegments}
+            gameState={gameState}
+            setGameState={setGameState}
+            shift={windowParameters.shift}
+          />
+        {/* </Suspense> */}
         <OrbitControls
           enableRotate={false}
           target={[0, 0, 0]}

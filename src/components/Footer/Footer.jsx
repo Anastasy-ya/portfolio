@@ -86,6 +86,8 @@ function Footer() {
     </section>
   )
 
+  // console.count('render Footer')
+
   return (
     <>
       {isWide ? (

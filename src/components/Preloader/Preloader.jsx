@@ -7,7 +7,7 @@ function Preloader() {
   const [visible, setVisible] = useState(false)
   const [isHiding, setIsHiding] = useState(false)
 
-  const isPreloaderHides = useStore(s => s.isPreloaderHides)
+  const isPreloaderHides = useStore(s => s.isPreloaderHides)//TODO вернуть false
   const setIsPreloaderHides = useStore(s => s.setIsPreloaderHides)
   const preloaderDataset = useStore(s => s.preloaderDataset)
   const locale = useStore(s => s.locale)

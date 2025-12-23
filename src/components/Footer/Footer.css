@@ -170,37 +170,12 @@
   z-index: -1;
 }
 
-/* .footer__icon-label {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-10px);
-  background: rgba(105, 105, 105, 0.9);
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-family: var(--font-inter);
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 100;
-  pointer-events: none;
-} */
-
 @media (hover: none) and (pointer: coarse) {
   .footer__icon:active {
     transform: scale(1.15);
     background-color: white;
     box-shadow: 0 2px 8px rgba(105, 105, 105, 0.1);
   }
-
-  /* .footer__icon:active .footer__icon-label {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-  } */
 }
 
 .footer__section {

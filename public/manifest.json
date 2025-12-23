@@ -1,0 +1,16 @@
+{
+  "name": "Портфолио разработчика",
+  "short_name": "Портфолио",
+  "description": "Интерактивное портфолио с 3D сценами",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/images/fav.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ]
+}
