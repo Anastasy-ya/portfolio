@@ -1,14 +1,16 @@
 import './ModalWrapper.css'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
+// import { useLayoutEffect } from 'react'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
   const wrapperRef = useRef(null)
   const draggableRef = useRef(null)
+  // const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -17,6 +19,10 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
 
     const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
     const closeBtn = wrapper.querySelector('.modal-wrapper__close-button')
+
+    // gsap.set(draggableRoot, {
+    //   y: modalPositions.closed,
+    // })
 
     draggableRef.current = Draggable.create(draggableRoot, {
       trigger: closeBtn,
@@ -43,11 +49,13 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       }
     })[0]
 
+    // setIsInitialized(true)
+
     return () => {
       draggableRef.current?.kill()
       draggableRef.current = null
     }
-  }, [])
+  }, [modalPositions])
 
   /*обновление bounds */
   useEffect(() => {
@@ -84,7 +92,7 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
     })
   }, [isOpen, modalPositions])
 
-  console.count('render modalWrapper')
+  // console.count('render modalWrapper')
 
   // if (!type) return null
 

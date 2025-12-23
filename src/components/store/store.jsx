@@ -30,7 +30,7 @@ const useStore = create((set, get) => ({
   isInstancedReady: false,
   setIsInstancedReady: newState => set({ isInstancedReady: newState }),
 
-  isPreloaderHides: true,
+  isPreloaderHides: false,
   setIsPreloaderHides: state => set({ isPreloaderHides: state }),
 
   //window width
