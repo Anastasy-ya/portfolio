@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import './Sidebar.css'
 import { useStore } from '../store/store'
 
@@ -8,20 +8,12 @@ function Sidebar() {
   const matrices = useStore(s => s.matrices)
   const locale = useStore(s => s.locale)
   const sidebarDataset = useStore(s => s.sidebarDataset)
-  // const activePopup = useStore(s => s.activePopup)
-  const windowWidth = useStore(s => s.windowWidth)//дублирование функций и множественные перерисовки
-  // const gameSpeed = useStore(s => s.gameSpeed)
-  // const toggleLiving = useStore(s => s.toggleLiving)
-  // const isLiving = useStore(s => s.isLiving)
-    // const matrixName = useStore(s => s.matrixName)
-  
-
-
+  const windowWidth = useStore(s => s.windowWidth)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [position, setPosition] = useState('vertical')
+  const [position, setPosition] = useState(windowWidth > 1000 ? 'vertical' : 'horizontal')
 
-  useEffect(() => {
-    windowWidth > 1000 ? setPosition('vertical') : setPosition('horizontal')
+  useLayoutEffect(() => {
+    setPosition(windowWidth > 1000 ? 'vertical' : 'horizontal')
   }, [windowWidth])
 
   const handleButtonClick = index => {
@@ -38,8 +30,7 @@ function Sidebar() {
       className={`sidebar sidebar--${position}`}
       style={{
         right: position === 'vertical' ? 0 : 'auto',
-        bottom:
-          position === 'horizontal' ? 0 : 'auto'
+        bottom: position === 'horizontal' ? 0 : 'auto'
       }}
     >
       {/* Play */}
@@ -65,6 +56,7 @@ function Sidebar() {
           {sidebarDataset.slider.buttons.map((_, index) => (
             <button
               key={index}
+              id={index}
               className={`sidebar__slider-button ${
                 index === activeIndex ? 'active' : ''
               }`}

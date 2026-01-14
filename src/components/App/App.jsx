@@ -25,8 +25,6 @@ function App() {
     initLocale()
   }, [initLocale])
 
-  // console.count('render App')
-
   return (
     <div className='app'>
       <Preloader />

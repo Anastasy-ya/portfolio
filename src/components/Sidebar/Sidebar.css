@@ -6,7 +6,7 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
-  z-index: 1013; /*не уменьшать, перекрывает значения gsap анимированного элемента*/
+  z-index: 1013;
 }
 
 .sidebar--vertical {
@@ -30,38 +30,6 @@
 @media (max-width: 800px) {
   .sidebar--horizontal {
     padding: 0 10px;
-  }
-}
-
-.sidebar__addition-button {
-  position: relative;
-  width: 25px;
-  height: 25px;
-  aspect-ratio: 1 / 1;
-  border: none;
-  border-radius: 50%;
-  background-color: var(--gray);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  /* transition: all 0.3s ease-in-out; */
-  flex-shrink: 0;
-}
-
-.sidebar__addition-button::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  cursor: pointer;
-  z-index: 12;
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .sidebar__addition-button {
-    /* transition: transform 0.3s ease-in-out; */
   }
 }
 
@@ -100,7 +68,7 @@
 
 .sidebar__slider-button::before {
   pointer-events: auto;
-  content: "";
+  content: '';
   position: absolute;
   top: -15px;
   left: -15px;
@@ -115,20 +83,13 @@
   width: 12px;
   border-radius: 65px;
   overflow: hidden;
-  /* transition: height 0.5s ease-in-out, border-radius 0.5s ease-in-out; */
 }
 
 .sidebar__slider-container--horizontal .sidebar__slider-button.active {
   width: 130px;
   height: 12px;
   border-radius: 65px;
-  /* transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out; */
 }
-
-/* .sidebar__slider-container .sidebar__slider-button:last-child {
-  background-color: transparent;
-  border: 2px solid var(--gray);
-} */
 
 @media (min-width: 1500px) {
   .sidebar__slider-button {

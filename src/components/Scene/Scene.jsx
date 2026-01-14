@@ -2,11 +2,11 @@ import { Canvas } from '@react-three/fiber'
 // import { Loader } from '@react-three/drei'
 import { OrbitControls } from '@react-three/drei'
 import Cubes from './Cubes/Cubes'
-import { useState, useEffect, useMemo, useRef, Suspense } from 'react'
+import { useState, useEffect, useMemo, Suspense } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
 
-import { Perf } from 'r3f-perf' //delme
+// import { Perf } from 'r3f-perf' //delme
 
 function Scene() {
   const matrix = useStore(s => s.matrix)
@@ -56,7 +56,7 @@ function Scene() {
     return () => {
       document.removeEventListener('keydown', handleEscape)
     }
-  }, [modalType, isOpenModal, isOpenFooterModal])
+  }, [modalType, isOpenModal, isOpenFooterModal, ])
 
   useEffect(() => {
     setGameState(matrix)
@@ -71,7 +71,7 @@ function Scene() {
     if (windowWidth < 800 && windowWidth >= 500)
       return { windowSize: 200, shift: -0.1 }
     if (windowWidth < 1200 && windowWidth >= 800)
-      return { windowSize: 220, shift: 0.15 }
+      return { windowSize: 250, shift: 0.15 }
     if (windowWidth < 1500 && windowWidth >= 1200)
       return { windowSize: 280, shift: 0.2 }
     if (windowWidth < 2100 && windowWidth >= 1500)
@@ -83,9 +83,7 @@ function Scene() {
 
   useEffect(() => {
     handleResize()
-
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 

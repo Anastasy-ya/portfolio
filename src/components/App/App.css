@@ -63,7 +63,6 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  /* overflow: hidden; */
 }
 
 .app {
@@ -213,9 +212,7 @@ button {
 @media (hover: none) and (pointer: coarse) {
   a:active,
   button:active:not(.sidebar__slider-button):not(.modal-wrapper__close-button) {
-    transform: translateY(-3px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-    /* transform:scale(0.99); */
   }
 
   button.sidebar__slider-button:active,

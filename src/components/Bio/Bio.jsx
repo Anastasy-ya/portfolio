@@ -8,8 +8,6 @@ function Bio() {
   const bioDataset = useStore(s => s.bioDataset)
   const windowWidth = useStore(s => s.windowWidth)
 
-  console.count('render Bio')
-
   return (
     <>
       <section className='bio'>

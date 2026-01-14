@@ -38,8 +38,6 @@ const useStore = create((set, get) => ({
   setWindowWidth: windowWidth => set({ windowWidth }),
 
   //modale
-  // isOpenModal: false,
-  // setIsOpenModal: value => set({ isOpenModal: value }),
   isOpenMobileMenuModal: false,
   setIsOpenMobileMenuModal: value => set({ isOpenMobileMenuModal: value }),
   isOpenAboutMeModal: false,
@@ -122,8 +120,8 @@ const useStore = create((set, get) => ({
           </>
         )
       },
-      pauseBefore: 800, //800
-      display: 6000 //5300
+      pauseBefore: 800,
+      display: 6000
     },
     {
       node: {
@@ -141,8 +139,8 @@ const useStore = create((set, get) => ({
           </>
         )
       },
-      pauseBefore: 800, //800
-      display: 2700 //2300
+      pauseBefore: 800,
+      display: 2700
     }
   ],
 

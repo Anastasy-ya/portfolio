@@ -48,8 +48,8 @@
 .social-link {
   display: inline-flex;
   flex-shrink: 0;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   text-decoration: none;
@@ -61,7 +61,6 @@
   transform: scale(1);
   transition: all 0.3s ease-in-out;
   transform-origin: center;
-  padding: 1px;
 }
 
 .social-link:hover {

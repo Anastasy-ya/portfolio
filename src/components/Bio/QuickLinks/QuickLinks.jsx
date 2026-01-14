@@ -36,13 +36,10 @@ function QuickLinks() {
     }
   ]
 
-  // console.count('render QuickLinks')
-
   return (
     <>
       <div className='quick-links__root'>
         <div className='quick-links__container'>
-          {/*переименовать классы по бэм TODO */}
           {socialLinks.map((link, index) => (
             <a
               key={index}

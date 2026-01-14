@@ -5,7 +5,6 @@
   right: 0;
   height: 100%;
   z-index: 12;
-  pointer-events: none;
 }
 
 .modal-wrapper_type_footer {
@@ -26,8 +25,6 @@
 
 .modal-wrapper {
   height: 100%;
-  pointer-events: none;
-  transition: transform 0.5s ease;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
@@ -40,33 +37,6 @@
   z-index: 12;
 }
 
-@keyframes modal-wrapper-bounce-in {
-  0% {
-    transform: scaleY(0);
-  }
-  70% {
-    transform: scaleY(1.08);
-  }
-  90% {
-    transform: scaleY(0.96);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes modal-wrapper-bounce-out {
-  0% {
-    transform: scaleY(1);
-  }
-  30% {
-    transform: scaleY(1.08);
-  }
-  100% {
-    transform: scaleY(0);
-  }
-}
-
 .modal-wrapper__animated-wrapper {
   position: absolute;
   bottom: 0;
@@ -74,21 +44,11 @@
   right: 0px;
   height: 100%;
   box-sizing: border-box;
-  transform-origin: bottom center;
-  transition: transform 0.5s ease;
   display: flex;
   justify-content: center;
   padding-top: 50px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-}
-
-.modal-wrapper__animated-wrapper.modal-wrapper_active {
-  animation: modal-wrapper-bounce-in 0.5s ease forwards;
-}
-
-.modal-wrapper__animated-wrapper:not(.modal-wrapper_active) {
-  animation: modal-wrapper-bounce-out 0.5s ease forwards;
 }
 
 .modal-wrapper__close-button {
@@ -101,7 +61,7 @@
   cursor: pointer;
   z-index: 2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-image: url("/svg/close.svg");
+  background-image: url('/svg/close.svg');
   background-size: 14px 14px;
   background-repeat: no-repeat;
   background-position: center;
@@ -129,7 +89,7 @@
 }
 
 .modal-wrapper__close-button::before {
-  content: "";
+  content: '';
   position: fixed;
   top: 0;
   left: 0;
@@ -140,7 +100,6 @@
 
 .modal-wrapper__container {
   touch-action: pan-y;
-  pointer-events: auto;
   height: 70%;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -162,9 +121,4 @@
 
 .modal-wrapper__container::-webkit-scrollbar-thumb:hover {
   background-color: var(--light-gray);
-}
-
-.modal-wrapper__container_clickable {
-  pointer-events: auto;
-  transition: all 0.3s ease-in-out;
 }

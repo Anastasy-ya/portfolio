@@ -82,7 +82,6 @@ function Menu() {
                   className='menu__item'
                   key={item.name}
                   id={item.name}
-                  // role='button'
                 >
                   <button
                     onClick={() => handleClick(item.name)}

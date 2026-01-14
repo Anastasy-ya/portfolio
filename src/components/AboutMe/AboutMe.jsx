@@ -11,19 +11,19 @@ function AboutMe() {
   const modalType = useStore(s => s.modalType)
   const setIsOpenAboutMeModal = useStore(s => s.setIsOpenAboutMeModal)
   const setModalType = useStore(s => s.setModalType)
-
+  const [height] = useState(window.innerHeight)
   const [modalPositions, setModalPositions] = useState({
     open: 0,
-    closed: window.innerHeight
+    closed: height
   })
 
   useEffect(() => {
     windowWidth > 1001
-      ? setModalPositions({ open: 240, closed: window.innerHeight })//TODO window.innerHeight в переменную и юзэффект
+      ? setModalPositions({ open: 240, closed: height })
       : windowWidth <= 1000 && windowWidth > 500
-      ? setModalPositions({ open: 165, closed: window.innerHeight })
-      : setModalPositions({ open: 100, closed: window.innerHeight })
-  }, [windowWidth])
+      ? setModalPositions({ open: 165, closed: height })
+      : setModalPositions({ open: 100, closed: height })
+  }, [windowWidth, height])
 
   function closeAboutMeModal() {
     setIsOpenAboutMeModal(false)
@@ -50,8 +50,6 @@ function AboutMe() {
       </article>
     </div>
   )
-
-  // console.count('render AboutMe')
 
   return (
     <>

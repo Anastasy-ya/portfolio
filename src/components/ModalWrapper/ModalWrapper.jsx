@@ -1,28 +1,32 @@
 import './ModalWrapper.css'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useLayoutEffect } from 'react'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
 import gsap from 'gsap'
-// import { useLayoutEffect } from 'react'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
   const wrapperRef = useRef(null)
   const draggableRef = useRef(null)
-  // const [isInitialized, setIsInitialized] = useState(false)
+
+  useLayoutEffect(() => {
+    const wrapper = wrapperRef.current
+    if (!wrapper || !modalPositions) return
+
+    const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
+
+    gsap.set(draggableRoot, {
+      y: modalPositions.closed
+    })
+  }, [modalPositions])
 
   useEffect(() => {
     const wrapper = wrapperRef.current
-    if (!wrapper || !modalPositions) return
-    if (draggableRef.current) return
+    if (!wrapper || !modalPositions || draggableRef.current) return
 
     const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
     const closeBtn = wrapper.querySelector('.modal-wrapper__close-button')
-
-    // gsap.set(draggableRoot, {
-    //   y: modalPositions.closed,
-    // })
 
     draggableRef.current = Draggable.create(draggableRoot, {
       trigger: closeBtn,
@@ -49,15 +53,13 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
       }
     })[0]
 
-    // setIsInitialized(true)
-
     return () => {
       draggableRef.current?.kill()
       draggableRef.current = null
     }
   }, [modalPositions])
 
-  /*обновление bounds */
+  /* обновление bounds */
   useEffect(() => {
     if (!draggableRef.current || !modalPositions) return
 
@@ -69,19 +71,12 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
     draggableRef.current.vars.snap = {
       y: [modalPositions.open, modalPositions.closed, 0]
     }
-
-    // 🔥 ВАЖНО: Нужно обновить snap функцию
-    if (draggableRef.current.snap) {
-      draggableRef.current.snap = {
-        y: [modalPositions.open, modalPositions.closed, 0]
-      }
-    }
   }, [modalPositions])
 
-  /*открытие и закрытие */
+  /* открытие и закрытие */
   useEffect(() => {
-    const wrapper = wrapperRef.current // 🔥 Определяем внутри эффекта
-    if (!wrapper || !modalPositions || !draggableRef.current) return
+    const wrapper = wrapperRef.current
+    if (!wrapper || !draggableRef.current || !modalPositions) return
 
     const draggableRoot = wrapper.closest('.modal-wrapper-root') || wrapper
 
@@ -92,26 +87,14 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
     })
   }, [isOpen, modalPositions])
 
-  // console.count('render modalWrapper')
-
-  // if (!type) return null
-
   return (
     <section
       className={`modal-wrapper-root ${
         isOpen ? 'modal-wrapper-root_type_active' : ''
       }`}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none'
-      }}
     >
       <div
-        className={`modal-wrapper  ${isOpen ? 'modal-wrapper_active' : ''}`}
+        className={`modal-wrapper ${isOpen ? 'modal-wrapper_active' : ''}`}
       />
 
       <div
@@ -124,7 +107,10 @@ function ModalWrapper({ children, type, modalPositions, isOpen, handleClose }) {
           aria-label='Закрыть модальное окно'
           tabIndex='0'
         />
-        <div className='modal-wrapper__container modal-wrapper__container_clickable'>
+        <div
+          className='modal-wrapper__container modal-wrapper__container_clickable'
+          data-clickable='true'
+        >
           {children}
         </div>
       </div>

@@ -24,7 +24,6 @@ function MobileMenu() {
   }, [windowWidth, modalType])
 
   function closeMenu() {
-    // setIsOpenMobileMenuModal(isOpenMobileMenuModal ? false : true)
     setIsOpenMobileMenuModal(false)
     modalType === 'mobile-menu'
       ? setTimeout(() => {
@@ -64,8 +63,6 @@ function MobileMenu() {
       </ul>
     </div>
   )
-
-  // console.count('render mobileMenu')
 
   return (
     <>

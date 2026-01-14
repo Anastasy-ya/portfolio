@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useStore } from '../store/store'
 import './Preloader.css'
 
@@ -7,7 +7,7 @@ function Preloader() {
   const [visible, setVisible] = useState(false)
   const [isHiding, setIsHiding] = useState(false)
 
-  const isPreloaderHides = useStore(s => s.isPreloaderHides)//TODO вернуть false
+  const isPreloaderHides = useStore(s => s.isPreloaderHides)
   const setIsPreloaderHides = useStore(s => s.setIsPreloaderHides)
   const preloaderDataset = useStore(s => s.preloaderDataset)
   const locale = useStore(s => s.locale)

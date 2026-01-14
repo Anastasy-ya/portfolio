@@ -26,7 +26,6 @@
 
 .preloader__text {
   transition: opacity 300ms ease-in-out;
-  /* display: flex; */
   align-items: center;
   justify-content: center;
   font-family: var(--font-inter);

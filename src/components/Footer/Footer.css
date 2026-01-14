@@ -43,6 +43,7 @@
   .footer__content {
     max-width: 220px;
     justify-content: flex-start;
+    padding-bottom: 45px;
   }
 }
 
@@ -138,7 +139,7 @@
 }
 
 .optimizations__info::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 8px;
@@ -161,7 +162,7 @@
 }
 
 .footer__icon::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -5mm;
   left: -5mm;

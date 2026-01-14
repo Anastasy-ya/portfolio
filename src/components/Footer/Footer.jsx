@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import './Footer.css'
 import { useStore } from '../store/store'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
@@ -7,25 +7,31 @@ function Footer() {
   const footerDataset = useStore(s => s.footerDataset)
   const windowWidth = useStore(s => s.windowWidth)
   const isWide = windowWidth > 1000
-  const [modalPositions, setModalPositions] = useState({ open: 0, closed: 0 })
   const isOpenFooterModal = useStore(s => s.isOpenFooterModal)
   const setIsOpenFooterModal = useStore(s => s.setIsOpenFooterModal)
+  const isOpenMobileMenuModal = useStore(s => s.isOpenMobileMenuModal)
+  const isOpenAboutMeModal = useStore(s => s.isOpenAboutMeModal)
+  const height = window.innerHeight
 
+  const modalPositions = useMemo(() => {
+    if (windowWidth > 1001) {
+      return { open: 254, closed: 0 }
+    }
+    if (windowWidth > 601 && windowWidth <= 1000) {
+      return { open: 160, closed: height - 80 }
+    }
+    if (windowWidth > 401 && windowWidth <= 600) {
+      return { open: 148, closed: height - 80 }
+    }
+    return { open: 110, closed: height - 80 }
+  }, [windowWidth, height])
+
+  //открытие других модалок автоматически закрывает остальные
   useEffect(() => {
-    windowWidth > 1001
-      ? setModalPositions({ open: 254, closed: 0 })
-      : windowWidth <= 1000 && windowWidth > 600
-      ? setModalPositions({
-          open: window.innerHeight - 400,
-          closed: window.innerHeight - 80
-        })
-      : windowWidth <= 600 && windowWidth > 500
-      ? setModalPositions({
-          open: window.innerHeight - 590,
-          closed: window.innerHeight - 80
-        })
-      : setModalPositions({ open: 110, closed: window.innerHeight - 80 })
-  }, [windowWidth])
+    if (isOpenAboutMeModal || isOpenMobileMenuModal) {
+      setIsOpenFooterModal(false)
+    }
+  }, [isOpenMobileMenuModal, isOpenAboutMeModal, setIsOpenFooterModal])
 
   function toggleFooter() {
     setIsOpenFooterModal(isOpenFooterModal ? false : true)
@@ -85,8 +91,6 @@ function Footer() {
       </div>
     </section>
   )
-
-  // console.count('render Footer')
 
   return (
     <>
