@@ -5,16 +5,22 @@ import Bio from '../Bio/Bio'
 import Footer from '../Footer/Footer'
 import Sidebar from '../Sidebar/Sidebar'
 import Menu from '../Menu/Menu'
-//TODO вытащить вложенные компоненты
+//TODO довытащить вложенные компоненты
 import ModalManager from '../ModalManager/ModalManager'
 import Preloader from '../Preloader/Preloader'
 // import { Stats } from '@react-three/drei'
 import { useStore } from '../store/store'
 import { useResize } from '../Actions/hooks/useResize'
+import { useShallow } from 'zustand/react/shallow'
 
 function App() {
-  const initLocale = useStore(s => s.initLocale)
-  const setWindowWidth = useStore(s => s.setWindowWidth)
+  const { initLocale, setWindowWidth } = useStore(
+    useShallow(s => ({
+      initLocale: s.initLocale,
+      setWindowWidth: s.setWindowWidth
+    }))
+  )
+  // const setWindowWidth = useStore(s => s.setWindowWidth)
   const width = useResize()
 
   useEffect(() => {

@@ -53,11 +53,10 @@ const Plane = forwardRef((props, ref) => {
     <mesh
       ref={mesh}
       onPointerMove={handlePointerMove}
-      // rotation={[ Math.PI/2, Math.PI/2, Math.PI/2]}
       position={[0, 0, -8]}
-    // onPointerDown={beginSliding}
-    // onPointerUp={stopSliding}
-    // onPointerLeave={stopSliding}
+      // onPointerDown={beginSliding}
+      // onPointerUp={stopSliding}
+      // onPointerLeave={stopSliding}
     >
       <planeGeometry args={[WIDTH, HEIGHT, 64, 64]} />
       <shaderMaterial
@@ -140,7 +139,7 @@ const Plane = forwardRef((props, ref) => {
         //     // float spreadAmount = spreadTime * 0.1;
         //     // --- новый код ---
         //     // Накапливаем искажения, но ограничиваем сверху
-        //     float spreadAmount = min(spreadTime * 1.05, 1.6); 
+        //     float spreadAmount = min(spreadTime * 1.05, 1.6);
         //     // ↑ чем больше коэффициент (0.05), тем быстрее растёт искажение
         //     // ↑ чем больше порог (3.6), тем сильнее максимум искажений
 
@@ -164,7 +163,6 @@ const Plane = forwardRef((props, ref) => {
 
         //     return vec4(touch, spreadTime, fade, 0.0);
         //   }
-
 
         //   void main() {
         //     // === Фон ===
@@ -228,9 +226,7 @@ const Plane = forwardRef((props, ref) => {
         //     gl_FragColor = vec4(finalColor, 1.0);
         //   }
 
-
         // `}
-
 
         fragmentShader={`
           precision highp float;

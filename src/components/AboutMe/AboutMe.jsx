@@ -2,15 +2,28 @@ import './AboutMe.css'
 import { useStore } from '../store/store'
 import { useState, useEffect } from 'react'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
+import { useShallow } from 'zustand/react/shallow'
 
 function AboutMe() {
-  const modalAboutMeDataset = useStore(s => s.modalAboutMeDataset)
-  const locale = useStore(s => s.locale)
-  const windowWidth = useStore(s => s.windowWidth)
-  const isOpenAboutMeModal = useStore(s => s.isOpenAboutMeModal)
-  const modalType = useStore(s => s.modalType)
-  const setIsOpenAboutMeModal = useStore(s => s.setIsOpenAboutMeModal)
-  const setModalType = useStore(s => s.setModalType)
+  const {
+    modalAboutMeDataset,
+    locale,
+    windowWidth,
+    isOpenAboutMeModal,
+    modalType,
+    setIsOpenAboutMeModal,
+    setModalType
+  } = useStore(
+    useShallow(s => ({
+      modalAboutMeDataset: s.modalAboutMeDataset,
+      locale: s.locale,
+      windowWidth: s.windowWidth,
+      isOpenAboutMeModal: s.isOpenAboutMeModal,
+      modalType: s.modalType,
+      setIsOpenAboutMeModal: s.setIsOpenAboutMeModal,
+      setModalType: s.setModalType
+    }))
+  )
   const [height] = useState(window.innerHeight)
   const [modalPositions, setModalPositions] = useState({
     open: 0,
@@ -21,8 +34,8 @@ function AboutMe() {
     windowWidth > 1001
       ? setModalPositions({ open: 240, closed: height })
       : windowWidth <= 1000 && windowWidth > 500
-      ? setModalPositions({ open: 165, closed: height })
-      : setModalPositions({ open: 100, closed: height })
+        ? setModalPositions({ open: 165, closed: height })
+        : setModalPositions({ open: 100, closed: height })
   }, [windowWidth, height])
 
   function closeAboutMeModal() {

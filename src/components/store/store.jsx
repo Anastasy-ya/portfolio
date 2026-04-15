@@ -30,7 +30,7 @@ const useStore = create((set, get) => ({
   isInstancedReady: false,
   setIsInstancedReady: newState => set({ isInstancedReady: newState }),
 
-  isPreloaderHides: false,
+  isPreloaderHides: true,//todo вернуть false
   setIsPreloaderHides: state => set({ isPreloaderHides: state }),
 
   //window width
@@ -267,8 +267,7 @@ const useStore = create((set, get) => ({
       en: 'What’s going on here?'
     },
     aboutProjectArticle: {
-      ru: `«Игра в Жизнь» Джона Конвея — это клеточный автомат, где простые правила заставляют точки рождаться, умирать и формировать узоры, которые кажутся живыми. Это простая система, превращающая хаос в порядок — метафора творчества, где идеи, как пиксели, возникают и взаимодействуют.
-Я воссоздала эту игру в 3D и сейчас работаю над VR режимом чтобы пользователи могли в полной мере погрузиться в 3d опыт.`,
+      ru: `«Игра в Жизнь» Джона Конвея — это клеточный автомат, где простые правила заставляют точки рождаться, умирать и формировать узоры, которые кажутся живыми. Это простая система, превращающая хаос в порядок — метафора творчества, где идеи, как пиксели, возникают и взаимодействуют. Я воссоздала эту игру в 3D и сейчас работаю над VR режимом чтобы пользователи могли в полной мере погрузиться в 3d опыт.`,
       en: `John Conway’s Game of Life is a cellular automaton where simple rules make dots on a grid live, die, and form patterns that seem alive. A simple system turning chaos into order — a metaphor for creativity, where ideas, like pixels, emerge and interact. I’ve recreated this game in 3D, and I’m now working on a VR mode to let players step inside the evolving world, experiencing patterns as if they were alive around them.`
     }
   },
@@ -357,6 +356,7 @@ const useStore = create((set, get) => ({
       ]
     }
   ]
-}))
+})
+)
 
 export { useStore }

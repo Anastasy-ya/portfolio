@@ -2,16 +2,28 @@ import { useEffect, useMemo } from 'react'
 import './Footer.css'
 import { useStore } from '../store/store'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
+import { useShallow } from 'zustand/react/shallow'
 
 function Footer() {
-  const footerDataset = useStore(s => s.footerDataset)
-  const windowWidth = useStore(s => s.windowWidth)
+  const {
+    footerDataset,
+    windowWidth,
+    isOpenFooterModal,
+    setIsOpenFooterModal,
+    isOpenMobileMenuModal,
+    isOpenAboutMeModal
+  } = useStore(
+    useShallow(s => ({
+      footerDataset: s.footerDataset,
+      windowWidth: s.windowWidth,
+      isOpenFooterModal: s.isOpenFooterModal,
+      setIsOpenFooterModal: s.setIsOpenFooterModal,
+      isOpenMobileMenuModal: s.isOpenMobileMenuModal,
+      isOpenAboutMeModal: s.isOpenAboutMeModal
+    }))
+  )
   const isWide = windowWidth > 1000
-  const isOpenFooterModal = useStore(s => s.isOpenFooterModal)
-  const setIsOpenFooterModal = useStore(s => s.setIsOpenFooterModal)
-  const isOpenMobileMenuModal = useStore(s => s.isOpenMobileMenuModal)
-  const isOpenAboutMeModal = useStore(s => s.isOpenAboutMeModal)
-  const height = window.innerHeight
+  const height = window.innerHeight //TODO вынести в переменную и не пересчитывать каждый раз
 
   const modalPositions = useMemo(() => {
     if (windowWidth > 1001) {

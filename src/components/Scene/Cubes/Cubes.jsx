@@ -229,7 +229,7 @@ function Cubes({
   const setIsInstancedReady = useStore(s => s.setIsInstancedReady)
   const isPreloaderHides = useStore(s => s.isPreloaderHides)
 
-  const boxGeometry = useMemo(() => new THREE.DodecahedronGeometry(0.05), [])
+  const boxGeometry = useMemo(() => new THREE.DodecahedronGeometry(0.05), [])//TODO имена не отражают суть
 
   //TODO базового материала хватит
   const material = useMemo(() => {
@@ -261,7 +261,7 @@ function Cubes({
     )
       return
 
-    hasAnimationStarted.current = true /*TODO подумать на фиг мне тут current */
+    hasAnimationStarted.current = true
     groupRef.current.scale.set(15, 15, 15)
     groupRef.current.rotation.y = 0
 

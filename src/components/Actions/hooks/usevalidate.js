@@ -1,4 +1,4 @@
-//не удалять до добавления формы
+//не удалять, ждёт добавления формы обратной связи
 import React, { useCallback } from "react";
 
 export function useFormWithValidation() {

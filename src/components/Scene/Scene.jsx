@@ -6,8 +6,6 @@ import { useState, useEffect, useMemo, Suspense } from 'react'
 import { Environment } from '@react-three/drei'
 import { useStore } from '../store/store'
 
-// import { Perf } from 'r3f-perf' //delme
-
 function Scene() {
   const matrix = useStore(s => s.matrix)
   const isOpenModal = useStore(s => s.isOpenModal)

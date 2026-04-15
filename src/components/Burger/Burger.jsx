@@ -1,11 +1,21 @@
 import './Burger.css'
 import { useStore } from '../store/store'
+import { useShallow } from 'zustand/react/shallow'
 
 function Burger() {
-  const isOpenMobileMenuModal = useStore(s => s.isOpenMobileMenuModal)
-  const setIsOpenMobileMenuModal = useStore(s => s.setIsOpenMobileMenuModal)
-  const modalType = useStore(s => s.modalType)
-  const setModalType = useStore(s => s.setModalType)
+  const {
+    isOpenMobileMenuModal,
+    setIsOpenMobileMenuModal,
+    modalType,
+    setModalType
+  } = useStore(
+    useShallow(s => ({
+      isOpenMobileMenuModal: s.isOpenMobileMenuModal,
+      setIsOpenMobileMenuModal: s.setIsOpenMobileMenuModal,
+      modalType: s.modalType,
+      setModalType: s.setModalType
+    }))
+  )
 
   function toggleMenu() {
     setIsOpenMobileMenuModal(isOpenMobileMenuModal ? false : true)
